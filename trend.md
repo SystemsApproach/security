@@ -90,7 +90,9 @@ obtains the identity data by resolving the URL(s) contained within it
 and authenticates the identity information by verifying that it is signed
 by the name’s public key (Step 2).
 
-> [!NOTE|label:Broader Perspective]
+<!--- > [!NOTE|label:Broader Perspective] --->
+> **Broader Perspective**
+>
 > To continue reading about the cloudification of the Internet, see 
 > [The Cloud is the New Internet](../applications/trend.md). 
 >
