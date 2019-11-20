@@ -299,8 +299,8 @@ on TLS. Although SSL and TLS are unfortunately not interoperable, they
 differ in only minor ways, so nearly all of this description of TLS
 applies to SSL.
 
-The Handshake Protocol
-~~~~~~~~~~~~~~~~~~~~~~
+Handshake Protocol
+~~~~~~~~~~~~~~~~~~
 
 A pair of TLS participants negotiate at runtime which cryptography to
 use. The participants negotiate a choice of:
@@ -377,8 +377,8 @@ such as would result, for example, if a man in the middle modified the
 initial unencrypted client message to weaken its choices of
 cryptographic algorithms.
 
-The Record Protocol
-~~~~~~~~~~~~~~~~~~~
+Record Protocol
+~~~~~~~~~~~~~~~
 
 Within a session established by the handshake protocol, TLS’s record
 protocol adds confidentiality and integrity to the underlying transport
@@ -461,7 +461,11 @@ key exchange upon resumption.
    of TLS seems like a good idea, but it needs to be considered in the
    context of the dominate use case, which is HTTP. Once the overhead of
    doing multiple TCP connections was addressed by HTTP, the equation
-   for how resumption should be implemented by TLS changed.
+   for how resumption should be implemented by TLS changed. The bigger
+   lesson is that we need to avoid rigid thinking about the right
+   layer to implement a given function—the answer changes over time
+   as the network evolves—where a holistic/cross-layer analysis is
+   required to get the design right.
 
 IP Security (IPsec)
 -------------------
