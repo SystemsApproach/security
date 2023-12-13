@@ -1,15 +1,15 @@
-Chapter 3:  Cryptographic Building Blocks
-=================================
+Chapter 3:  Cryptographic Primatives
+======================================
 
 We introduce the concepts of cryptography-based security step by step.
 The first step is the cryptographic algorithms—ciphers and cryptographic
-hashes—that are introduced in this section. They are not a solution in
+hashes—that are introduced in this chapter. They are not a solution in
 themselves, but rather building blocks from which a solution can be
 built. Cryptographic algorithms are parameterized by *keys*, and a later
-section then addresses the problem of distributing the keys. In the next
+chapter then addresses the problem of distributing the keys. In the next
 step, we describe how to incorporate the cryptographic building blocks
 into protocols that provide secure communication between participants
-who possess the correct keys. A final section then examines several
+who possess the correct keys. The final chapter then examines several
 complete security protocols and systems in current use.
 
 3.1 Principles of Ciphers
@@ -259,7 +259,7 @@ decrypt the encrypted message, and, assuming that the result of the
 decryption matches the expected result, it can be concluded that the
 private key must have been used to perform the encryption. Exactly how
 this operation is used to provide authentication is the topic of a
-later section. As we will see, public-key ciphers are used primarily
+later chapter. As we will see, public-key ciphers are used primarily
 for authentication and to confidentially distribute secret (symmetric)
 keys, leaving the rest of confidentiality to secret-key ciphers.
 
@@ -452,6 +452,6 @@ this case, the entire ciphertext message is considered to be an
 authenticator.
 
 Although authenticators may seem to solve the authentication problem, we
-will see in a later section that they are only the foundation of a
+will see in a later chapter that they are only the foundation of a
 solution. First, however, we address the issue of how participants
 obtain keys in the first place.

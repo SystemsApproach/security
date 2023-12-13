@@ -28,8 +28,8 @@ session keys and predistributed keys:
    session key establishment but too slow to use for encrypting entire
    messages for confidentiality.
 
-This section explains how predistributed keys are distributed, and the
-next section will explain how session keys are then established. We
+This chapter explains how predistributed keys are distributed, and then
+explains how session keys are then established. We
 henceforth use “Alice” and “Bob” to designate participants, as is common
 in the cryptography literature. Bear in mind that although we tend to
 refer to participants in anthropomorphic terms, we are more frequently
@@ -178,7 +178,7 @@ decided these CAs and their keys can be trusted. A user can also add CAs
 to those that their browser recognizes as trusted. These certificates
 are accepted by Secure Socket Layer (SSL)/Transport Layer Security
 (TLS), the protocol most often used to secure Web transactions, which we
-discuss in a later section. (If you are curious, you can poke around in
+discuss in a later chapter. (If you are curious, you can poke around in
 the preferences settings for your browser and find the “view
 certificates” option to see how many CAs your browser is configured to
 trust.)
@@ -188,7 +188,7 @@ trust.)
 
 An alternative model of trust is the *web of trust* exemplified by
 Pretty Good Privacy (PGP), which is further discussed in a later
-section. PGP is a security system for email, so email addresses are the
+chapter. PGP is a security system for email, so email addresses are the
 identities to which keys are bound and by which certificates are signed.
 In keeping with PGP’s roots as protection against government intrusion,
 there are no CAs. Instead, every individual decides whom they trust and
@@ -290,7 +290,7 @@ Bob—using the keys that the KDC already shares with each of them—and
 generates a new session key for them to use. Then Alice and Bob
 communicate directly using their session key. Kerberos is a widely used
 system based on this approach. We describe Kerberos (which also provides
-authentication) in the next section. The following subsection describes
+authentication) in the next chapter. The following section describes
 a powerful alternative.
 
 4.3 Diffie-Hellman Key Exchange

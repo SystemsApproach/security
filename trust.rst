@@ -1,6 +1,9 @@
 Chapter 2:  Trust and Threats
 ==============================
 
+.. In addition to a general discussion of threats, this chapter
+   might also identify common threat models (and attack vectors).
+
 Before we address the how’s and why’s of building secure networks, it is
 important to establish one simple truth: We will inevitably fail. This
 is because security is ultimately an exercise in making assumptions

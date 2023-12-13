@@ -1,6 +1,11 @@
 Chapter 1:  Introduction
 =========================
 
+.. This was original the Problem Statement in the full book.
+   One thing we might do in this Introduction is talk about
+   the Internet's history, and how the original threat model
+   (or lack thereof) get us to where we are today.
+
 Computer networks are typically a shared resource used by many
 applications representing different interests. The Internet is
 particularly widely shared, being used by competing businesses, mutually

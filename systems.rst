@@ -1,10 +1,15 @@
 Chapter 6:   Example Systems
 ==============================
 
+.. Assuming we keep a substantial set of examples, we should look
+   for ways to highlight the underlying open source software (and the
+   general role open source plays in helping secure the Internet --
+   lots of eyes on the code).
+   
 We have now seen many of the components required to provide one or two
 aspects of security. These components include cryptographic algorithms,
 key predistribution mechanisms, and authentication protocols. In this
-section, we examine some complete systems that use these components.
+chapter, we examine some complete systems that use these components.
 
 These systems can be roughly categorized by the protocol layer at which
 they operate. Systems that operate at the application layer include
@@ -14,7 +19,7 @@ layer, there is the IETF’s Transport Layer Security (TLS) standard and
 the older protocol from which it derives, Secure Socket Layer (SSL). The
 IPsec (IP Security) protocols, as their name implies, operate at the IP
 (network) layer. 802.11i provides security at the link layer of wireless
-networks. This section describes the salient features of each of these
+networks. This chapter describes the salient features of each of these
 approaches.
 
 You might reasonably wonder why security has to be provided at so many
@@ -49,7 +54,7 @@ Pretty Good Privacy (PGP) is a widely used approach to providing
 security for electronic mail. It provides authentication,
 confidentiality, data integrity, and nonrepudiation. Originally devised
 by Phil Zimmerman, it has evolved into an IETF standard known as
-OpenPGP. As we saw in a previous section, PGP is notable for using a
+OpenPGP. As we saw in a previous chapter, PGP is notable for using a
 “web of trust” model for distribution of keys rather than a tree-like
 hierarchy.
 
@@ -94,7 +99,7 @@ Bob of the level of trust he has in Alice’s public key.
 Email has particular characteristics that allow PGP to embed an adequate
 authentication protocol in this one-message data transmission protocol,
 avoiding the need for any prior message exchange (and sidestepping some
-of the complexities described in the previous section). Alice’s digital
+of the complexities described in the previous chapter). Alice’s digital
 signature suffices to authenticate her. Although there is no proof that
 the message is timely, legitimate email isn’t guaranteed to be timely
 either. There is also no proof that the message is original, but Bob is
