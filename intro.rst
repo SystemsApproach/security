@@ -1,10 +1,89 @@
 Chapter 1:  Introduction
 =========================
 
-.. This was original the Problem Statement in the full book.
-   One thing we might do in this Introduction is talk about
-   the Internet's history, and how the original threat model
-   (or lack thereof) get us to where we are today.
+
+.. New effort from Bruce
+
+
+Security of computer systems has been a focus for system designers for
+as long as we have had time-shared computers. If two users can share a
+computer, then it is necessary to have protections in place to limit
+the impact one user can have on another. For example, one user should
+not generally be able to read the data of another user just because
+they run code on the same system. A multi-user system should ensure
+that malicious or poorly written code from one user cannot interfere
+with the operation of another user's programs.
+
+Computer networks are, like multi-user computers, shared
+resources, and similar requirements apply. One network user should not
+be able to interfere with another user's traffic. And in general,
+a user sending data across a network wants that data to be protected
+from unauthorised modification or eavesdropping.
+
+As we will see, the security of computer systems and the security of
+computer networks are closely related topics. And just as a
+traditional networking book needs to pay attention not only to the
+operation of switches and routers but also to a whole stack of
+software that runs in end systems, so the topic of network security
+demands that we look at both the devices that make up the network and
+the end systems that connect to it.
+
+The Internet was created to allow users in one location to
+access computing resources in another. Those systems had their own
+security measures in place. For example, if you wanted to use the Internet
+to log in to a remote computer, you would need to authenticate
+yourself to that remote system (via user name and password) before
+gaining access to any resources on that system.
+
+Ensuring the security of end systems does not come close to addressing the entire set of
+security issues that exist in a computer network. For example, an
+attacker with access to a link, switch or router somewhere in the network
+has the potential to read or modify packets passing
+through that point. Furthermore, by
+connecting computers to a global network, the opportunity to exploit
+vulnerabilities in the code running on those end systems is opened up
+to a much greater---potentially global---set of actors.
+
+Thus we can think of network security as having two main
+thrusts. First, we need to address the security challenges of a
+shared, globally distributed network. Second, we need to address the
+challenges of connecting end systems, which run imperfect software, to
+a global set of actors, some of whom are bound to be malicious.
+
+For an interesting retrospective view on system security, and some
+commentary on how far we still have to go, we recommend
+the paper on Multics from Karger and Schell.
+
+.. admonition:: Further Reading
+
+   P. Karger and R. Schell. `Thirty Years Later: Lessons from the
+   Multics Security
+   Evaluation. <https://www.acsac.org/2002/papers/classic-multics.pdf>`__.
+   Annual Computer Security Applications Conference (ACSAC) 2002.
+
+
+An early example of a security failure in the Internet serves to
+highlight the breadth of the challenges included in the term "network
+security". The Morris worm was the first large-scale attack on the
+Internet, launched in 1988 when the Internet was largely limited to
+universities and research institutions. While it was made possible by
+the fact that the Internet of that era generally allowed packets from any source
+to any destination, it was also dependent on a number of
+vulnerabilities in the software running on the end systems connected
+to the Internet. Like many future attacks, the Morris worm exploited
+multiple vulnerabilities, including weak or default passwords, a buffer
+overflow bug in a then widely-used software tool, and a security hole in
+the sendmail program. There is a comprehensive analysis of the worm's
+operation in the report from Donn Seeley written soon afterwards.
+
+  Donn Seeley. `A Tour of the
+  Worm. <http://www.cs.unc.edu/~jeffay/courses/nidsS05/attacks/seely-RTMworm-89.html>`__.
+
+What we aim to cover in this book is a systems perspective on the
+  security of computer networks. 
+
+
+.. from the original book - need some cleanup to splice with the above text
 
 Computer networks are typically a shared resource used by many
 applications representing different interests. The Internet is
