@@ -32,7 +32,7 @@ The Internet was created to allow users in one location to
 access computing resources in another. Those systems had their own
 security measures in place. For example, if you wanted to use the Internet
 to log in to a remote computer, you would need to authenticate
-yourself to that remote system (via user name and password) before
+yourself to that remote system (e.g., with a user name and password) before
 gaining access to any resources on that system.
 
 Ensuring the security of end systems does not come close to addressing the entire set of
@@ -76,11 +76,119 @@ overflow bug in a then widely-used software tool, and a security hole in
 the sendmail program. There is a comprehensive analysis of the worm's
 operation in the report from Donn Seeley written soon afterwards.
 
+.. admonition:: Further Reading
+
   Donn Seeley. `A Tour of the
   Worm. <http://www.cs.unc.edu/~jeffay/courses/nidsS05/attacks/seely-RTMworm-89.html>`__.
 
-What we aim to cover in this book is a systems perspective on the
-  security of computer networks. 
+What we present in this book is a systems perspective on the
+security of computer networks. Our focus is on how to create networks
+that meet certain security objectives, such as protection against
+eavesdropping and modification of data in transit. The systems
+approach requires us to look at the entire system: the network
+components and the end systems connected by the network, both hardware
+and software. 
+
+A Short History of Internet Security
+------------------------------------
+
+The Internet architecture was initially created with essentially no
+security features. This was not because the inventors, implementers and
+architects were unaware of security issues, but rather because there
+were other, more pressing goals. As Vint Cerf, the co-inventor of
+TCP/IP said: "getting this thing to work at all was
+non-trivial”. David Clark, the architect of the Internet, has said
+"it’s not that we didn’t think about security…we thought we could
+exclude [untrustworthy people].”
+
+The Internet's architecture is often characterized as an hourglass,
+with IP being the narrow waist that sits between a wide range of
+networks below and a wide range of upper layer protocols and
+applications above. The narrowness of the waist refers to its limited
+functionality: global addressing and a best-effort packet delivery
+model. Conspicuously missing from that waist is any sort of security
+capability. 
+
+The Morris Worm served as something of a wake-up call to the early
+developers of the Internet by highlighting just how vulnerable it
+was. By the early 1990s the first firewalls had appeared, allowing the
+default "accept any packet from anywhere" behavior of the Internet to
+be changed. These
+devices filtered packets based on information in the TCP and IP
+headers, and were sometimes implemented as part of the functionality
+of a router. By 1994 they were common enough that applications such as FTP (the
+file transfer protocol) adapted to work with them.
+
+Also in the early 1990s, the Internet was growing quickly enough to make it clear
+that IP version 4 (IPv4), with 32-bit addresses, would eventually run
+out of address space. The effort to create a new version of IP, known
+as IPng (next generation) before being officially labeled as IPv6, had
+a much larger scope than a simple increase in the address space. There
+was a sense that this was perhaps the last opportunity to
+significantly change the IP layer, and thus the time to address
+perceived shortcomings of the Internet. High on the list of such
+shortcomings to be addressed was security.
+
+The security features that were proposed for IPv6 included headers to
+support encryption, message integrity and authentication. However it
+became clear that such features did not require a new version of IP,
+only a way to add optional information to the packet
+header, and so these capabilties also made their way into IPv4. These
+extensions became known collectively as IPSEC (IP security) and are
+described in several dozen RFCs.
+
+It is worth noting that even if IPSEC had
+existed in 1988, it would probably have had minimal impact on the
+spread of the Morris Worm, because the worm spread among
+hosts that were *supposed* to connect to each other (e.g., to exchange
+email using the sendmail program). Encrypting and authenticating traffic
+between hosts doesn't prevent the spread of malware
+if the end-systems have the sorts of
+weaknesses exploited by the Morris worm.
+
+The rise in popularity of the World Wide Web in the 1990s created the
+demand for security features at the transport layer to support
+applications such as e-commerce. This lead to the creation of SSL
+(secure sockets layer) which was superceded by TLS (transport layer
+security), both of which provided confidentiality and authentication
+at the transport layer.
+
+Another aspect of securing the Internet that started to receive
+attention in this period was the security of its infrastructure. One
+such pieve of infranstructure is the domain name system (DNS). DNS
+replaced static host-to-address mapping files in the 1980s and subsequently
+become critical to the operation of the Internet. Clearly the
+information served up by DNS needs to be robust against manipulation
+by adversaries, and hence there has been an multi-decade effort to add
+security to the DNS. The fact that this continues to roll on
+illustrates some of the challenges in making incremental updates to
+the distributed infrastructure of the Internet.
+
+The Internet's routing system is at least as important as DNS, and
+similarly lacked any security provisions in its original design. Not
+only do we need to be concerned about modification of routing messages
+in transit, but it has historically been all too easy to simply send
+incorrect routing updates in BGP, e.g., advertising a good route to
+some prefix from an autonomous system that has no such route. Thus,
+securing BGP has likewise proven to be a multi-decade, incremental task.
+
+
+
+
+.. admonition:: Further Reading
+
+  C. Timberg. `A Net of Insecurity
+  <https://www.washingtonpost.com/sf/business/2015/05/30/net-of-insecurity-part-1/>`__.
+  The Washington Post, May 30, 2015. 
+
+Trust and Threats
+-----------------
+
+.. admonition:: Further Reading
+
+  B. Schneier. Beyond Fear: Thinking Sensibly About Security in an
+     Uncertain World. Copernicus Books, 2003.
+
 
 
 .. from the original book - need some cleanup to splice with the above text
