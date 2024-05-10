@@ -10,15 +10,18 @@ as long as we have had time-shared computers. If two users can share a
 computer, then it is necessary to have protections in place to limit
 the impact one user can have on another. For example, one user should
 not generally be able to read the data of another user just because
-they run code on the same system. A multi-user system should ensure
+they run code on the same system. At the same time, when one user
+*wants* to share data with another, the operating system needs to
+support that in a controlled way. Similarly, multi-user systems ensure
 that malicious or poorly written code from one user cannot interfere
-with the operation of another user's programs.
+with the operation of another user's programs. 
 
 Computer networks are, like multi-user computers, shared
 resources, and similar requirements apply. One network user should not
-be able to interfere with another user's traffic. And in general,
+be able to interfere with another user's traffic. Networks are often
+used so that specific resources can be shared among users. And in general,
 a user sending data across a network wants that data to be protected
-from unauthorised modification or eavesdropping.
+from unauthorized modification or eavesdropping.
 
 As we will see, the security of computer systems and the security of
 computer networks are closely related topics. And just as a
@@ -31,7 +34,7 @@ the end systems that connect to it.
 The Internet was created to allow users in one location to
 access computing resources in another. Those systems had their own
 security measures in place. For example, if you wanted to use the Internet
-to log in to a remote computer, you would need to authenticate
+to log in to a remote computer, you would (usually) need to authenticate
 yourself to that remote system (e.g., with a user name and password) before
 gaining access to any resources on that system.
 
@@ -93,7 +96,7 @@ A Short History of Internet Security
 ------------------------------------
 
 The Internet architecture was initially created with essentially no
-security features. This was not because the inventors, implementers and
+security features. This was not because the inventors, implementors and
 architects were unaware of security issues, but rather because there
 were other, more pressing goals. As Vint Cerf, the co-inventor of
 TCP/IP said: "getting this thing to work at all was
@@ -107,17 +110,20 @@ networks below and a wide range of upper layer protocols and
 applications above. The narrowness of the waist refers to its limited
 functionality: global addressing and a best-effort packet delivery
 model. Conspicuously missing from that waist is any sort of security
-capability. 
+capability. The best-effort packet delivery model included a "default
+open" setting: if you knew the destination address of a host, you
+could send it a packet.
+
+.. could include something about decentralization
 
 The Morris Worm served as something of a wake-up call to the early
 developers of the Internet by highlighting just how vulnerable it
 was. By the early 1990s the first firewalls had appeared, allowing the
 default "accept any packet from anywhere" behavior of the Internet to
-be changed. These
-devices filtered packets based on information in the TCP and IP
-headers, and were sometimes implemented as part of the functionality
-of a router. By 1994 they were common enough that applications such as FTP (the
-file transfer protocol) adapted to work with them.
+be changed. These devices filtered packets based on information in the
+TCP and IP headers, and could be implemented in both hosts and
+routers. By 1994 they were common enough that applications such as FTP
+(the file transfer protocol) adapted to work with them.
 
 Also in the early 1990s, the Internet was growing quickly enough to make it clear
 that IP version 4 (IPv4), with 32-bit addresses, would eventually run
@@ -133,7 +139,7 @@ The security features that were proposed for IPv6 included headers to
 support encryption, message integrity and authentication. However it
 became clear that such features did not require a new version of IP,
 only a way to add optional information to the packet
-header, and so these capabilties also made their way into IPv4. These
+header, and so these capabilities also made their way into IPv4. These
 extensions became known collectively as IPSEC (IP security) and are
 described in several dozen RFCs.
 
@@ -149,13 +155,13 @@ weaknesses exploited by the Morris worm.
 The rise in popularity of the World Wide Web in the 1990s created the
 demand for security features at the transport layer to support
 applications such as e-commerce. This lead to the creation of SSL
-(secure sockets layer) which was superceded by TLS (transport layer
+(secure sockets layer) which was superseded by TLS (transport layer
 security), both of which provided confidentiality and authentication
 at the transport layer.
 
 Another aspect of securing the Internet that started to receive
 attention in this period was the security of its infrastructure. One
-such pieve of infranstructure is the domain name system (DNS). DNS
+such piece of infrastructure is the domain name system (DNS). DNS
 replaced static host-to-address mapping files in the 1980s and subsequently
 become critical to the operation of the Internet. Clearly the
 information served up by DNS needs to be robust against manipulation
@@ -172,7 +178,11 @@ incorrect routing updates in BGP, e.g., advertising a good route to
 some prefix from an autonomous system that has no such route. Thus,
 securing BGP has likewise proven to be a multi-decade, incremental task.
 
-
+This is by no means a complete history of Internet security but it
+gives some sense of the scope of the problems faced. Some further
+perspective on this history, and the factors that contributed to
+Internet's lack of security, can be found in the following series
+of articles from the Washington Post.
 
 
 .. admonition:: Further Reading
@@ -184,6 +194,53 @@ securing BGP has likewise proven to be a multi-decade, incremental task.
 Trust and Threats
 -----------------
 
+A discussion of security often begins with an analysis of the *threat
+landscape*. That is, what are the threats that our system is likely to
+be exposed to and which we hope to mitigate. This is one of the great
+challenges in developing a security strategy: how do we know when we
+have identified all the likely threats? Some may be obvious, such as
+eavesdropping on unencrypted traffic sent over a shared medium, but
+less obvious threats are constantly being identified.
+
+It is common to talk about security as a "negative goal". That is, we
+are trying to ensure that a set of undesirable things cannot
+happen. That set of undesirable things is large, making security
+particularly challenging. Over the years, a number of principles have
+been developed to try to manage this challenging landscape; we will
+consider many of them in subsequent chapters.
+
+Noted security expert Bruce Schneier points out in his book
+"Beyond Fear" that security is also a matter of making trade-offs. You not
+only have to identify the threats that you wish to defend against, but
+also to decide what costs you are willing to incur in mounting
+that defense. For example, encrypting every packet sent by a computer
+in 1970 imposed such a high computational cost as to be barely
+practical or required special hardware; today it is routine that every
+packet sent between a web browser and server is encrypted. Thus, the
+trade-offs around encryption are different than they were when the
+Internet was originally designed. And just as we consider the costs
+that security techniques impose on our system, we can also consider
+the costs they impose on adversaries. Much of security consists of
+finding ways to make those costs highly asymmetric, so that they are
+much higher for the adversary than for those seeking to protect their
+systems and information.
+
+
+Schneier describes a set of questions to be addressed in developing a
+security strategy:
+
+* Step 1: What assets are you trying to protect?
+* Step 2: What are the risks to these assets?
+* Step 3: How well does the security solution mitigate those risks?
+* Step 4: What other risks does the security solution cause?
+* Step 5: What costs and trade-offs does the security solution impose?  
+
+Schneier's book is targeted at a general audience, addressing
+security in a broad context (e.g., airports), not just systems and
+networks. Nevertheless it provides some useful guidelines that are
+applicable to system security.
+
+  
 .. admonition:: Further Reading
 
   B. Schneier. Beyond Fear: Thinking Sensibly About Security in an
