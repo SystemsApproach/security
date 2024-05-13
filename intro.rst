@@ -82,7 +82,7 @@ operation in the report from Donn Seeley written soon afterwards.
 .. admonition:: Further Reading
 
   Donn Seeley. `A Tour of the
-  Worm. <http://www.cs.unc.edu/~jeffay/courses/nidsS05/attacks/seely-RTMworm-89.html>`__.
+  Worm <http://www.cs.unc.edu/~jeffay/courses/nidsS05/attacks/seely-RTMworm-89.html>`__.
 
 What we present in this book is a systems perspective on the
 security of computer networks. Our focus is on how to create networks
@@ -136,14 +136,14 @@ perceived shortcomings of the Internet. High on the list of such
 shortcomings to be addressed was security.
 
 The security features that were proposed for IPv6 included headers to
-support encryption, message integrity and authentication. However it
+support encryption, message integrity and authentication. However, it
 became clear that such features did not require a new version of IP,
 only a way to add optional information to the packet
 header, and so these capabilities also made their way into IPv4. These
 extensions became known collectively as IPSEC (IP security) and are
-described in several dozen RFCs.
+described in several dozen RFCs. We will discuss them in a later chapter.
 
-It is worth noting that even if IPSEC had
+It is worth noting that, even if IPSEC had
 existed in 1988, it would probably have had minimal impact on the
 spread of the Morris Worm, because the worm spread among
 hosts that were *supposed* to connect to each other (e.g., to exchange
@@ -174,9 +174,9 @@ The Internet's routing system is at least as important as DNS, and
 similarly lacked any security provisions in its original design. Not
 only do we need to be concerned about modification of routing messages
 in transit, but it has historically been all too easy to simply send
-incorrect routing updates in BGP, e.g., advertising a good route to
-some prefix from an autonomous system that has no such route. Thus,
-securing BGP has likewise proven to be a multi-decade, incremental task.
+incorrect routing updates in BGP. For example, a router might advertise a good route to
+some prefix from an autonomous system that has no such route. 
+Securing BGP has likewise proven to be a multi-decade, incremental task.
 
 This is by no means a complete history of Internet security but it
 gives some sense of the scope of the problems faced. Some further
@@ -219,7 +219,7 @@ practical or required special hardware; today it is routine that every
 packet sent between a web browser and server is encrypted. Thus, the
 trade-offs around encryption are different than they were when the
 Internet was originally designed. And just as we consider the costs
-that security techniques impose on our system, we can also consider
+that security techniques impose on our system, we must also consider
 the costs they impose on adversaries. Much of security consists of
 finding ways to make those costs highly asymmetric, so that they are
 much higher for the adversary than for those seeking to protect their
@@ -236,7 +236,7 @@ security strategy:
 * Step 5: What costs and trade-offs does the security solution impose?  
 
 Schneier's book is targeted at a general audience, addressing
-security in a broad context (e.g., airports), not just systems and
+security in a broad context (e.g., airports), not just computing systems and
 networks. Nevertheless it provides some useful guidelines that are
 applicable to system security.
 
@@ -247,67 +247,105 @@ applicable to system security.
      Uncertain World. Copernicus Books, 2003.
 
 
+Threats to Network Security
+----------------------------
 
-.. from the original book - need some cleanup to splice with the above text
 
-Computer networks are typically a shared resource used by many
-applications representing different interests. The Internet is
-particularly widely shared, being used by competing businesses, mutually
-antagonistic governments, and opportunistic criminals. Unless security
-measures are taken, a network conversation or a distributed application
-may be compromised by an adversary.
 
-Consider, for example, some threats to secure use of the web. Suppose
+.. from the original book chapter - somewhat edited to follow the above text
+
+Computer networks are, like multi-user computers, invariably a shared
+resource. They are used by many applications representing different
+interests. The Internet is particularly widely shared, being used by
+competing businesses, mutually antagonistic governments, and
+opportunistic criminals. Most of the world's information is stored on
+systems connected to the Internet. Unless effective security measures
+are in place, a network conversation, a distributed application, or an
+end-system storing sensitive data may be compromised by an
+adversary. Critical systems ranging from healthcare delivery to the
+power grid are at risk of disruption from various forms of attack.
+
+
+A simple and familiar example of threats and mitigations is the secure use of the web. Suppose
 you are a customer using a credit card to order an item from a website.
-An obvious threat is that an adversary would eavesdrop on your network
+An obvious threat is that an adversary could eavesdrop on your network
 communication, reading your messages to obtain your credit card
 information. How might that eavesdropping be accomplished? It is trivial
 on a broadcast network such as an Ethernet or Wi-Fi, where any node can
 be configured to receive all the message traffic on that network. More
-elaborate approaches include wiretapping and planting spy software on
-any of the chain of nodes involved. Only in the most extreme cases
-(e.g.,national security) are serious measures taken to prevent such
-monitoring, and the Internet is not one of those cases. It is possible
-and practical, however, to encrypt messages so as to prevent an
-adversary from understanding the message contents. A protocol that does
+elaborate approaches include wiretapping or planting spy software on
+any of the chain of nodes involved. The insertion of monitoring
+software might be performed by an operator with physical or
+remote access to a router (e.g., an employee of an Internet service
+provider). A vulnerability in the router's software might be exploited
+by an attacker
+to gain remote access. And in recent years there have been examples of
+"supply chain attacks" in which malicious software is inserted in some
+code, either open source or proprietary, that is subsequently used in
+another vendor's products. In other words, there are a *lot* of ways
+that the data in flight from your browser to the website might end up
+in the hands of an attacker.
+
+While various steps can be taken to secure the devices along the path
+traveled by your data, it is relatively straightforward today to
+encrypt all messages such that even if an adversary has access to the
+data, they are unable to *understand* the message contents. A protocol that does
 so is said to provide *confidentiality*. Taking the concept a step
-farther, concealing the quantity or destination of communication is
-called *traffic confidentiality*—because merely knowing how much
-communication is going where can be useful to an adversary in some
+farther, concealing the quantity and destination of communication is
+called *traffic confidentiality* — because merely knowing how much
+traffic is going where can be useful to an adversary in some
 situations.
 
-Even with confidentiality there still remains threats for the website
-customer. An adversary who can’t read the contents of your encrypted
-message might still be able to change a few bits in it, resulting in a
-valid order for, say, a completely different item or perhaps 1000 units
-of the item. There are techniques to detect, if not prevent, such
-tampering. A protocol that detects such message tampering is said to
-provide *integrity*.
+Confidentiality alone is not sufficient. An adversary who can’t read
+the contents of your encrypted message might nevertheless be able to
+modify it. By changing a few bits, it might be possible to order a
+completely different item or perhaps 1000 units of the item. There are
+techniques to detect, if not prevent, such tampering. A protocol that
+detects such message tampering is said to provide
+*integrity*. Similarly, an attacker might capture a message and
+send it again at another time, which might cause a duplicate purchase,
+for example. This is called a *replay attack* and prevention of such
+attacks is a common feature of security protocols.
 
-Another threat to the customer is unknowingly being directed to a false
-website. This can result from a Domain Name System (DNS) attack, in
-which false information is entered in a DNS server or the name service
-cache of the customer’s computer. This leads to translating a correct
-URL into an incorrect IP address—the address of a false website. A
-protocol that ensures that you really are talking to whom you think
-you’re talking is said to provide *authentication*. Authentication
-entails integrity, since it is meaningless to say that a message came
-from a certain participant if it is no longer the same message.
+Another threat to the customer is unknowingly being directed to a
+false website. This can result from a Domain Name System (DNS) attack,
+in which false information is entered in a DNS server or the name
+service cache of the customer’s computer. This leads to translating a
+correct URL into an incorrect IP address—the address of a false
+website.  It is also common to create websites with domain names that
+look like they might be legitimate. A protocol that ensures that you
+really are talking to whom you think you are is said to provide
+*authentication*. Authentication is separate from but also requires integrity, since it is
+meaningless to say that a message came from a certain participant if
+it is no longer the same message.
 
 The owner of the website can be attacked as well. Some websites have
 been defaced; the files that make up the website content have been
 remotely accessed and modified without authorization. That is an issue
 of *access control*: enforcing the rules regarding who is allowed to do
-what. Websites have also been subject to denial of service (DoS)
+what. Websites are also subject to denial-of-service (DoS)
 attacks, during which would-be customers are unable to access the
 website because it is being overwhelmed by bogus requests. Ensuring a
 degree of access is called *availability*.
 
 In addition to these issues, the Internet has notably been used as a
 means for deploying malicious code, generally called *malware*, that
-exploits vulnerabilities in end systems. *Worms*, pieces of
-self-replicating code that spread over networks, have been known for
-several decades and continue to cause problems, as do their relatives,
-*viruses*, which are spread by the transmission of infected files.
-Infected machines can then be arranged into *botnets*, which can be used
+exploits vulnerabilities in end systems. *Worms*, of which the Morris
+worm is a famous example, are pieces of
+self-replicating code that spread over networks. 
+*Viruses* differ slightly from worms, in that they are spread by the transmission of infected files.
+Once infected, machines can then be arranged into *botnets*, in which
+a set of compromised machines are harnessed together
 to inflict further harm, such as launching DoS attacks.
+
+We will look further into these various classes of threats and the
+measures developed to mitigate them in the following chapters. For a
+solid introduction to system security we recommend the chapter below
+from Saltzer and Kaashoek.
+
+
+.. admonition:: Further Reading
+
+  J. Saltzer and F. Kaashoek. `Principles of Computer System Design: An
+     Introduction. Chapter 11 <https://ocw.mit.edu/courses/res-6-004-principles-of-computer-system-design-an-introduction-spring-2009/pages/online-textbook/>`__.
+
