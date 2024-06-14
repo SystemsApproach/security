@@ -19,7 +19,7 @@ The Authors
    :glob:
 
    intro.rst
-   trust.rst
+   principles.rst
    crypto.rst
    key-distro.rst
    authentication.rst

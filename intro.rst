@@ -38,14 +38,16 @@ to log in to a remote computer, you would (usually) need to authenticate
 yourself to that remote system (e.g., with a user name and password) before
 gaining access to any resources on that system.
 
-Ensuring the security of end systems does not come close to addressing the entire set of
-security issues that exist in a computer network. For example, an
-attacker with access to a link, switch or router somewhere in the network
-has the potential to read or modify packets passing
-through that point. Furthermore, by
-connecting computers to a global network, the opportunity to exploit
-vulnerabilities in the code running on those end systems is opened up
-to a much greater---potentially global---set of actors.
+Ensuring the security of end systems, while important, does not come
+close to addressing the entire set of security issues that exist in a
+computer network. For example, an attacker with access to a link,
+switch or router somewhere in the network has the potential to read or
+modify packets passing through that point. Furthermore, failures of
+end system security are exposed when we connect them to networks. By
+connecting computers to a global network such as the Internet, the
+opportunity to exploit vulnerabilities in the code running on those
+end systems is opened up to a much greater---potentially global---set
+of actors.
 
 Thus we can think of network security as having two main
 thrusts. First, we need to address the security challenges of a
@@ -54,8 +56,9 @@ challenges of connecting end systems, which run imperfect software, to
 a global set of actors, some of whom are bound to be malicious.
 
 For an interesting retrospective view on system security, and some
-commentary on how far we still have to go, we recommend
-the paper on Multics from Karger and Schell.
+commentary on how far we still have to go, we recommend the paper
+looking back on the history of security in Multics from Karger and
+Schell.
 
 .. admonition:: Further Reading
 
@@ -70,14 +73,15 @@ highlight the breadth of the challenges included in the term "network
 security". The Morris worm was the first large-scale attack on the
 Internet, launched in 1988 when the Internet was largely limited to
 universities and research institutions. While it was made possible by
-the fact that the Internet of that era generally allowed packets from any source
-to any destination, it was also dependent on a number of
+the fact that the Internet of that era generally allowed packets from
+any source to any destination, it was also dependent on a number of
 vulnerabilities in the software running on the end systems connected
 to the Internet. Like many future attacks, the Morris worm exploited
-multiple vulnerabilities, including weak or default passwords, a buffer
-overflow bug in a then widely-used software tool, and a security hole in
-the sendmail program. There is a comprehensive analysis of the worm's
-operation in the report from Donn Seeley written soon afterwards.
+multiple vulnerabilities. In this case they included weak or default
+passwords, a buffer overflow bug in a then widely-used software tool,
+and a security hole in the sendmail program. There is a comprehensive
+analysis of the worm's operation in the report from Donn Seeley
+written soon afterwards.
 
 .. admonition:: Further Reading
 
@@ -92,8 +96,8 @@ approach requires us to look at the entire system: the network
 components and the end systems connected by the network, both hardware
 and software. 
 
-A Short History of Internet Security
-------------------------------------
+1.1 A Short History of Internet Security
+----------------------------------------
 
 The Internet architecture was initially created with essentially no
 security features. This was not because the inventors, implementors and
@@ -120,10 +124,11 @@ The Morris Worm served as something of a wake-up call to the early
 developers of the Internet by highlighting just how vulnerable it
 was. By the early 1990s the first firewalls had appeared, allowing the
 default "accept any packet from anywhere" behavior of the Internet to
-be changed. These devices filtered packets based on information in the
-TCP and IP headers, and could be implemented in both hosts and
-routers. By 1994 they were common enough that applications such as FTP
-(the file transfer protocol) adapted to work with them.
+be changed in a controlled way. These devices, which remain common
+today, filter packets based on information in the TCP and IP headers,
+and can be implemented in both hosts and routers. By 1994 they were
+common enough that applications such as FTP (the file transfer
+protocol) were adapted to work with them.
 
 Also in the early 1990s, the Internet was growing quickly enough to make it clear
 that IP version 4 (IPv4), with 32-bit addresses, would eventually run
@@ -162,10 +167,10 @@ at the transport layer.
 Another aspect of securing the Internet that started to receive
 attention in this period was the security of its infrastructure. One
 such piece of infrastructure is the domain name system (DNS). DNS
-replaced static host-to-address mapping files in the 1980s and subsequently
+replaced static hostname-to-address mapping files in the 1980s and subsequently
 become critical to the operation of the Internet. Clearly the
 information served up by DNS needs to be robust against manipulation
-by adversaries, and hence there has been an multi-decade effort to add
+by adversaries, and hence there has been a multi-decade effort to add
 security to the DNS. The fact that this continues to roll on
 illustrates some of the challenges in making incremental updates to
 the distributed infrastructure of the Internet.
@@ -182,7 +187,8 @@ This is by no means a complete history of Internet security but it
 gives some sense of the scope of the problems faced. Some further
 perspective on this history, and the factors that contributed to
 Internet's lack of security, can be found in the following series
-of articles from the Washington Post.
+of articles from the Washington Post, in which many of the Internet's
+pioneers are interviewed.
 
 
 .. admonition:: Further Reading
@@ -191,8 +197,8 @@ of articles from the Washington Post.
   <https://www.washingtonpost.com/sf/business/2015/05/30/net-of-insecurity-part-1/>`__.
   The Washington Post, May 30, 2015. 
 
-Trust and Threats
------------------
+1.2 Trust and Threats
+----------------------
 
 A discussion of security often begins with an analysis of the *threat
 landscape*. That is, what are the threats that our system is likely to
@@ -200,7 +206,12 @@ be exposed to and which we hope to mitigate. This is one of the great
 challenges in developing a security strategy: how do we know when we
 have identified all the likely threats? Some may be obvious, such as
 eavesdropping on unencrypted traffic sent over a shared medium, but
-less obvious threats are constantly being identified.
+less obvious threats are constantly being identified. Furthermore,
+there are different *threat actors* with different motivations,
+ranging from those who enjoy the technical challenge of finding
+vulnerabilities, to criminals looking to obtain valuable information
+such as credit card details, to government actors looking to perform
+surveillence or interfere in elections.
 
 It is common to talk about security as a "negative goal". That is, we
 are trying to ensure that a set of undesirable things cannot
@@ -247,14 +258,14 @@ applicable to system security.
      Uncertain World. Copernicus Books, 2003.
 
 
-Threats to Network Security
-----------------------------
+1.3 Threats to Network Security
+-------------------------------
 
 
 
 .. from the original book chapter - somewhat edited to follow the above text
 
-Computer networks are, like multi-user computers, invariably a shared
+Computer networks are, as we noted above, invariably a shared
 resource. They are used by many applications representing different
 interests. The Internet is particularly widely shared, being used by
 competing businesses, mutually antagonistic governments, and
@@ -292,8 +303,8 @@ encrypt all messages such that even if an adversary has access to the
 data, they are unable to *understand* the message contents. A protocol that does
 so is said to provide *confidentiality*. Taking the concept a step
 farther, concealing the quantity and destination of communication is
-called *traffic confidentiality* — because merely knowing how much
-traffic is going where can be useful to an adversary in some
+called *traffic confidentiality*---because merely knowing where
+traffic is going, and how much, can be useful to an adversary in some
 situations.
 
 Confidentiality alone is not sufficient. An adversary who can’t read
@@ -305,7 +316,7 @@ detects such message tampering is said to provide
 *integrity*. Similarly, an attacker might capture a message and
 send it again at another time, which might cause a duplicate purchase,
 for example. This is called a *replay attack* and prevention of such
-attacks is a common feature of security protocols.
+attacks is a common requirement of security protocols.
 
 Another threat to the customer is unknowingly being directed to a
 false website. This can result from a Domain Name System (DNS) attack,
