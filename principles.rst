@@ -169,6 +169,7 @@ secret. The idea is that rather than trying to keep something as large
 and complex as an encryption algorithm secret, it is better for that
 algorithm to be published and only the key(s) be secret. There are two
 reasons for this principle:
+
 * It is hard to keep an algorithm secret, especially if it is in
   widespread use as is the case with encryption on the Internet;
 * Making security mechanisms robust against all forms of attack is, as
