@@ -358,5 +358,7 @@ from Saltzer and Kaashoek.
 .. admonition:: Further Reading
 
   J. Saltzer and F. Kaashoek. `Principles of Computer System Design: An
-     Introduction. Chapter 11 <https://ocw.mit.edu/courses/res-6-004-principles-of-computer-system-design-an-introduction-spring-2009/pages/online-textbook/>`__.
+     Introduction. Chapter 11
+     <https://ocw.mit.edu/courses/res-6-004-principles-of-computer-system-design-an-introduction-spring-2009/pages/online-textbook/>`__. Morgan
+     Kaufmann Publishers, 2009.
 

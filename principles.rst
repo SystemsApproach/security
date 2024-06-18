@@ -215,7 +215,89 @@ such old ideas as network firewalls and virtual private networks,
 along with more modern approaches such as microsegmentation and
 zero-trust architectures.  We will discuss these developments in a later chapter.
 
+2.2.5 Least Common Mechanism
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+This principle states that the amount of mechanism that is common to
+more than one user should be minimized. In operating systems, this
+would imply that a piece of mechanism should not be baked into the
+kernel if it could be provided in some other way, e.g., as a
+library. This principle, applied in the context of network security,
+shows up in the end-to-end argument: we avoid putting functions such
+as encryption into the network when the user is likely to need
+end-to-end encryption anyway.
+
+
+2.2.6 Design for Iteration
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Given what we have said about the difficulty of knowing that a system
+is secure, a useful design principle is to accept that we will need to
+iterate, and design for it. A good example of this is in the choice of
+particular cryptographic algorithms for integrity protection or
+encryption. These algorithms are often found to be insufficiently
+strong after some number of years, perhaps due to a weakness in the
+underlying mathematics, or breakthroughs in algorithms, or just the
+steady improvement in computing power that happens over time. Thus,
+any protocol that is developed that depends on such an algorithm
+should be designed such that a change of algorithm is an expected
+behavior. We see this in protocols such as Transport Layer Security
+(TLS) which includes a set of procedures by which two participants
+negotiate the cryptographic algorithms to be used.
+
+Recent developments in quantum computing have raised the issue that
+many existing forms of cryptographic algorithm may need to be
+replaced. While the timeframe in which such a change will be needed
+remains a subject of debate, the safe choice is to accept that
+cryptographic algorithms will periodically need to be replaced.
+
+2.2.7 Audit Trails
+~~~~~~~~~~~~~~~~~~
+
+Part of dealing with the impossibility of covering all possible
+security threats is to accept that sometimes we need to analyze what
+has gone wrong. This leads to the idea that security needs to be
+auditable. For example, it will be easier to conduct a post-mortem of
+a breach involving compromised login credentials if every login
+attempt is logged, along with information such as whether the login
+came over a VPN, what IP address was used, and so on. Similarly it is
+very hard to prevent insider attacks, but suitable logging might both
+make it easier to detect such attacks quickly and to deter those who
+might undertake them.
+
+In a different vein, consider the design of secure protocols. The
+specification for TLS (transport layer security) describes a large
+number of error conditions that may trigger alerts, and recommends the
+logging of all such alerts. Such logging would help in understanding
+if the protocol was subject to an attack that involved incorrect or
+unexpected messages. Given the complexity of negotiations that go on
+in security protocols (to establish cryptographic algorithms and
+parameters, for example) it is wise to assume that these may have
+subtle bugs, and a good set of audit tools will enable any such bugs
+to be detected and then remedied.
+
+Of course, the audit mechanisms themselves must be designed to be
+secure. A determined attacker will, in all likelihood, try to erase their tracks,
+so logging for audit purposes cannot just be an afterthought; it has
+to be part of the design of a secure system.
+
+
+
+
+2.3 Summary
+-----------
+
+
+Just as we can never be quite sure that we have covered all possible
+vectors of attack against a system, there is no hard limit to the set of
+principles that can be applied to developing secure systems. The
+principles covered above include several that were drawn from the
+influential paper by Saltzer and Schroeder from 1975. That is the same
+Saltzer whose book (with Kaashoek) we referred to in Chapter 1. The
+fact that many of the principles from the 1975 paper reappear in the
+2009 is probably a sign that Saltzer had some confidence that these
+principles have stood the test of time. We recommend reading the
+entire paper. 
 
 .. admonition:: Further Reading
 
@@ -226,18 +308,7 @@ zero-trust architectures.  We will discuss these developments in a later chapter
 
 
 
-.. working list of ideas
-safety net
 
-Be Explicit
-
-Design for Iteration
-
-Audit
-
-
-
-economy of mechanism
 
 
 
