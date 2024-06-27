@@ -388,7 +388,10 @@ attack”—see the exercises for more details.
 There have been several common cryptographic hash algorithms over the
 years, including Message Digest 5 (MD5) and the Secure Hash Algorithm
 (SHA) family. Weaknesses of MD5 and earlier versions of SHA have been
-known for some time, which led NIST to recommend using SHA-3 in 2015.
+known for some time, which led NIST to recommend using a family of hashes
+known as SHA-3 in 2015. 
+
+When
 generating an encrypted message digest, the digest encryption could use
 either a secret-key cipher or a public-key cipher. If a public-key
 cipher is used, the digest would be encrypted using the sender’s private
