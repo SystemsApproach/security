@@ -75,7 +75,7 @@ well-studied mathematical problem such as factoring large numbers.
 Even then there may be problems of implementation that will only get
 discovered by the scrutiny of those looking at and using the
 algorithm. And in many cases, we just have to rely on the fact that
-no-ne has yet found a viable way to break the cipher. Fortunately,
+no-one has yet found a viable way to break the cipher. Fortunately,
 there are plenty of people who will try to break ciphers and who will
 let it be widely known when they have succeeded.
 
@@ -364,7 +364,7 @@ above.
 
    Authentication using public keys.
 
-Public-key cryptograpy has an interesting history. The concept of
+Public-key cryptography has an interesting history. The concept of
 public-key ciphers was first published in 1976 by Diffie and
 Hellman. Subsequently, however, documents have come to light proving
 that Britain’s Communications-Electronics Security Group had
@@ -396,7 +396,7 @@ slower than secret-key ciphers. Consequently, secret-key ciphers are
 used for the vast majority of encryption, while public-key ciphers are
 reserved for use in authentication and session key establishment.
 
-3.4 Message Authentication Codes
+3.4 Message Authentication
 ---------------------------------
 
 Encryption alone does not provide data integrity. For example, just
@@ -411,8 +411,8 @@ after that participant created it.
 An *message authentication code* is a value, to be included in a transmitted message,
 that can be used to verify simultaneously the authenticity and the data
 integrity of a message. We will see later how such codes can be used in
-protocols. For now, we focus on the algorithms that produce
-authentication codes. 
+protocols. For now, we focus on the algorithms that can generated and verify
+authentication codes.
 
 When data is stored or transmitted, it is routine to use
 error-detecting or error-correcting codes. These are pieces of
@@ -420,48 +420,58 @@ information added to a stored or transmitted data object so the
 receiver detects when the data has been inadvertently modified by bit
 errors. Error-correcting codes are used on CDs and DVDs, for example, to deal with
 data corruption from scratches or dust. A similar concept applies to
-authenticators, with the added challenge that the corruption of the
+authentication codes, with the added challenge that the corruption of the
 message is likely to be deliberately performed by someone who wants
-the corruption to go undetected. To support authentication, an
-authenticator includes some proof that whoever created the
-authenticator knows a secret that is known only to the alleged sender
+the corruption to go undetected. To support authentication, the
+code includes some proof that whoever created it
+knows a secret that is known only to the alleged sender
 of the message; for example, the secret could be a key, and the proof
 could be some value encrypted using the key. There is a mutual
-dependency between the form of the redundant information and the form
-of the proof of secret knowledge. We will discuss several workable
+dependency between the way the code is generated and how it is used as
+proof of secret knowledge. We will discuss several workable
 combinations.
 
-For simplicity, let's assume initially that the original message need not be
-confidential—that a transmitted message will consist of the plaintext of
-the original message plus an authentication code. Later we will consider the
-case where confidentiality is desired.
+For simplicity, let's assume initially that the original message need
+not be confidential—that a transmitted message will consist of the
+plaintext of the original message plus some additional code to support
+authentication. Later we will consider the case where confidentiality
+is desired.
 
-One kind of message authentication combines encryption and a
+One common build block of message authentication is a
 *cryptographic hash function*. Cryptographic hash algorithms are
 treated as public knowledge, as with cipher algorithms. A
 cryptographic hash function is a function that outputs sufficient
 information about a message to expose any tampering. Just as a
 checksum or error-detecting code exposes bit errors introduced by
-noisy links or scratched disks, a cryptographic checksum is designed
-to expose deliberate corruption of messages by an adversary. The value
-it outputs is called a *message digest* and, like an ordinary
-checksum, is appended to the message. All the message digests produced
-by a given hash have the same number of bits regardless of the length
-of the original message. Since the space of possible input messages is
-larger than the space of possible message digests, there will be
+noisy links or scratched disks, a cryptographic hash is designed to
+expose deliberate corruption of messages by an adversary. The value it
+outputs is called a *message digest* and, like an ordinary checksum,
+is appended to the message. All the message digests produced by a
+given hash have the same number of bits regardless of the length of
+the original message. Since the space of possible input messages is
+larger than the space of possible message digests, there will be many
 different input messages that produce the same message digest, like
-collisions in a hash table. An important property of hash functions is
-that such collisions may not be produced deliberately under
-the control of the attacker.
+collisions in a hash table. An important property of cryptographic
+hash functions is that such collisions may not be produced
+deliberately under the control of the attacker.
 
-A message authentication code can be created by encrypting the message digest. The
+A message authentication code can be created by encrypting the message
+digest with some key. That key could be the private key of an
+asymmetric cipher, known only to the sender, or it could be a secret
+key for a symmetric cipher that sender and receiver agreed to by some
+other means. On receiving the message, the
 receiver computes a digest of the plaintext part of the message and
 compares that to the decrypted message digest. If they are equal, then
 the receiver would conclude that the message is indeed from its alleged
 sender (since it would have to have been encrypted with the right key)
-and has not been tampered with. No adversary could get away with sending
-a bogus message with a matching bogus digest because she would not have
-the key to encrypt the bogus digest correctly. An adversary could,
+and has not been tampered with.
+
+Suppose that an adversary intercepts the message on its way to the
+receiver and tries to modify the transmitted message in
+some way. The message digest for this corrupted message would (with
+very high likelihood) differ from that of the original message. And
+the adversary lacks the necessary key to 
+encrypt the digest of the corrupted message. An adversary could,
 however, obtain the plaintext original message and its encrypted digest
 by eavesdropping. The adversary could then (since the hash function is
 public knowledge) compute the digest of the original message and
@@ -480,7 +490,10 @@ matches that of a given message. If the outputs are not randomly
 distributed—that is, if some outputs are much more likely than
 others—then for some messages you could find another message with the
 same digest much more easily than this, which would reduce the
-security of the algorithm. If you were instead just trying to find any
+security of the algorithm. So a random distribution of hash outputs is
+an important property for these algorithms.
+
+If you were instead just trying to find any
 *collision*—any two messages that produce the same digest—then you
 would need to compute the digests of only 2\ :sup:`64` messages, on
 average.  This surprising fact is the basis of the “birthday
@@ -492,14 +505,15 @@ years, including Message Digest 5 (MD5) and the Secure Hash Algorithm
 known for some time, which led NIST to recommend a family of
 algorithms known as SHA-3 in 2015.
 
-When generating an encrypted message digest, the digest encryption could use
+AS noted above, the encryption of the message digest can be performed using
 either a secret-key cipher or a public-key cipher. If a public-key
-cipher is used, the digest would be encrypted using the sender’s private
-key (the one we normally think of as being used for decryption), and the
+cipher is used, the digest is encrypted using the sender’s private
+key, and the
 receiver—or anyone else—could decrypt the digest using the sender’s
-public key.
+public key. If a secret-key cipher is used, the sender and receiver
+have to agree on the secret key ahead of time using some other means. 
 
-A digest encrypted with a public key algorithm but using the private
+A digest encrypted with a public-key algorithm using the private
 key of the sender
 is called a *digital signature* because it provides nonrepudiation
 similar to that of
@@ -510,32 +524,35 @@ herself. Secret-key encryption of a digest does not have this property
 because only the two participants know the key; furthermore, since both
 participants know the key, the alleged receiver could have created the
 message herself. Any public-key cipher can be used for digital
-signatures. *Digital Signature Standard* (DSS) is a digital signature
-format that has been standardized by NIST. DSS signatures may use any
-one of three public-key ciphers, one based on RSA, another on ElGamal,
-and a third called the *Elliptic Curve Digital Signature Algorithm*.
+signatures. NIST has produced a series of *Digital Signature
+Standards* (DSS). The most recent standard at the time of writing
+allows for the use of three public-key ciphers, one based on RSA,
+another based on elliptic curves, and 
+and a third called the *Edwards-Curve Digital Signature Algorithm*.
 
-Another kind of authenticator is similar, but instead of encrypting a
-hash it uses a hash-like function that takes a secret value (known
-only to the sender and the receiver) as a parameter, as illustrated in
-:numref:`Figure %s <fig-macAndHmac>`. Such a function outputs an
-authenticator called a *message authentication code* (MAC). The sender
-appends the MAC to her plaintext message. The receiver recomputes the
-MAC using the plaintext and the secret value and compares that
-recomputed MAC to the received MAC.
+.. should check the above for updates
+
+An alternative approach to encrypting a
+hash is to use a hash function that takes a secret value (known
+only to the sender and the receiver) as an input parameter. Such a function outputs a
+message authentication code that is a function of both the secret key
+and the message contents. The sender
+appends the code to the plaintext message. The receiver recomputes the
+authentication code using the plaintext and the secret value and compares that
+recomputed code to the code received in the message.
 
 .. _fig-macAndHmac:
-.. figure:: figures/f08-05-9780123850591.png
-   :width: 600px
+.. figure:: figures/f08-05-modified.png
+   :width: 300px
    :align: center
 
-   Computing a MAC (a) versus computing an HMAC (b).
+   Computing a hashed message authentication code (HMAC).
 
-A common variation on MACs is to apply a cryptographic hash (such as
-MD5 or SHA-1) to the concatenation of the plaintext message and the
+One way to implement the approach just described is to apply a cryptographic hash (such as
+SHA-3) to the concatenation of the plaintext message and the
 secret value, as illustrated in :numref:`Figure %s
 <fig-macAndHmac>`. The resulting digest is called a *hashed message
-authentication code* (HMAC) since it is essentially a MAC. The HMAC,
+authentication code* (HMAC). The HMAC,
 but not the secret value, is appended to the plaintext. Only a receiver
 who knows the secret value can compute the correct HMAC to compare
 with the received HMAC. If it weren’t for the one-way property of the
@@ -545,18 +562,28 @@ value.
 
 Up to this point, we have been assuming that the message wasn’t
 confidential, so the original message could be transmitted as plaintext.
-To add confidentiality to a message with an authenticator, it suffices
+To add confidentiality to a message with an authentication code, it suffices
 to encrypt the concatenation of the entire message including its
-authenticator—the MAC, HMAC, or encrypted digest. Remember that, in
+authentication code. Remember that, in
 practice, confidentiality is implemented using secret-key ciphers
 because they are so much faster than public-key ciphers. Furthermore, it
 costs little to include the authenticator in the encryption, and it
-increases security. A common simplification is to encrypt the message
-with its (raw) digest, such that the digest is only encrypted once; in
-this case, the entire ciphertext message is considered to be an
-authenticator.
+increases security.
 
-Although authenticators may seem to solve the authentication problem, we
-will see in a later chapter that they are only the foundation of a
-solution. First, however, we address the issue of how participants
+In recent years, the idea of using a single algorithm to support both
+authentication and encryption has gained support for reasons of
+performance and simplicity of implementation. This is referred to as
+*authenticated encryption* or *authenticated encryption with
+associated data*. The latter term allows for some data fields
+(e.g., packet headers) to be transmitted as plaintext—these are the
+associated data—while the rest
+of the message is encrypted, and the whole thing, headers included, is
+authenticated. We won't go into details here, but there is now a set of
+integrated algorithms that produce both ciphertext and authentication
+codes using a combination of ciphers and hash functions. 
+
+
+Now that we have seen some of the building blocks for encryption and
+authentication, we have the foundations for building some complete security
+solutions. Before we get to those, however, we address the issue of how participants
 obtain keys in the first place.
