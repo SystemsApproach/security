@@ -396,6 +396,59 @@ slower than secret-key ciphers. Consequently, secret-key ciphers are
 used for the vast majority of encryption, while public-key ciphers are
 reserved for use in authentication and session key establishment.
 
+.. admonition:: Post-Quantum Cryptography
+
+   As we have seen, a lot of cryptography depends on the difficulty of
+   solving certain mathematical problems, such as factoring prime
+   numbers or computing discrete logarithms. When the efforts of
+   mathematicians over decades to solve a problem have proven
+   fruitless, it is tempting to declare these problems sufficiently
+   hard for our purposes. However, there is a potential weakness
+   lurking on the horizon, which is that many of these problems are
+   known to have efficient solutions using quantum computers. Or more
+   accurately, they could be efficiently solved on quantum computers
+   that are much larger than any that have been built to date. As
+   progress is made towards ever larger quantum computers, measured by
+   the number of quantum bits (qubits), there is a real
+   risk that many current cryptographic algorithms will at some point 
+   become breakable. 
+
+   There is plenty of debate about whether quantum computing will ever
+   progress to the point that the risks to conventional cryptography
+   materialize. Current quantum computers are much too small and lack
+   the error-correcting capabilities necessary to solve the
+   mathematical problems at sufficient scale, and it is not guaranteed
+   that some version of Moore's law will apply to quantum
+   computing. Building quantum computers that are large enough (in
+   number of qubits) and sufficiently fault-tolerant to actually
+   present a threat to cryptography remains an engineering
+   challenge. That said, the risk is viewed as being sufficiently
+   large that steps need to be taken to prepare for the day when
+   quantum computers *can* break most existing algorithms. It is worth
+   considering the possibility that some data that is well protected
+   today could be stored for a decade or two and then decrypted by a
+   future quantum computer, so even data produced today could be at
+   risk.
+   
+   The response to this uncertain threat has been to develop suites of
+   cryptographic algorithms for which no quantum solution is
+   known. This is the field of "Post-Quantum Cryptography". Note the
+   use of the phrase "no solution is known". It is hard to prove that
+   no algorithm exists—once again we are in the territory of trying to
+   prove a negative. But NIST is running a process to evaluate and
+   standardize a set of quantum-resistant algorithms, and there is
+   plenty of focus on the candidate algorithms to establish their
+   suitability over the long term.
+
+   There is a general, if not universal, sense that at some point
+   post-quantum cryptographic algorithms will be needed. While the
+   timeframe is uncertain and the exact algorithms to be used may
+   change, the requirement for *crypto-agility*—the ability to swap
+   out one set of algorithms for another—is now well established.
+
+   
+
+
 3.4 Message Authentication
 ---------------------------------
 
