@@ -429,7 +429,7 @@ reserved for use in authentication and session key establishment.
    today could be stored for a decade or two and then decrypted by a
    future quantum computer, so even data produced today could be at
    risk.
-
+   
    The response to this uncertain threat has been to develop suites of
    cryptographic algorithms for which no quantum solution is
    known. This is the field of "Post-Quantum Cryptography". Note the
@@ -445,9 +445,6 @@ reserved for use in authentication and session key establishment.
    timeframe is uncertain and the exact algorithms to be used may
    change, the requirement for *crypto-agility*—the ability to swap
    out one set of algorithms for another—is now well established.
-
-
-
 
 3.4 Message Authentication
 ---------------------------------
@@ -634,7 +631,6 @@ of the message is encrypted, and the whole thing, headers included, is
 authenticated. We won't go into details here, but there is now a set of
 integrated algorithms that produce both ciphertext and authentication
 codes using a combination of ciphers and hash functions.
-
 
 Now that we have seen some of the building blocks for encryption and
 authentication, we have the foundations for building some complete security
