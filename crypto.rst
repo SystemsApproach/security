@@ -80,12 +80,12 @@ there are plenty of people who will try to break ciphers and who will
 let it be widely known when they have succeeded.
 
 Parameterizing a cipher with keys provides us with what is in effect a
-very large family of ciphers; by switching keys, we are 
+very large family of ciphers; by switching keys, we are
 switching to another cipher in the family. It is common to limit the amount
 of data that a *cryptanalyst* (code-breaker) can access before the key
 changes. This provides the attacker with less ability to break the cipher
 (for reasons discussed below) and limits the damage done if the code is
-broken. 
+broken.
 
 The basic requirement for an encryption algorithm is that it turns
 plaintext into ciphertext in such a way that only the intended
@@ -109,7 +109,7 @@ session. Common headers appear at the start of HTTP messages. This may
 enable a *known plaintext* attack, which has a much higher chance of
 success than a *ciphertext only* attack. Even better is a *chosen
 plaintext* attack, which may be enabled by feeding some information to
-the sender that you know the sender is likely to transmit. 
+the sender that you know the sender is likely to transmit.
 
 The best cryptographic algorithms, therefore, can prevent the attacker
 from deducing the key even when the individual knows both the
@@ -135,7 +135,7 @@ It turns out that it is not trivial to create cryptographic ciphers
 that can be broken only by brute force. For example, the original DES
 (data encryption standard) algorithm had a key of only 56 bits; when
 it became clear that 56 bits was too small, triple DES was introduced, using three
-rounds of DES each with its own key. It might seem that this 
+rounds of DES each with its own key. It might seem that this
 increased the key size to 168 bits (:math:`3 \times 56`) but because
 of the 3-round structure of triple DES, the attacker only has to
 search a key space of 112 bits. This depends on something called a
@@ -212,7 +212,7 @@ to be an issue is available at the "Sweet32" website.
 .. admonition:: Further Reading
 
    Sweet32. `Birthday attacks on 64-bit block ciphers in TLS and OpenVPN
-   <https://sweet32.info>`__. 
+   <https://sweet32.info>`__.
 
 
 
@@ -237,11 +237,11 @@ two participants use different keys.)
        secure communication since that is a common networking term to
        identify the two endpoints of a communication channel. In the
        security world, the parties are often called *principals*.
-       
+
 The U.S. National Institute of Standards and Technology (NIST) has
 issued standards for a series of secret-key ciphers. *Data Encryption
 Standard* (DES) was the first, and it survived for several decades
-before being deprecated. 
+before being deprecated.
 
 DES keys have 56 independent bits (although they have 64 bits
 in total; the last bit of every byte is a parity bit). As noted above,
@@ -284,7 +284,7 @@ Bruce Schneier puts it this way:
   hard. What is hard is creating an algorithm that no one else can
   break, even after years of analysis. And the only way to prove that
   is to subject the algorithm to years of analysis by the best
-  cryptographers around. 
+  cryptographers around.
 
 3.3 Public-Key Ciphers
 ------------------------
@@ -355,7 +355,7 @@ confidentiality to secret-key ciphers. The symmetric key sent over
 this confidential channel is called a *session key*. The reasons for this two-step
 approach include the higher efficiency of secret-key ciphers, and the need
 for reasonably frequent changing of encryption keys as described
-above. 
+above.
 
 .. _fig-pksign:
 .. figure:: figures/f08-04-9780123850591.png
@@ -470,7 +470,7 @@ Suppose that an adversary intercepts the message on its way to the
 receiver and tries to modify the transmitted message in
 some way. The message digest for this corrupted message would (with
 very high likelihood) differ from that of the original message. And
-the adversary lacks the necessary key to 
+the adversary lacks the necessary key to
 encrypt the digest of the corrupted message. An adversary could,
 however, obtain the plaintext original message and its encrypted digest
 by eavesdropping. The adversary could then (since the hash function is
@@ -511,7 +511,7 @@ cipher is used, the digest is encrypted using the sender’s private
 key, and the
 receiver—or anyone else—could decrypt the digest using the sender’s
 public key. If a secret-key cipher is used, the sender and receiver
-have to agree on the secret key ahead of time using some other means. 
+have to agree on the secret key ahead of time using some other means.
 
 A digest encrypted with a public-key algorithm using the private
 key of the sender
@@ -527,7 +527,7 @@ message herself. Any public-key cipher can be used for digital
 signatures. NIST has produced a series of *Digital Signature
 Standards* (DSS). The most recent standard at the time of writing
 allows for the use of three public-key ciphers, one based on RSA,
-another based on elliptic curves, and 
+another based on elliptic curves, and
 and a third called the *Edwards-Curve Digital Signature Algorithm*.
 
 .. should check the above for updates
@@ -580,7 +580,7 @@ associated data—while the rest
 of the message is encrypted, and the whole thing, headers included, is
 authenticated. We won't go into details here, but there is now a set of
 integrated algorithms that produce both ciphertext and authentication
-codes using a combination of ciphers and hash functions. 
+codes using a combination of ciphers and hash functions.
 
 
 Now that we have seen some of the building blocks for encryption and
