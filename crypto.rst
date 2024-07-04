@@ -410,8 +410,8 @@ reserved for use in authentication and session key establishment.
    that are much larger than any that have been built to date. As
    progress is made towards ever larger quantum computers, measured by
    the number of quantum bits (qubits), there is a real
-   risk that many current cryptographic algorithms will at some point 
-   become breakable. 
+   risk that many current cryptographic algorithms will at some point
+   become breakable.
 
    There is plenty of debate about whether quantum computing will ever
    progress to the point that the risks to conventional cryptography
@@ -429,7 +429,7 @@ reserved for use in authentication and session key establishment.
    today could be stored for a decade or two and then decrypted by a
    future quantum computer, so even data produced today could be at
    risk.
-   
+
    The response to this uncertain threat has been to develop suites of
    cryptographic algorithms for which no quantum solution is
    known. This is the field of "Post-Quantum Cryptography". Note the
@@ -446,7 +446,7 @@ reserved for use in authentication and session key establishment.
    change, the requirement for *crypto-agility*—the ability to swap
    out one set of algorithms for another—is now well established.
 
-   
+
 
 
 3.4 Message Authentication
