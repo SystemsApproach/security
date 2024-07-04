@@ -32,7 +32,7 @@ what quantity. This presents some distinct challenges from data
 confidentiality; there is no need for network devices to see our data,
 but they generally must look at packet headers, which contain
 destination information, to determine where to
-send traffic.  
+send traffic.
 
 An equally important requirement in many cases is
 *authentication*. This is the ability to verify that an item of data
@@ -204,7 +204,7 @@ The idea behind this principle is the default settings of a system are
 the ones most likely to be used, so by default, undesired access
 should be disabled. It then takes an explicit action to enable
 access. This is a principle that dates back at least to 1965 according to
-the Saltzer and Schroeder paper. 
+the Saltzer and Schroeder paper.
 
 It turns out that the design of the Internet really doesn't follow
 this approach. The datagram delivery model of the Internet, by
@@ -298,7 +298,7 @@ Saltzer whose book (with Kaashoek) we referred to in Chapter 1. The
 fact that many of the principles from the 1975 paper reappear in the
 2009 is probably a sign that Saltzer had some confidence that these
 principles have stood the test of time. We recommend reading the
-entire paper. 
+entire paper.
 
 .. admonition:: Further Reading
 

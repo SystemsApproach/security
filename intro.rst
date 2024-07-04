@@ -14,7 +14,7 @@ they run code on the same system. At the same time, when one user
 *wants* to share data with another, the operating system needs to
 support that in a controlled way. Similarly, multi-user systems ensure
 that malicious or poorly written code from one user cannot interfere
-with the operation of another user's programs. 
+with the operation of another user's programs.
 
 Computer networks are, like multi-user computers, shared
 resources, and similar requirements apply. One network user should not
@@ -94,7 +94,7 @@ that meet certain security objectives, such as protection against
 eavesdropping and modification of data in transit. The systems
 approach requires us to look at the entire system: the network
 components and the end systems connected by the network, both hardware
-and software. 
+and software.
 
 1.1 A Short History of Internet Security
 ----------------------------------------
@@ -180,7 +180,7 @@ similarly lacked any security provisions in its original design. Not
 only do we need to be concerned about modification of routing messages
 in transit, but it has historically been all too easy to simply send
 incorrect routing updates in BGP. For example, a router might advertise a good route to
-some prefix from an autonomous system that has no such route. 
+some prefix from an autonomous system that has no such route.
 Securing BGP has likewise proven to be a multi-decade, incremental task.
 
 This is by no means a complete history of Internet security but it
@@ -195,7 +195,7 @@ pioneers are interviewed.
 
   C. Timberg. `A Net of Insecurity
   <https://www.washingtonpost.com/sf/business/2015/05/30/net-of-insecurity-part-1/>`__.
-  The Washington Post, May 30, 2015. 
+  The Washington Post, May 30, 2015.
 
 1.2 Trust and Threats
 ----------------------
@@ -244,14 +244,14 @@ security strategy:
 * Step 2: What are the risks to these assets?
 * Step 3: How well does the security solution mitigate those risks?
 * Step 4: What other risks does the security solution cause?
-* Step 5: What costs and trade-offs does the security solution impose?  
+* Step 5: What costs and trade-offs does the security solution impose?
 
 Schneier's book is targeted at a general audience, addressing
 security in a broad context (e.g., airports), not just computing systems and
 networks. Nevertheless it provides some useful guidelines that are
 applicable to system security.
 
-  
+
 .. admonition:: Further Reading
 
   B. Schneier. Beyond Fear: Thinking Sensibly About Security in an
@@ -343,7 +343,7 @@ In addition to these issues, the Internet has notably been used as a
 means for deploying malicious code, generally called *malware*, that
 exploits vulnerabilities in end systems. *Worms*, of which the Morris
 worm is a famous example, are pieces of
-self-replicating code that spread over networks. 
+self-replicating code that spread over networks.
 *Viruses* differ slightly from worms, in that they are spread by the transmission of infected files.
 Once infected, machines can then be arranged into *botnets*, in which
 a set of compromised machines are harnessed together

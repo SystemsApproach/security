@@ -5,7 +5,7 @@ Chapter 6:   Example Systems
    for ways to highlight the underlying open source software (and the
    general role open source plays in helping secure the Internet --
    lots of eyes on the code).
-   
+
 We have now seen many of the components required to provide one or two
 aspects of security. These components include cryptographic algorithms,
 key predistribution mechanisms, and authentication protocols. In this
