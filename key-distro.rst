@@ -1,21 +1,24 @@
 Chapter 4:  Key Predistribution
 ===============================
 
-To use ciphers and authenticators, the communicating participants need
+We have seen that ciphers and authentication codes are parameterized
+by keys. So the communicating participants need
 to know what keys to use. In the case of a secret-key cipher, how does a
 pair of participants obtain the key they share? In the case of a
-public-key cipher, how do participants know what public key belongs to a
-certain participant? The answer differs depending on whether the keys
-are short-lived *session keys* or longer-lived *predistributed keys*.
+public-key cipher, how does one participants know which public key
+belongs to another chosen participant? To answer these questions, we
+need firs to understand that there are two different classes of keys
+to consider: short-lived *session keys* and longer-lived *predistributed keys*.
 
-A session key is a key used to secure a single, relatively short episode
-of communication: a session. Each distinct session between a pair of
-participants uses a new session key, which is always a secret key for
-speed. The participants determine what session key to use by means of a
-protocol—a session key establishment protocol. A session key
-establishment protocol needs its own security (so that, for example, an
-adversary cannot learn the new session key); that security is based on
-the longer-lived predistributed keys.
+A session key is a key used to secure a single, relatively short
+episode of communication: a session. This might be, for example, a
+single HTTPS connection between a client and a server. Each distinct
+session between a pair of participants uses a new session key, which
+is always a secret key for speed. The participants determine what
+session key to use by means of a protocol—a session key establishment
+protocol. A session key establishment protocol needs its own security
+(so that, for example, an adversary cannot learn the new session key);
+that security is based on the longer-lived predistributed keys.
 
 There are two primary motivations for this division of labor between
 session keys and predistributed keys:
@@ -24,12 +27,12 @@ session keys and predistributed keys:
    computationally intensive attacks, less ciphertext for cryptanalysis,
    and less information exposed should the key be broken.
 
--  Public key ciphers are generally superior for authentication and
-   session key establishment but too slow to use for encrypting entire
-   messages for confidentiality.
+-  Public key ciphers are generally superior for initial authentication
+   and session key establishment but too slow to use for encrypting
+   bulk traffic for confidentiality.
 
 This chapter explains how predistributed keys are distributed, and then
-explains how session keys are then established. We
+explains how session keys are subsequently established. We
 henceforth use “Alice” and “Bob” to designate participants, as is common
 in the cryptography literature. Bear in mind that although we tend to
 refer to participants in anthropomorphic terms, we are more frequently
@@ -42,11 +45,12 @@ any particular person.
 
 The algorithms to generate a matched pair of public and private keys are
 publicly known, and software that does it is widely available. So, if
-Alice wanted to use a public-key cipher, she could generate her own pair
+Alice wants to use a public-key cipher, she can generate her own pair
 of public and private keys, keep the private key hidden, and publicize
 the public key. But, how can she publicize her public key—assert that it
 belongs to her—in such a way that other participants can be sure it
-really belongs to her? Not via email or Web, because an adversary could
+really belongs to her? It is not as simple as putting it on a public
+web page or dropping it in an email, because an adversary could
 forge an equally plausible claim that key *x* belongs to Alice when *x*
 really belongs to the adversary.
 
@@ -55,7 +59,7 @@ identities—what key belongs to whom—is called a *Public Key
 Infrastructure* (PKI). A PKI starts with the ability to verify
 identities and bind them to keys out of band. By “out of band,” we mean
 something outside the network and the computers that comprise it, such
-as in the following If Alice and Bob are individuals who know each
+as in the following. If Alice and Bob are individuals who know each
 other, then they could get together in the same room and Alice could
 give her public key to Bob directly, perhaps on a business card. If Bob
 is an organization, Alice the individual could present conventional
@@ -87,8 +91,14 @@ public key. You can see how starting from a very small number of keys
 (in this case, just Bob’s) you could build up a large set of trusted
 keys over time. Bob in this case is playing the role often referred to
 as a *certification authority* (CA), and much of today’s Internet
-security depends on CAs. VeriSign is one well-known commercial CA. We
-return to this topic below.
+security depends on CAs. VeriSign is one well-known commercial CA.
+
+One thing to note about the above example is that we have to know two
+things about Bob. First, we need to know his public key so that we can
+verify that certain messages were originated by Bob. But we also have
+to know that Bob is trustworthy enough to make statements about the
+keys of others, which is where certification authorities (rather than
+random individuals) come into play.  We return to this topic below.
 
 One of the major standards for certificates is known as X.509. This
 standard leaves a lot of details open, but specifies a basic structure.
@@ -105,8 +115,8 @@ A certificate clearly must include:
 -  A digital signature algorithm identifier (which cryptographic hash
    and which cipher)
 
-An optional component is an expiration time for the certificate. We will
-see a particular use of this feature below.
+In addition, certificates invariably contain an expiration date. We will
+see how this feature is used below.
 
 Since a certificate creates a binding between an identity and a public
 key, we should look more closely at what we mean by “identity.” For
@@ -172,23 +182,28 @@ of a certificate is, in turn, trusted to certify.
 
 There can be more than one root to a certification tree, and this is
 common in securing Web transactions today, for example. Web browsers
-such as Firefox and Internet Explorer come pre-equipped with
-certificates for a set of CAs; in effect, the browser’s producer has
-decided these CAs and their keys can be trusted. A user can also add CAs
-to those that their browser recognizes as trusted. These certificates
-are accepted by Secure Socket Layer (SSL)/Transport Layer Security
+such as Firefox and Chrome come pre-equipped with certificates for a
+(reasonably large) set of CAs; in effect, the browser’s producer has
+decided these CAs and their associated public keys can be trusted. A
+user can also add CAs to those that their browser recognizes as
+trusted (or remove CAs from the default list). In other words, for
+most users, the browser manufacturer becomes the entity that they
+trust to look after PKI for them.
+
+The certificates that are configured to be accepted by the browser
+are used by Secure Socket Layer (SSL)/Transport Layer Security
 (TLS), the protocol most often used to secure Web transactions, which we
-discuss in a later chapter. (If you are curious, you can poke around in
+discuss in a later chapter. If you are curious, you can poke around in
 the preferences settings for your browser and find the “view
 certificates” option to see how many CAs your browser is configured to
-trust.)
+trust.
 
 4.1.2 Web of Trust
 ~~~~~~~~~~~~~~~~~~
 
 An alternative model of trust is the *web of trust* exemplified by
 Pretty Good Privacy (PGP), which is further discussed in a later
-chapter. PGP is a security system for email, so email addresses are the
+chapter. PGP uses email addresses (among other options) as the
 identities to which keys are bound and by which certificates are signed.
 In keeping with PGP’s roots as protection against government intrusion,
 there are no CAs. Instead, every individual decides whom they trust and
@@ -200,8 +215,8 @@ attesting to the same key binding before he is willing to trust it.
 
 For example, suppose you have a certificate for Bob provided by Alice;
 you can assign a moderate level of trust to that certificate. However,
-if you have additional certificates for Bob that were provided by C and
-D, each of whom is also moderately trustworthy, that might considerably
+if you have additional certificates for Bob that were provided by Carol and
+Dave, each of whom is also moderately trustworthy, that might considerably
 increase your level of confidence that the public key you have for Bob
 is valid. In short, PGP recognizes that the problem of establishing
 trust is quite a personal matter and gives users the raw material to
@@ -210,13 +225,16 @@ to trust in a single hierarchical structure of CAs. To quote Phil
 Zimmerman, the developer of PGP, “PGP is for people who prefer to pack
 their own parachutes.”
 
-PGP has become quite popular in the networking community, and PGP
-key-signing parties are a regular feature of various networking events,
-such as IETF meetings. At these gatherings, an individual can
+PGP has become quite popular in the networking community, and PGP was
+eventually developed into an Internet standard known as OpenPGP. PGP
+key-signing parties were once a regular feature of IETF meetings. At a
+key-signing party, an individual can:
 
--  Collect public keys from others whose identity he knows.
+-  Collect public keys from others whose identity he knows (often by
+   collecting the fingerprint of the key on a printed card.)
 
--  Provide his public key to others.
+-  Provide his public key (or its fingerprint) to others, perhaps
+   showing some other form of ID.
 
 -  Get his public key signed by others, thus collecting certificates
    that will be persuasive to an increasingly large set of people.
@@ -228,8 +246,10 @@ such as IETF meetings. At these gatherings, an individual can
 -  Collect certificates from other individuals whom he trusts enough to
    sign keys.
 
-Thus, over time, a user will collect a set of certificates with varying
-degrees of trust.
+Thus, over time, users collect a set of certificates with varying
+degrees of trust and the web of trust can be extended and made stronger.
+
+
 
 4.1.3 Certificate Revocation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -263,10 +283,14 @@ original expiration date is passed, it can be removed from the CRL.
 4.2 Predistribution of Secret Keys
 ------------------------------------
 
+Secret key ciphers present a bootstrapping problem: how do you
+securely get the secret key to be shared by two participants?
 If Alice wants to use a secret-key cipher to communicate with Bob, she
 can’t just pick a key and send it to him because, without already having
-a key, they can’t encrypt this key to keep it confidential and they
-can’t authenticate each other. As with public keys, some predistribution
+a key, they can’t encrypt this key to keep it confidential. Further
+more, if they
+can’t authenticate each other, then Alice can't safely send the key to
+some unauthenticated recipient. As with public keys, then, some predistribution
 scheme is needed. Predistribution is harder for secret keys than for
 public keys for two obvious reasons:
 
@@ -280,7 +304,11 @@ public keys for two obvious reasons:
 In summary, there are a lot more keys to distribute, and you can’t use
 certificates that everyone can read.
 
-The most common solution is to use a *Key Distribution Center* (KDC). A
+One common solution is to use public key operations to bootstrap the
+communication. This is how keys for symmetric ciphers get distributed
+in HTTPS, for example. We will see more detail of this later.
+
+Another common solution is to use a *Key Distribution Center* (KDC). A
 KDC is a trusted entity that shares a secret key with each other entity.
 This brings the number of keys down to a more manageable N-1, few enough
 to establish out of band for some applications. When Alice wishes to
@@ -296,7 +324,7 @@ a powerful alternative.
 4.3 Diffie-Hellman Key Exchange
 ---------------------------------
 
-Another approach to establishing a shared secret key is to use the
+A widely used approach to establishing a shared secret key is to use the
 Diffie-Hellman key exchange protocol, which works without using any
 predistributed keys. The messages exchanged between Alice and Bob can be
 read by anyone able to eavesdrop, and yet the eavesdropper won’t know
@@ -305,9 +333,9 @@ the secret key that Alice and Bob end up with.
 Diffie-Hellman doesn’t authenticate the participants. Since it is rarely
 useful to communicate securely without being sure whom you’re
 communicating with, Diffie-Hellman is usually augmented in some way to
-provide authentication. One of the main uses of Diffie-Hellman is in the
-Internet Key Exchange (IKE) protocol, a central part of the IP Security
-(IPsec) architecture.
+provide authentication. Diffie-Hellman is used in both the
+Internet Key Exchange (IKE) protocol, a part of the IP Security
+(IPsec) architecture, and in Transport Layer Security (TLS).
 
 The Diffie-Hellman protocol has two parameters, *p* and *g*, both of
 which are public and may be used by all the users in a particular
@@ -378,7 +406,8 @@ compute the resulting key. Determining *a* or *b* from that information
 is, however, computationally infeasible for suitably large *p,a,* and
 *b*; it is known as the *discrete logarithm problem*.
 
-For example, using *p = 5* and *g = 2* from above, suppose Alice picks
+Let's look at an example using small numbers to illustrate the
+calculation. Let *p = 5* and *g = 2*, and suppose Alice picks
 the random number *a = 3* and Bob picks the random number *b = 4*.
 Then Alice sends Bob the public value
 
@@ -443,3 +472,24 @@ example, when one participant is a web server and the other is an
 arbitrary client, the client can authenticate the web server and
 establish a secret key for confidentiality before sending a credit card
 number to the web server.
+
+A further variant of Diffie-Hellman, which is used in TLS, is called
+*ephemeral* Diffie-Hellman. Like the fixed variant, it relies on at
+least one participant having a certificate issued by a CA, but in this
+case it certifies that Alice is associated with a given public key
+(e.g., an RSA key). Alice then generates an ephemeral value of $a$
+rather than a fixed one, and uses her private key to sign the Diffie
+Hellman parameters: *p, g*, and :math:`g^a \bmod p`. By providing the
+certificate and the signed value, Alice is able to show Bob that the
+message has really come from her and authenticate the Diffie-Hellman
+parameters, while still keeping $a$ secret. Unlike fixed
+Diffie-Hellman, this approach provides *forward secrecy*, meaning that
+even if the long-lived private key of Alice were to be compromised,
+past sessions that had been recorded by an attacker will still be
+secure, since they used ephemeral keys that changed with every
+session. Note that while the word "ephemeral" strictly implies only
+that *a* is a short-lived value, it is widely used in protocol
+specifications to apply to cases where authentication is also
+performed using a public key as we have described it here.  To avoid
+confusion, the original form of Diffie-Hellman that lacks
+authentication is often referred to as "anonymous" mode.
