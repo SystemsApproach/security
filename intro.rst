@@ -146,11 +146,11 @@ became clear that such features did not require a new version of IP,
 only a way to add optional information to the packet
 header, and so these capabilities also made their way into IPv4. These
 extensions became known collectively as IPSEC (IP security) and are
-described in several dozen RFCs. We will discuss them in a later chapter.
+described in several dozen RFCs. We discuss them in a later chapter.
 
 It is worth noting that, even if IPSEC had
 existed in 1988, it would probably have had minimal impact on the
-spread of the Morris Worm, because the worm spread among
+spread of the Morris Worm. This is because the worm spread among
 hosts that were *supposed* to connect to each other (e.g., to exchange
 email using the sendmail program). Encrypting and authenticating traffic
 between hosts doesn't prevent the spread of malware
@@ -170,7 +170,7 @@ such piece of infrastructure is the domain name system (DNS). DNS
 replaced static hostname-to-address mapping files in the 1980s and subsequently
 become critical to the operation of the Internet. Clearly the
 information served up by DNS needs to be robust against manipulation
-by adversaries, and hence there has been a multi-decade effort to add
+by adversaries, and hence, there has been a multi-decade effort to add
 security to the DNS. The fact that this continues to roll on
 illustrates some of the challenges in making incremental updates to
 the distributed infrastructure of the Internet.
@@ -217,7 +217,7 @@ It is common to talk about security as a "negative goal". That is, we
 are trying to ensure that a set of undesirable things cannot
 happen. That set of undesirable things is large, making security
 particularly challenging. Over the years, a number of principles have
-been developed to try to manage this challenging landscape; we will
+been developed to help manage this challenging landscape; we will
 consider many of them in subsequent chapters.
 
 Noted security expert Bruce Schneier points out in his book
@@ -256,6 +256,21 @@ applicable to system security.
 
   B. Schneier. Beyond Fear: Thinking Sensibly About Security in an
      Uncertain World. Copernicus Books, 2003.
+
+Finally, it is important to recognize that trust and threats are two
+sides of the same coin. A threat is a potential failure scenario that
+you design your system to avoid, and trust is an assumption you make
+about how external actors and internal components you build upon will
+behave. For example, if you plan to transmit messages over Wi-Fi on an
+open campus, you would likely identify an eavesdropper that can
+intercept messages as a threat (and adopt some of the methods
+discussed in this book as a countermeasure). But if you are planning
+to transmit messages over a fiber link between two machines in a
+locked datacenter, you might trust that channel is secure, and so take
+no additional steps.  Every system makes trust assumptions. The key is
+to be as explicit as possible about those assumptions, because they
+may change over time.
+
 
 
 1.3 Threats to Network Security
@@ -352,7 +367,12 @@ to inflict further harm, such as launching DoS attacks.
 We will look further into these various classes of threats and the
 measures developed to mitigate them in the following chapters. For a
 solid introduction to system security we recommend the chapter below
-from Saltzer and Kaashoek.
+from Saltzer and Kaashoek. Their perspective is grounded in Operating
+System (OS) design, which is the context for much of the foundational
+work in security. In that setting, finding the right balance between
+sharing (so users can access each other's files) and security (so you
+can keep users from accessing your private data) is a central
+challenge. Security is easiest when the answer is always "no".
 
 
 .. admonition:: Further Reading
