@@ -632,6 +632,17 @@ authenticated. We won't go into details here, but there is now a set of
 integrated algorithms that produce both ciphertext and authentication
 codes using a combination of ciphers and hash functions.
 
+If you want to get a deeper understanding of the principles of ciphers
+and hash functions, among other cryptographic concepts, we recommend the following book. 
+
+.. admonition:: Further Reading
+
+   A. Menezes, P. van Oorschot, and S. Vanstone. `Handbook of Applied
+   Cryptography <https://cacr.uwaterloo.ca/hac/>`__. CRC Press, 1996.
+
+
+
+
 Now that we have seen some of the building blocks for encryption and
 authentication, we have the foundations for building some complete security
 solutions. Before we get to those, however, we address the issue of how participants
