@@ -196,7 +196,7 @@ protocol and specialized for client/server environments. Originally
 developed at MIT, it has been standardized by the IETF and is available
 as both open source and commercial products. We focus here on some
 of Kerberos’s interesting innovations. Notably, it addresses the
-freshness problem identified in Needham Schroeder by using timestamps
+freshness problem identified in Needham-Schroeder by using timestamps
 rather than nonces.
 
 Kerberos clients are generally human users, and users authenticate
