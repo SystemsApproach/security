@@ -633,7 +633,7 @@ integrated algorithms that produce both ciphertext and authentication
 codes using a combination of ciphers and hash functions.
 
 If you want to get a deeper understanding of the principles of ciphers
-and hash functions, among other cryptographic concepts, we recommend the following book. 
+and hash functions, among other cryptographic concepts, we recommend the following book.
 
 .. admonition:: Further Reading
 

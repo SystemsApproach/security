@@ -71,7 +71,7 @@ Another approach is to include a *nonce*—a random number used only
 once—in the message. Participants can then detect replay attacks by
 checking whether a nonce has been used previously. On its own, this
 would require keeping track of past nonces, of which a great many could
-accumulate. 
+accumulate.
 
 A solution to the shortcomings of timestamps and nonces is to use one
 or both of them in a *challenge-response* protocol. Suppose we use a
@@ -246,7 +246,7 @@ readable by Bob, because it is encrypted with his master key, and a
 session key that is encrypted using the key shared by Alice and the
 TGS. Alice can now start communicating with Bob, sending the ticket
 and another encrypted timestamp using the newly provided session key.
-           
+
 In the client/server application domain for which Kerberos is
 intended, it is reasonable to assume a degree of clock
 synchronization. This allows Kerberos to use timestamps and lifespans
