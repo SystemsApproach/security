@@ -477,12 +477,12 @@ A further variant of Diffie-Hellman, which is used in TLS, is called
 *ephemeral* Diffie-Hellman. Like the fixed variant, it relies on at
 least one participant having a certificate issued by a CA, but in this
 case it certifies that Alice is associated with a given public key
-(e.g., an RSA key). Alice then generates an ephemeral value of $a$
+(e.g., an RSA key). Alice then generates an ephemeral value of *a*
 rather than a fixed one, and uses her private key to sign the Diffie
 Hellman parameters: *p, g*, and :math:`g^a \bmod p`. By providing the
 certificate and the signed value, Alice is able to show Bob that the
 message has really come from her and authenticate the Diffie-Hellman
-parameters, while still keeping $a$ secret. Unlike fixed
+parameters, while still keeping *a* secret. Unlike fixed
 Diffie-Hellman, this approach provides *forward secrecy*, meaning that
 even if the long-lived private key of Alice were to be compromised,
 past sessions that had been recorded by an attacker will still be
