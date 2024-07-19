@@ -256,7 +256,7 @@ and not replays, thereby eliminating the Needham-Schroeder security
 weakness noted above. The freshness of Bob's reply to Alice is assured
 because it is a response to the challenge from Alice.
 
-Kerberos has undergone considerable development and standardization of
+Kerberos has undergone considerable development and standardization over
 the decades. It supports a choice of hash functions and secret-key
 ciphers, which has allowed it to evolve along with the standards for
 cryptographic algorithms.
