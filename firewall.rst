@@ -18,7 +18,7 @@ The historical meaning of a firewall is a barrier to prevent the
 spread of fire from one part of a building to another. Firewalls are also
 present in many automotive vehicles to separate passengers from the
 noisy (and possibly fire-prone) engine compartment. Saltzer and
-Schroeder in 1975 applied the term, possibly for the first time, in
+Schroeder in 1975 applied the term, possibly for the first time in
 the context of computer security, when discussing least privilege.
 
 A network firewall is a system that typically sits between two regions
@@ -324,7 +324,10 @@ of lateral movement attacks are extremely common and have been well
 documented, often lasting for months before they are detected.
 
 The obvious solution to problems of lateral movement would seem to be
-internal firewalls.
+internal firewalls. However, such a solution raises a new set of
+challenges. Consider the example in :numref:`Figure %s
+<fig-dc-firewall>`, in which a single firewall has been deployed to
+filter traffic flows among a set of virtual machines in a datacenter.
 
 
 
