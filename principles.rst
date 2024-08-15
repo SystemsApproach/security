@@ -13,8 +13,8 @@ In order to take a systematic approach to security it helps to have a
 clear view of our requirements. Once we have defined those we can consider the
 principles that can be applied to help us meet them.
 
-2.1 Requirements
---------------------
+2.1 Security Requirements
+----------------------------
 
 The first requirement that comes to mind when thinking about sending
 data across a shared network is likely to be *confidentiality*. As
@@ -79,7 +79,45 @@ by which data can be amplified by replication, allowing large volumes
 of traffic to be sent to the target of a DoS attack; thus it has
 become necessary to develop means to mitigate such attacks.
 
-2.2 Principles for Secure Systems
+2.2 Broader System Requirements
+-------------------------------------
+
+Understanding the requirements of a secure system is important, but
+security is just one of many requirements placed on any system.  It's
+also important for systems to be reliable, available, scalable, performant,
+usable, manageable, evolvable, observable, and so on.
+
+These system requirements are sometimes indistiguishable from
+security. For example, a retail system brought down by a security
+breach is just as unavailable as one brought down by a hardware
+failure or a software bug. Similarly, a video delivery system designed
+to scale up to handle a flash crowd may also able to scale to fend off
+a DoS attack. In practice, it can be difficult to pinpoint the root
+cause of a failure (was it malicious or benign) and the root source of
+workload (was it malicious or legitimate). The main difference is that
+it is generally possible to provision for legitmate workload and
+benign failures, which can be measured and predicted (although not
+always accurately), whereas malicious attacks are often less
+predictable (although they should be expected).
+
+Where the broader set of requirements become interesting is when they
+are in conflict with each other, and tradeoffs become necessary.  For
+example, making a system secure can add latency to every transaction.
+Similarly, keeping a system secure puts additional burden on users
+(making it less usable), with the flip side being that those users are
+often the weakest link in the security strategy. These tradeoffs do
+not need to force an either-or scenario—clearly, designing for both
+security and usability is desirable—but no requirement is absolute,
+or we'd simply secure a system by denying access to all users.
+
+For our purposes, the main takeaway is that security is unique in that
+it is not just a requirement *for* a system, but it is often best
+viewed as a system in an of itself, one that must be usable,
+scalable, manageable, evolvable, observable, available, reliable, and
+so on.
+
+
+2.3 Principles for Secure Systems
 ---------------------------------
 
 Given how long people have been trying to build secure computing
@@ -89,7 +127,7 @@ system remains secure. We will outline some of the most well-known
 principles here and the following chapters contain examples of how
 those principles have been applied in practice.
 
-2.2.1 Defense in Depth
+2.3.1 Defense in Depth
 ~~~~~~~~~~~~~~~~~~~~~~
 As we have noted, one of the central challenges in security is that we
 never know if we have done enough. Much as we try to defend against
@@ -129,7 +167,7 @@ frequently it turns out that a well-publicized attack has succeeded
 because some relatively common defensive measure, such as multi-factor
 authentication, was not put in place correctly.
 
-2.2.2 Principle of Least Privilege
+2.3.2 Principle of Least Privilege
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The principle of least privilege has a long history in computer
 science, having been proposed by Saltzer and Schroeder in 1975. The
@@ -159,7 +197,7 @@ is not actually required for the machines to do their jobs. Addressing
 this shortcoming required some innovations in the design of firewalls
 that arrived only in the last decade or so.
 
-2.2.3 Open Design
+2.3.3 Open Design
 ~~~~~~~~~~~~~~~~~
 
 Another principle codified by Saltzer and Schroeder is that of open
@@ -197,7 +235,7 @@ keep secret the key that is used to decrypt with the algorithm. It is
 much easier to replace a key that has been compromised than to replace
 an entire algorithm.
 
-2.2.4 Fail-safe defaults
+2.3.4 Fail-Safe Defaults
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 The idea behind this principle is the default settings of a system are
@@ -216,7 +254,7 @@ such old ideas as network firewalls and virtual private networks,
 along with more modern approaches such as microsegmentation and
 zero-trust architectures.  We will discuss these developments in a later chapter.
 
-2.2.5 Least Common Mechanism
+2.3.5 Least Common Mechanism
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This principle states that the amount of mechanism that is common to
@@ -229,7 +267,7 @@ as encryption into the network when the user is likely to need
 end-to-end encryption anyway.
 
 
-2.2.6 Design for Iteration
+2.3.6 Design for Iteration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Given what we have said about the difficulty of knowing that a system
@@ -252,19 +290,19 @@ replaced. While the timeframe in which such a change will be needed
 remains a subject of debate, the safe choice is to accept that
 cryptographic algorithms will periodically need to be replaced.
 
-2.2.7 Audit Trails
+2.3.7 Audit Trails
 ~~~~~~~~~~~~~~~~~~
 
 Part of dealing with the impossibility of covering all possible
 security threats is to accept that sometimes we need to analyze what
 has gone wrong. This leads to the idea that security needs to be
-auditable. For example, it will be easier to conduct a post-mortem of
-a breach involving compromised login credentials if every login
-attempt is logged, along with information such as whether the login
-came over a VPN, what IP address was used, and so on. Similarly it is
-very hard to prevent insider attacks, but suitable logging might both
-make it easier to detect such attacks quickly and to deter those who
-might undertake them.
+auditable (observable). For example, it will be easier to conduct a
+post-mortem of a breach involving compromised login credentials if
+every login attempt is logged, along with information such as whether
+the login came over a VPN, what IP address was used, and so
+on. Similarly it is very hard to prevent insider attacks, but suitable
+logging might both make it easier to detect such attacks quickly and
+to deter those who might undertake them.
 
 In a different vein, consider the design of secure protocols. The
 specification for TLS (transport layer security) describes a large
@@ -283,11 +321,8 @@ so logging for audit purposes cannot just be an afterthought; it has
 to be part of the design of a secure system.
 
 
-
-
-2.3 Summary
+2.4 Summary
 -----------
-
 
 Just as we can never be quite sure that we have covered all possible
 vectors of attack against a system, there is no hard limit to the set of
