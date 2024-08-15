@@ -59,8 +59,9 @@ on TLS. Although SSL and TLS are unfortunately not interoperable, they
 differ in only minor ways, so nearly all of this description of TLS
 applies to SSL.
 
-6.3.1 Handshake Protocol
-~~~~~~~~~~~~~~~~~~~~~~~~
+
+6.1 Handshake Protocol
+-----------------------
 
 A pair of TLS participants negotiate at runtime which cryptography to
 use. The participants negotiate a choice of:
