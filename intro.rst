@@ -5,7 +5,7 @@ Chapter 1:  Introduction
 .. New effort from Bruce
 
 
-Security of computer systems has been a focus for system designers for
+Security has been a focus of system designers for
 as long as we have had time-shared computers. If two users can share a
 computer, then it is necessary to have protections in place to limit
 the impact one user can have on another. For example, one user should
@@ -16,12 +16,13 @@ support that in a controlled way. Similarly, multi-user systems ensure
 that malicious or poorly written code from one user cannot interfere
 with the operation of another user's programs.
 
-Computer networks are, like multi-user computers, shared
-resources, and similar requirements apply. One network user should not
-be able to interfere with another user's traffic. Networks are often
-used so that specific resources can be shared among users. And in general,
-a user sending data across a network wants that data to be protected
-from unauthorized modification or eavesdropping.
+Computer networks are, like multi-user computers, shared resources,
+and similar requirements apply. One network user should not be able to
+interfere with another user's traffic, and in general, a user sending
+data across a network wants that data to be protected from
+unauthorized modification or eavesdropping. At the same time, networks
+are typically used so that specific resources can be shared among
+users.
 
 As we will see, the security of computer systems and the security of
 computer networks are closely related topics. And just as a
@@ -38,7 +39,7 @@ to log in to a remote computer, you would (usually) need to authenticate
 yourself to that remote system (e.g., with a user name and password) before
 gaining access to any resources on that system.
 
-Ensuring the security of end systems, while important, does not come
+But ensuring the security of end systems, while important, does not come
 close to addressing the entire set of security issues that exist in a
 computer network. For example, an attacker with access to a link,
 switch or router somewhere in the network has the potential to read or
@@ -46,16 +47,16 @@ modify packets passing through that point. Furthermore, failures of
 end system security are exposed when we connect them to networks. By
 connecting computers to a global network such as the Internet, the
 opportunity to exploit vulnerabilities in the code running on those
-end systems is opened up to a much greater---potentially global---set
+end systems is opened up to a much greater—potentially global—set
 of actors.
 
-Thus we can think of network security as having two main
+Thus, we can think of network security as having two main
 thrusts. First, we need to address the security challenges of a
 shared, globally distributed network. Second, we need to address the
-challenges of connecting end systems, which run imperfect software, to
+challenges of connecting end systems running imperfect software to
 a global set of actors, some of whom are bound to be malicious.
 
-For an interesting retrospective view on system security, and some
+For an interesting retrospective view on computer system security, and some
 commentary on how far we still have to go, we recommend the paper
 looking back on the history of security in Multics from Karger and
 Schell.
@@ -70,16 +71,16 @@ Schell.
 
 An early example of a security failure in the Internet serves to
 highlight the breadth of the challenges included in the term "network
-security". The Morris worm was the first large-scale attack on the
-Internet, launched in 1988 when the Internet was largely limited to
+security". The Morris worm, the first large-scale attack on the
+Internet, was launched in 1988 when the Internet was largely limited to
 universities and research institutions. While it was made possible by
 the fact that the Internet of that era generally allowed packets from
 any source to any destination, it was also dependent on a number of
 vulnerabilities in the software running on the end systems connected
 to the Internet. Like many future attacks, the Morris worm exploited
 multiple vulnerabilities. In this case they included weak or default
-passwords, a buffer overflow bug in a then widely-used software tool,
-and a security hole in the sendmail program. There is a comprehensive
+passwords, a buffer overflow bug in a widely-used software tool,
+and a security hole in the Sendmail program. There is a comprehensive
 analysis of the worm's operation in the report from Donn Seeley
 written soon afterwards.
 
@@ -93,7 +94,7 @@ security of computer networks. Our focus is on how to create networks
 that meet certain security objectives, such as protection against
 eavesdropping and modification of data in transit. The systems
 approach requires us to look at the entire system: the network
-components and the end systems connected by the network, both hardware
+components and the end systems connected by the network, as well as both hardware
 and software.
 
 1.1 A Short History of Internet Security
@@ -103,10 +104,10 @@ The Internet architecture was initially created with essentially no
 security features. This was not because the inventors, implementors and
 architects were unaware of security issues, but rather because there
 were other, more pressing goals. As Vint Cerf, the co-inventor of
-TCP/IP said: "getting this thing to work at all was
-non-trivial”. David Clark, the architect of the Internet, has said
-"it’s not that we didn’t think about security…we thought we could
-exclude [untrustworthy people].”
+TCP/IP said: *"getting this thing to work at all was
+non-trivial.”* David Clark, the architect of the Internet, has said
+*"it’s not that we didn’t think about security…we thought we could
+exclude [untrustworthy people].”*
 
 The Internet's architecture is often characterized as an hourglass,
 with IP being the narrow waist that sits between a wide range of
@@ -122,7 +123,7 @@ could send it a packet.
 
 The Morris Worm served as something of a wake-up call to the early
 developers of the Internet by highlighting just how vulnerable it
-was. By the early 1990s the first firewalls had appeared, allowing the
+was. By the early 1990s the first *firewalls* had appeared, allowing the
 default "accept any packet from anywhere" behavior of the Internet to
 be changed in a controlled way. These devices, which remain common
 today, filter packets based on information in the TCP and IP headers,
@@ -145,29 +146,30 @@ support encryption, message integrity and authentication. However, it
 became clear that such features did not require a new version of IP,
 only a way to add optional information to the packet
 header, and so these capabilities also made their way into IPv4. These
-extensions became known collectively as IPSEC (IP security) and are
+extensions became known collectively as *IPSEC (IP security)* and are
 described in several dozen RFCs. We discuss them in a later chapter.
 
 It is worth noting that, even if IPSEC had
 existed in 1988, it would probably have had minimal impact on the
 spread of the Morris Worm. This is because the worm spread among
 hosts that were *supposed* to connect to each other (e.g., to exchange
-email using the sendmail program). Encrypting and authenticating traffic
+email using the Sendmail program). Encrypting and authenticating traffic
 between hosts doesn't prevent the spread of malware
 if the end-systems have the sorts of
 weaknesses exploited by the Morris worm.
 
 The rise in popularity of the World Wide Web in the 1990s created the
 demand for security features at the transport layer to support
-applications such as e-commerce. This lead to the creation of SSL
-(secure sockets layer) which was superseded by TLS (transport layer
-security), both of which provided confidentiality and authentication
-at the transport layer.
+applications such as e-commerce. This lead to the creation of *SSL
+(secure sockets layer)* which was superseded by *TLS (transport layer
+security)*, both of which provided confidentiality and authentication
+at the transport layer. TLS is an important case study for network
+security, and we describe it in detail in a later chapter.
 
 Another aspect of securing the Internet that started to receive
 attention in this period was the security of its infrastructure. One
-such piece of infrastructure is the domain name system (DNS). DNS
-replaced static hostname-to-address mapping files in the 1980s and subsequently
+such piece of infrastructure is the *Domain Name System (DNS)*,
+which replaced static hostname-to-address mapping files in the 1980s, and subsequently
 become critical to the operation of the Internet. Clearly the
 information served up by DNS needs to be robust against manipulation
 by adversaries, and hence, there has been a multi-decade effort to add
@@ -179,7 +181,8 @@ The Internet's routing system is at least as important as DNS, and
 similarly lacked any security provisions in its original design. Not
 only do we need to be concerned about modification of routing messages
 in transit, but it has historically been all too easy to simply send
-incorrect routing updates in BGP. For example, a router might advertise a good route to
+incorrect routing updates in BGP, the *Border Gateway Protocol*.
+For example, a router might advertise a good route to
 some prefix from an autonomous system that has no such route.
 Securing BGP has likewise proven to be a multi-decade, incremental task.
 
@@ -248,7 +251,7 @@ security strategy:
 
 Schneier's book is targeted at a general audience, addressing
 security in a broad context (e.g., airports), not just computing systems and
-networks. Nevertheless it provides some useful guidelines that are
+networks. Nevertheless, it provides some useful guidelines that are
 applicable to system security.
 
 
@@ -267,7 +270,9 @@ intercept messages as a threat (and adopt some of the methods
 discussed in this book as a countermeasure). But if you are planning
 to transmit messages over a fiber link between two machines in a
 locked datacenter, you might trust that channel is secure, and so take
-no additional steps.  Every system makes trust assumptions. The key is
+no additional steps.  Every system makes trust assumptions, even if it
+as simple as trusting the computer you just bought from a reputable
+vendor does not forward your data to a adversary. The key is
 to be as explicit as possible about those assumptions, because they
 may change over time.
 
@@ -318,7 +323,7 @@ encrypt all messages such that even if an adversary has access to the
 data, they are unable to *understand* the message contents. A protocol that does
 so is said to provide *confidentiality*. Taking the concept a step
 farther, concealing the quantity and destination of communication is
-called *traffic confidentiality*---because merely knowing where
+called *traffic confidentiality*—because merely knowing where
 traffic is going, and how much, can be useful to an adversary in some
 situations.
 
@@ -348,8 +353,8 @@ it is no longer the same message.
 The owner of the website can be attacked as well. Some websites have
 been defaced; the files that make up the website content have been
 remotely accessed and modified without authorization. That is an issue
-of *access control*: enforcing the rules regarding who is allowed to do
-what. Websites are also subject to denial-of-service (DoS)
+of *access control*, enforcing the rules regarding who is allowed to do
+what. Websites are also subject to *Denial-of-Service (DoS)*
 attacks, during which would-be customers are unable to access the
 website because it is being overwhelmed by bogus requests. Ensuring a
 degree of access is called *availability*.
@@ -367,8 +372,8 @@ to inflict further harm, such as launching DoS attacks.
 We will look further into these various classes of threats and the
 measures developed to mitigate them in the following chapters. For a
 solid introduction to system security we recommend the chapter below
-from Saltzer and Kaashoek. Their perspective is grounded in Operating
-System (OS) design, which is the context for much of the foundational
+from Saltzer and Kaashoek. Their perspective is grounded in *Operating
+System (OS)* design, which is the context for much of the foundational
 work in security. In that setting, finding the right balance between
 sharing (so users can access each other's files) and security (so you
 can keep users from accessing your private data) is a central
