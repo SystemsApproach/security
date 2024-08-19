@@ -39,7 +39,7 @@ to log in to a remote computer, you would (usually) need to authenticate
 yourself to that remote system (e.g., with a user name and password) before
 gaining access to any resources on that system.
 
-But ensuring the security of end systems, while important, does not come
+Ensuring the security of end systems, while important, does not come
 close to addressing the entire set of security issues that exist in a
 computer network. For example, an attacker with access to a link,
 switch or router somewhere in the network has the potential to read or
