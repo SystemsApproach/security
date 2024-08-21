@@ -126,6 +126,11 @@ html_theme_options = {
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+
+html_css_files = [
+    'css/rtd_theme_mods.css',
+    ]
+
 # HTML Favicon
 html_favicon = '_static/bridge.ico'
 
@@ -251,8 +256,6 @@ GA_INVOKE_JS = """
 
 def setup(app):
 
-    app.add_css_file('css/rtd_theme_mods.css')
 
-
-    app.add_js_file('https://www.googletagmanager.com/gtag/js?id=G-C4RNJ35K6B')
+    app.add_js_file('https://www.googletagmanager.com/gtag/js?id=G-C4RNJ35K6B', loading_method="async")
     app.add_js_file(None, body=GA_INVOKE_JS)
