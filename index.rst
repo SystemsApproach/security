@@ -23,6 +23,9 @@ The Authors
    crypto.rst
    key-distro.rst
    authentication.rst
+   tls.rst
+   firewall.rst
+   infra.rst
    systems.rst
    README.rst
    authors.rst
