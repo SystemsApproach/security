@@ -329,6 +329,29 @@ challenges. Consider the example in :numref:`Figure %s
 <fig-dc-firewall>`, in which a single firewall has been deployed to
 filter traffic flows among a set of virtual machines in a datacenter.
 
+Suppose that traffic sent from VM A to VM C needs to be processed at
+the firewall. To ensure it is filtered, traffic needs to be routed
+over a path that traverses the firewall, not necessarily the shortest
+path from A to C. In the more extreme case of traffic from VM A to VM
+B, the two VMs sit on the same host, so the traffic from A to B needs to be
+sent out of the host, across the network to the firewall, and then
+back to B. This is clearly not efficient, and consumes resources both
+within the network and at the network interface for the hairpinned
+traffic. Furthermore, the firewall itself has the potential to become
+a bottleneck, as all traffic requiring filtering must pass through to that
+centralized device.
+
+Finally, there is considerable management overhead in supporting such
+an internal firewall. Assume that we start with some sensible
+default policies that deny all traffic flows aside from those
+explicitly allowed. Each new application that is deployed will require
+some new firewall rule to be created to allow traffic to flow between
+the component machines for that application. If a VM is moved, we may
+need to update the routing and the firewall rules to ensure that
+traffic continues to be filtered correctly. All of these concerns have
+led to internal firewalls being used rather sparingly.
+
+
 
 
 .. _fig-dc-firewall:
@@ -338,7 +361,24 @@ filter traffic flows among a set of virtual machines in a datacenter.
 
    A single firewall in a virtualized datacenter.
 
+The solution to the many issues with internal firewalls appeared as
+one of the features of network virtualization, the distributed
+firewall. :numref:`Figure %s <fig-dist-firewall>` illustrates a
+distributed firewall implementation. In this case, traffic sent from
+VM A to VM C can be processed by a firewall function at either (or
+both) of the virtual switches that it traverses, and still be sent
+over the shortest path through the network underlay between the two
+hosts, without hairpinning to a centralized firewall. Furthermore,
+traffic from VM A to VM B need never even leave the host on which
+those two VMs reside, passing only through the virtual switch on that
+host to receive the necessary firewall treatment.
 
+A significant side effect of distributing a service in this way is
+that there is no longer a central bottleneck. Every time another
+server is added to host some more VMs, there is a new virtual switch
+with capacity to do some amount of distributed processing. This means
+it is relatively simple to scale out the amount of firewalling in this
+way.
 
 .. _fig-dist-firewall:
 .. figure:: figures/Slide48.png
@@ -348,6 +388,14 @@ filter traffic flows among a set of virtual machines in a datacenter.
    A distributed firewall is implemented as part of the virtual
    switch in every host in a datacenter.
 
+For further details on network virtualization and distributed services
+we recommend our companion book on software-defined networks.
+
+.. admonition:: Further Reading
+
+   L. Peterson, C. Cascone, B. O’Connor, T. Vachuska,
+      and B. Davie. `Software-Defined Networks: A Systems
+      Approach. <https://sdn.systemsapproach.org>`__.
 
 6.5 Other Security Appliances
 ------------------------------
