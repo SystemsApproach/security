@@ -161,7 +161,7 @@ particular mail server, such as
 
 We can specify this behavior with ufw:
 
-.. code:: 
+.. code::
 
     $ sudo ufw default deny incoming
     Default incoming policy changed to 'deny'
@@ -230,7 +230,7 @@ security, freeing the users and applications inside the firewall from
 security concerns—at least some kinds of security concerns. And as
 noted at the start of the chapter, encryption and authentication offer
 limited protection against exploitation of bugs in the operating
-systems of hosts. 
+systems of hosts.
 
 Unfortunately, firewalls have serious limitations. Since a firewall does
 not restrict communication between hosts that are on the same side of the firewall,
@@ -267,7 +267,7 @@ In Chapter 1 we discussed the threat posed by viruses, worms, and the
 general catergory of malware. While firewalls aim to stop the spread
 of malware, it can be a difficult task, since many operations that the
 firewall needs to permit, such as web browsing or email delivery, can
-also be used for the delivery of malware. 
+also be used for the delivery of malware.
 
 One approach that is used to detect malware is to search for segments of
 code from known malware, sometimes called a *signature*. This approach
@@ -346,10 +346,7 @@ filter traffic flows among a set of virtual machines in a datacenter.
    :align: center
 
    A distributed firewall is implemented as part of the virtual
-   switch in every host in a datacenter.   
-
-   
-
+   switch in every host in a datacenter.
 
 
 6.5 Other Security Appliances
