@@ -388,6 +388,21 @@ way.
    A distributed firewall is implemented as part of the virtual
    switch in every host in a datacenter.
 
+A detail that we have glossed over up to this point is that the
+distributed firewall needs to be configured somehow. It would be
+intractable to configure firewall policies in every single virtual
+switch throughout a data center. This is why distributed firewalls
+appeared as a feature of software-defined networks. The SDN controller
+provides a central point of admininstrative control for firewall
+policies, while the implementation of filtering rules is distributed
+out to the virtual switches. Thus, for example, a rule that specifies
+how traffic from VM A to VM B should be filtered can be expressed to
+the SDN controller, which then calculates how to create the low level
+filtering rules to push out to the appropriate virtual switches. The
+SDN controller can also take account of such events as the migration
+of a VM from one location to another, or the addition of a new VM that
+requires additional firewall rules to be installed.
+
 For further details on network virtualization and distributed services
 we recommend our companion book on software-defined networks.
 
