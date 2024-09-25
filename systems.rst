@@ -52,16 +52,15 @@ security architecture didn’t need an immediate redesign.
 8.1 Pretty Good Privacy (PGP)
 -------------------------------
 
-Pretty Good Privacy (PGP) is a widely used approach to providing
-security for electronic mail. It provides authentication,
+Pretty Good Privacy (PGP) is an approach to providing authentication,
 confidentiality, data integrity, and nonrepudiation. Originally devised
-by Phil Zimmerman, it has evolved into an IETF standard known as
+by Phil Zimmerman in 1991, it has evolved into an IETF standard known as
 OpenPGP. As we saw in a previous chapter, PGP is notable for using a
 “web of trust” model for distribution of keys rather than a tree-like
 hierarchy.
 
 PGP’s confidentiality and receiver authentication depend on the receiver
-of an email message having a public key that is known to the sender. To
+of a message having a public key that is known to the sender. To
 provide sender authentication and nonrepudiation, the sender must have a
 public key that is known by the receiver. These public keys are
 predistributed using certificates and a web-of-trust PKI. PGP supports
@@ -136,7 +135,7 @@ figure out which from the context.
 
 To better appreciate the importance of SSH on today’s Internet, consider
 a couple of the scenarios where it is used. Telecommuters, for example,
-often subscribe to ISPs that offer high-speed fiber-to-the-home, and
+often subscribe to ISPs that offer high-speed Internet access at home, and
 they use these ISPs (plus some chain of other ISPs) to reach machines
 operated by their employer. This means that when a telecommuter logs
 into a machine inside his employer’s data center, both the passwords and
@@ -144,11 +143,11 @@ all the data sent or received potentially passes through any number of
 untrusted networks. SSH provides a way to encrypt the data sent over
 these connections and to improve the strength of the authentication
 mechanism used to log in. (A similar situation occurs when said employee
-connects to work using the public Wi-Fi at Starbucks.) Another usage of
+connects to work using the public Wi-Fi at a coffee shop.) Another usage of
 SSH is remote login to a router, perhaps to change its configuration or
 read its log files; clearly, a network administrator wants to be sure
 that he can log into a router securely and that unauthorized parties can
-neither log in nor intercept the commands sent to the router or output
+neither log in nor intercept the commands sent to the router or the output
 sent back to the administrator.
 
 The latest version of SSH, version 2, consists of three protocols:
@@ -249,13 +248,16 @@ network (VPN) using SSH tunnels in this way.
 8.3 IP Security (IPsec)
 -------------------------
 
-Probably the most ambitious of all the efforts to integrate security
-into the Internet happens at the IP layer. Support for IPsec, as the
-architecture is called, is optional in IPv4 but mandatory in IPv6.
+One of the earliest efforts to integrate security
+into the Internet sits at the IP layer. Support for IPsec, as the
+architecture is called, is optional in IPv4 but mandatory in
+IPv6. Indeed, better security was one of the stated goals of IPv6,
+although it turned out that the central ideas could also be retrofitted
+into IPv4 .
 
 IPsec is really a framework (as opposed to a single protocol or system)
-for providing all the security services discussed throughout this
-chapter. IPsec provides three degrees of freedom. First, it is highly
+for providing a broad set of security services discussed throughout this
+book. IPsec provides three degrees of freedom. First, it is highly
 modular, allowing users (or more likely, system administrators) to
 select from a variety of cryptographic algorithms and specialized
 security protocols. Second, IPsec allows users to select from a large
@@ -263,7 +265,7 @@ menu of security properties, including access control, integrity,
 authentication, originality, and confidentiality. Third, IPsec can be
 used to protect narrow streams (e.g., packets belonging to a particular
 TCP connection being sent between a pair of hosts) or wide streams
-(e.g., all packets flowing between a pair of routers).
+(e.g., all packets flowing between a pair of routers or locations).
 
 When viewed from a high level, IPsec consists of two parts. The first
 part is a pair of protocols that implement the available security
@@ -360,7 +362,141 @@ between particular endpoints. A network of such tunnels can be used to
 implement an entire virtual private network. Hosts communicating over a
 VPN need not even be aware that it exists.
 
-8.4 Wireless Security (802.11i)
+8.4 Web Authentication (WebAuthn) and Passkeys
+-----------------------------------------------
+
+While public key cryptography has been well understood for decades,
+and forms the basis for authentication of web sites using Transport
+Layer Security, its adoption for authentication of end-users has
+generally proven challenging. PGP was an early effort to allow
+end-users to authenticate themselves with public key cryptography, but
+if you need to authenticate yourself to, say, your bank, it's
+overwhelmingly the case today that you will use some combination of
+user name (maybe an account number or an email address) and a
+password. Encryption (using TLS) prevents your password from being
+seen by eavesdroppers when it is sent to the bank's site, but we
+normally don't use public key cryptography to authenticate users.
+
+Password-based authentication had proven enormously problematic, with
+passwords frequently being compromised by a variety of attacks. If a
+user's password is obtained by an attacker, the attacker can now
+impersonate the user to authenticate himself. Passwords might be
+obtained using brute-force search, which works well on passwords that
+are relatively short or simple, and has become easier over time with
+increased computing power. Because many people re-use passwords across
+multiple sites, if a password is obtained from a breach of one site,
+it can often be used on other sites. And a range of *phishing attacks*
+entail somehow tricking a user into putting his login credentials
+into a fraudulent web site. This might be initiated with an email
+leading the user to input his credentials to a domain name similar
+to the expected one, on a site that mimics the visual style of the
+legitimate web site.
+
+A range of efforts have been under way for many years to reduce the
+reliance on passwords and to drive adoption of public key
+cryptography. The most visible recent development has been the
+appearance of *passkeys*, which, as the name suggests, are a form of
+user authentication that replaces passwords with public key-based
+authentication.
+
+.. can add a figure here
+
+Passkeys are formally known as *discoverable credentials* and are
+defined in the Web Authentication (WebAuthn) specification of the W3C
+(World Wide Web Consortium). This work evolved from several prior
+efforts including those of the FIDO alliance (FIDO = Fast Identity
+Online).
+
+The basic idea behind passkeys is simple enough: a user (or more
+likely, a device owned by the user) creates a private/public key pair
+specifically for a single web site and provides the public key to the
+site. The user proves their identity to the web site using some other
+method such as a previously established user name and password. The
+web site stores the public key for subsequent use. The next time that
+the user wants to authenticate to the web site, the site issues a
+challenge to the user, who uses the locally stored private key to sign
+their response to the challenge. The web site uses the stored public
+key to authenticate the user.
+
+The fact that the process is bootstrapped by getting the user to
+authenticate using a traditional approach (such as user name and
+password) is clearly a bit of a weakness. At the same time, it
+solves the thorny problem of how to scalably bind public
+keys to users which has proven challenging to date. Additional steps
+to secure the intial authentication might include the use of
+multi-factor authentication.
+
+Passkeys offer two protections against phishing. First, the private
+key is never transmitted, being used only to sign the response to a
+challenge. Second, passkeys are bound to a specific web site. So a
+user will have a different private/public key pair for every web site
+they want to authenticate to. When the authentication challenge is
+received from the web site, the client-side software checks that it is
+coming from the correct web site using the standard authentication
+methods of TLS. A fraudulent web site will fail this check, so the
+user will not try to authenticate to the site.
+
+
+The WebAuthn spec allows for considerable implementation flexibility,
+but there are two broad categories of passkey implementation. One
+approach binds the key to a specific piece of hardware, such as a USB
+key. Such keys have been around for many years and known by various
+names as the commercial offerings and standards around them have
+evolved. The generic names include U2F (universal second factor) and
+FIDO (from the FIDO Alliance).
+
+Now that biometric
+authentication, such as facial and fingerprint recognition, is
+available on many devices, it is common to require biometric
+authentication to access a passkey. So a passkey might be stored on a
+mobile phone and require facial recognition of the owner before the
+passkey can be accessed.
+
+The second class of passkey implementation allows the credentials to be
+copied among multiple devices, typically using some sort of password
+manager to keep the credentials secure and synchronized across
+devices. In this case, the private/public key pair is stored in the
+password manager and then is made available to the user across
+different devices (laptops, mobile phones, etc.) when they need the
+passkey.
+
+Both approaches have their strengths and weaknesses. Hardware tokens
+make phishing attacks almost impossible, since the only way to get
+access to the user's credential is to have physical access to the
+key. A password manager, on the other hand, is a piece of software
+that normally has some cloud service behind it to handle
+synchronization across devices. If an attacker manages
+to get access to the credentials necessary to log in to the cloud
+service, then they have access to the passkeys stored within it. For
+this reason (among others) password managers are generally secured
+with some sort of multi-factor authentication. One of those factors
+might be biometric, or even a hardware token.
+
+The downside of hardware tokens is that the private key is stored only
+in one place. If the hardware token is lost, there is no way to
+recover the private key, so some other authentication method will be
+needed as a backup. Also, since most hardware tokens lack biometric
+authentication, it is possible that a private key could be obtained
+and used by an attacker if he can gain access to the physical key.
+
+Many of the important details of WebAuthn come down to making public
+key cryptography accessible to average users, rather than just the
+domain of the tech-savvy. This is where PGP, for example, has
+struggled to gain wider acceptance. WebAuthn is now part of the
+standards that are widely implemented for the World Wide Web, meaning
+that there are implementations across many browsers and web
+servers. There is also a well-defined API to allow authentication
+devices (such as FIDO keys) to communicate with browsers to manage the
+creation and use of private/public key pairs.
+
+We are still in the relatively early days of passkeys as they start to
+become available on a wide variety of operating systems and web
+sites. Those who have led their development hope that they start to
+replace the ubiquitous password for user authentication.
+
+
+
+8.5 Wireless Security (802.11i)
 ---------------------------------
 
 Wireless links are particularly exposed to security threats due to the
