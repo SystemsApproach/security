@@ -4,7 +4,7 @@ Chapter 6. Transport Layer Security (TLS, SSL, HTTPS)
 To understand the design goals and requirements for the Transport Layer
 Security (TLS) standard and the Secure Socket Layer (SSL) on which TLS
 is based, it is helpful to consider one of the main problems that they
-are intended to solve. As the World Wide Web became popular and
+were invented to solve. As the World Wide Web became popular and
 commercial enterprises began to take an interest in it, it became clear
 that some level of security would be necessary for transactions on the
 Web. The canonical example of this is making purchases by credit card.
@@ -52,33 +52,160 @@ talking to the SSL/TLS protocol, which will pass your data through to
 HTTP provided all goes well with authentication and decryption. Although
 standalone implementations of SSL/TLS are available, it is more common
 for an implementation to be bundled with applications that need it,
-primarily web browsers.
+primarily web browsers and servers.
 
-In the remainder of our discussion of transport layer security, we focus
-on TLS. Although SSL and TLS are unfortunately not interoperable, they
-differ in only minor ways, so nearly all of this description of TLS
-applies to SSL.
+The layered approach, inserting TLS between the application protocol
+and the transport protocol, is not without drawbacks, particularly
+when performanced is considered. This eventually led to a rethinking
+of the layering and a new transport protocol, QUIC, was developed with
+the benefit of decades of experience with TLS and HTTP. We return to
+this development below.
+
+In the following discussion we focus
+on TLS. SSL is now something of a historical artifact. TLS continues
+to evolve as new weaknesses are identified and fixed, and new
+cryptographic algorithms continue to be added, often replacing older
+ones now considered insufficiently strong.
+
+Like TCP, TLS has a setup phase involving handshakes and a connected
+phase in which data is exchanged between the endpoints. We discuss
+each in turn, beginning with the *handshake protocol* that supports
+intial setup. Once the connection properties are established by the
+handshake, the *record protocol* is used to protect the data sent
+between the endpoints.
 
 
 6.1 Handshake Protocol
 -----------------------
 
-A pair of TLS participants negotiate at runtime which cryptography to
-use. The participants negotiate a choice of:
+The main job of the handshake protocol is to allow a pair of TLS
+participants to establish a shared secret key and negotiate at runtime
+the set of cryptographic algorithms to use. It also allows for version
+negotiation, so that, for example, a client running TLS version 1.2
+can talk to a server that supports both version 1.2 and 1.3. It also
+alllows the client to authenticate the server, and, optionally, for
+the client to be authenticated as well.
 
--  Data integrity hash (MD5, SHA-1, etc.), used to implement HMACs
+The handshake protocol needs to be resistant to man-in-the-middle
+(MITM) attacks, which we discussed in Chapter 4. At one point in its
+history, TLS version negotiation could be subverted by a MITM in such
+a way that the client and server settled on a lower version than
+necessary, opening up the risk that old vulnerabilities in the lower
+version could be exploited.
 
--  secret-key cipher for confidentiality (among the possibilities are
-   DES, 3DES, and AES)
+TLS takes multiple precautions to increase its resistance against MITM
+attacks. TLS 1.3 encrypts most of the handshake protocol, as early in
+the process as possible. To facilitate this, the first step of the
+handshake entails the establishment of a shared secret between the
+client and the server. This is most commonly achieved using an
+ephemeral Diffie-Hellman key exchange as described in Chapter
+4. Pre-shared keys are also supported and have a role in restarting a
+session quickly, as discussed below.
 
--  Session key establishment approach (among the possibilities are
-   Diffie-Hellman, and public-key authentication protocols using DSS)
+When we described Diffie-Hellman in chapter 4 we explained the original
+algorithm that operates on groups of integers using modular
+arithmetic. This is now known as Finite Field Diffie-Hellman. It is
+also possible to use elliptic curves rather than modular arithmetic
+and both options are available in modern TLS.
 
-Interestingly, the participants may also negotiate the use of a
-compression algorithm, not because this offers any security benefits,
-but because it’s easy to do when you’re negotiating all this other stuff
-and you’ve already decided to do some expensive per-byte operations on
-the data.
+There are a number of ways the handshake protocol can play out, but
+a typical set of operations is as follows:
+
+1. The client sends a "client hello" message which specifies which
+   Diffie-Hellman groups or elliptic curves it supports, along with an
+   ephemeral Diffie-Hellman key for each group/curve. The hello also
+   contains a nonce, the set of cipher suites that the client can use
+   for subsequent encryption and authentication, and the TLS version
+   the client supports.
+
+2. The server replies with a "server hello" message indicating which
+   Diffie-Hellman group or curve it has chosen and a corresponding
+   ephemeral Diffie-Hellman public key. The hello also states which
+   TLS version the server supports, the cipher suite it has chosen
+   among those offered by the client, and a nonce.
+
+Recall that a simple Diffie-Hellman key exchange is not secure against
+MITM attacks, and the remaining steps in the handshake protect against
+this. From the first two messages, the server and the client are able
+to agree on a shared secret using one of several Diffie-Hellman
+algorithms. A choice of groups or curves were provided in the client
+hello, and one of them has been selected by the server. Similarly, one
+of the offered cipher suites hase been selected. With Diffie-Hellman
+allowing them to obtain a shared secret, all subsequent messages
+between client and server will be encrypted. But we still have to rule
+out the MITM attack.
+
+3. The server now sends one or more certificates. In the simplest
+   case, there is a single certificate signed by a certification
+   authority (CA) that is trusted by the client.
+
+4. The server sends a "certificate verify" message, which proves that
+   the server has the private key that corresponds to the public key
+   in the previously supplied certificate. The signature covers
+   everything that has been sent in the handshake up to this point,
+   which includes a pair of nonces, thus providing protection against
+   replay attacks. And the signature along with the certificate is
+   sufficient to prove to the client that it is talking to the
+   intended server, not to some attacker in the middle, who would be
+   unable to provide the signature.
+
+5. The server sends a "handshake finished" message which contains a
+   hash of everything sent so far, ensuring that nothing in the
+   handshake was tampered with.
+
+6. The client sends a similar "handshake finished" message.
+
+At this point the client knows that it is talking to the intended
+server, and both parties know that they have succesfully completed the
+handshake without any tampering of messages. The server in this case
+does not know who the client is because there has been no client
+authentication. TLS does support client authentication using client
+certificates, but it is not the norm in today's Internet for clients
+to authenticate in this way.
+   
+
+.. 0RTT needs coverage somewhere
+   Something about compatibility with 1.2 middleboxes
+
+Recall that public key cryptography is computationally more expensive
+than symmetric key cryptography, so we limit the use of public key
+operations to the handshake protocol. And when we said above that all
+the messages after the first two are encrypted, this is done using
+symmetric keys. The role of public keys in TLS are (a) the
+Diffie-Hellman key exchange (b) the use of certificates to
+authenticate servers and, optionally, clients. All of that is limited
+to the handshake protocol.
+   
+Encryption of data between client and server is
+is performed by TLS’s *record protocol*, described in more detail
+below. Because the handshake protocol in TLS 1.3 requires encryption
+after the first two messages, the record protocol actually comes into
+play at step 3 above, even before we get to sending any application
+data. 
+
+
+:numref:`Figure %s <fig-tls-hand>` shows the handshake protocol at a
+high level.  When the client and server have each received a
+"handshake finished" message from their respective peer, the handshake
+is complete and application data can start to flow.
+
+.. _fig-tls-hand:
+.. figure:: figures/TLS-handshake.png
+   :width: 400px
+   :align: center
+
+   Handshake protocol to establish TLS session.
+
+
+
+We glossed over some of the details of how the client and server
+encrypt messages after the initial part of the exchange. These details
+are part of the record protocol, which we describe next.
+
+6.2 Record Protocol
+--------------------
+
+.. WIP
 
 In TLS, the confidentiality cipher uses two keys, one for each
 direction, and similarly two initialization vectors. The HMACs are
@@ -89,57 +216,6 @@ effectively six keys. TLS derives all of them from a single shared
 turn is derived in part from the “session key” that results from TLS’s
 session key establishment protocol.
 
-The part of TLS that negotiates the choices and establishes the shared
-master secret is called the *handshake protocol*. (Actual data transfer
-is performed by TLS’s *record protocol*.) The handshake protocol is at
-heart a session key establishment protocol, with a master secret instead
-of a session key. Since TLS supports a choice of approaches to session
-key establishment, these call for correspondingly different protocol
-variants. Furthermore, the handshake protocol supports a choice between
-mutual authentication of both participants, authentication of just one
-participant (this is the most common case, such as authenticating a
-website but not a user), or no authentication at all (anonymous
-Diffie-Hellman). Thus, the handshake protocol knits together several
-session key establishment protocols into a single protocol.
-
-:numref:`Figure %s <fig-tls-hand>` shows the handshake protocol at a
-high level.  The client initially sends a list of the combinations of
-cryptographic algorithms that it supports, in decreasing order of
-preference. The server responds, giving the single combination of
-cryptographic algorithms it selected from those listed by the
-client. These messages also contain a *client nonce* and a *server
-nonce*, respectively, that will be incorporated in generating the
-master secret later.
-
-.. _fig-tls-hand:
-.. figure:: figures/f08-16-9780123850591.png
-   :width: 300px
-   :align: center
-
-   Handshake protocol to establish TLS session.
-
-At this point, the negotiation phase is complete. The server now sends
-additional messages based on the negotiated session key establishment
-protocol. That could involve sending a public-key certificate or a set
-of Diffie-Hellman parameters. If the server requires authentication of
-the client, it sends a separate message indicating that. The client then
-responds with its part of the negotiated key exchange protocol.
-
-Now the client and server each have the information necessary to
-generate the master secret. The “session key” that they exchanged is not
-in fact a key, but instead what TLS calls a *pre-master secret*. The
-master secret is computed (using a published algorithm) from this
-pre-master secret, the client nonce, and the server nonce. Using the
-keys derived from the master secret, the client then sends a message
-that includes a hash of all the preceding handshake messages, to which
-the server responds with a similar message. This enables them to detect
-any discrepancies between the handshake messages they sent and received,
-such as would result, for example, if a man in the middle modified the
-initial unencrypted client message to weaken its choices of
-cryptographic algorithms.
-
-6.3.2 Record Protocol
-~~~~~~~~~~~~~~~~~~~~~
 
 Within a session established by the handshake protocol, TLS’s record
 protocol adds confidentiality and integrity to the underlying transport
