@@ -425,7 +425,7 @@ authenticate using a traditional approach (such as user name and
 password) is clearly a bit of a weakness. At the same time, it
 solves the thorny problem of how to scalably bind public
 keys to users which has proven challenging to date. Additional steps
-to secure the intial authentication might include the use of
+to secure the initial authentication might include the use of
 multi-factor authentication.
 
 Passkeys offer two protections against phishing. First, the private

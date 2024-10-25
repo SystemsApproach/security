@@ -339,7 +339,7 @@ interesting. It avoids the need for another Diffie-Hellman exchange
 but is still requires a round trip time to establish the session. But
 because the new session keys are known to both sides before the first
 handshake message is sent, session resumption opens up the possibility
-of sending "0-RTT data" along with the handhsake. 0-RTT data can be
+of sending "0-RTT data" along with the handshake. 0-RTT data can be
 included along with the handshake messages, without waiting one RTT
 for keys to be established. This is beneficial from a performance
 perspective, especially for short-lived connections, but it comes with
