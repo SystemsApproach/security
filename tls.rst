@@ -3,7 +3,7 @@ Chapter 6. Transport Layer Security (TLS, SSL, HTTPS)
 
 To understand the design goals and requirements for the Transport Layer
 Security (TLS) standard and the Secure Socket Layer (SSL) on which TLS
-is based, it is helpful to consider one of the main problems that they
+is based, it is helpful to consider the main problems that they
 were invented to solve. As the World Wide Web became popular and
 commercial enterprises began to take an interest in it, it became clear
 that some level of security would be necessary for transactions on the
@@ -22,7 +22,7 @@ originally developed by Netscape and subsequently the basis for the
 IETF’s TLS standard.
 
 The designers of SSL and TLS recognized that these problems were not
-specific to Web transactions (i.e., those using HTTP) and instead built
+specific to Web transactions (i.e., those using HTTP) and thus they built
 a general-purpose protocol that sits between an application protocol
 such as HTTP and a transport protocol such as TCP. The reason for
 calling this “transport layer security” is that, from the application’s
@@ -56,7 +56,7 @@ primarily web browsers and servers.
 
 The layered approach, inserting TLS between the application protocol
 and the transport protocol, is not without drawbacks, particularly
-when performanced is considered. This eventually led to a rethinking
+when performance is considered. This eventually led to a rethinking
 of the layering and a new transport protocol, QUIC, was developed with
 the benefit of decades of experience with TLS and HTTP. We return to
 this development below.
@@ -67,12 +67,21 @@ to evolve as new weaknesses are identified and fixed, and new
 cryptographic algorithms continue to be added, often replacing older
 ones now considered insufficiently strong.
 
-Like TCP, TLS has a setup phase involving handshakes and a connected
+Like TCP, TLS has a setup phase involving handshakes followed by a connected
 phase in which data is exchanged between the endpoints. We discuss
 each in turn, beginning with the *handshake protocol* that supports
-intial setup. Once the connection properties are established by the
+initial setup. Once the connection properties are established by the
 handshake, the *record protocol* is used to protect the data sent
 between the endpoints.
+
+Performance is always important when applying cryptographic operations
+to data transfers, and it has a significant impact on end-to-end
+latency for web interactions. One performance-related design choice is
+the use of symmetric key cryptography for the encryption and
+authentication of data after the handshake is complete. In addition,
+there have been efforts to reduce the number of round-trip
+times required to begin data transfer, thus lowering initial latency.
+We examine these developments later in this chapter.
 
 
 6.1 Handshake Protocol
@@ -83,7 +92,7 @@ participants to establish a shared secret key and negotiate at runtime
 the set of cryptographic algorithms to use. It also allows for version
 negotiation, so that, for example, a client running TLS version 1.2
 can talk to a server that supports both version 1.2 and 1.3. It also
-alllows the client to authenticate the server, and, optionally, for
+allows the client to authenticate the server, and, optionally, for
 the client to be authenticated as well.
 
 The handshake protocol needs to be resistant to man-in-the-middle
@@ -100,7 +109,7 @@ handshake entails the establishment of a shared secret between the
 client and the server. This is most commonly achieved using an
 ephemeral Diffie-Hellman key exchange as described in Chapter
 4. Pre-shared keys are also supported and have a role in restarting a
-session quickly, as discussed below.
+session quickly, as discussed in Section 6.3.
 
 When we described Diffie-Hellman in chapter 4 we explained the original
 algorithm that operates on groups of integers using modular
@@ -130,7 +139,7 @@ this. From the first two messages, the server and the client are able
 to agree on a shared secret using one of several Diffie-Hellman
 algorithms. A choice of groups or curves were provided in the client
 hello, and one of them has been selected by the server. Similarly, one
-of the offered cipher suites hase been selected. With Diffie-Hellman
+of the offered cipher suites has been selected. With Diffie-Hellman
 allowing them to obtain a shared secret, all subsequent messages
 between client and server will be encrypted. But we still have to rule
 out the MITM attack.
@@ -151,12 +160,12 @@ out the MITM attack.
 
 5. The server sends a "handshake finished" message which contains a
    hash of everything sent so far, ensuring that nothing in the
-   handshake was tampered with.
+   handshake was tampered with. This further protects against MITM attacks.
 
 6. The client sends a similar "handshake finished" message.
 
 At this point the client knows that it is talking to the intended
-server, and both parties know that they have succesfully completed the
+server, and both parties know that they have successfully completed the
 handshake without any tampering of messages. The server in this case
 does not know who the client is because there has been no client
 authentication. TLS does support client authentication using client
@@ -176,12 +185,7 @@ Diffie-Hellman key exchange (b) the use of certificates to
 authenticate servers and, optionally, clients. All of that is limited
 to the handshake protocol.
    
-Encryption of data between client and server is
-is performed by TLS’s *record protocol*, described in more detail
-below. Because the handshake protocol in TLS 1.3 requires encryption
-after the first two messages, the record protocol actually comes into
-play at step 3 above, even before we get to sending any application
-data. 
+
 
 
 :numref:`Figure %s <fig-tls-hand>` shows the handshake protocol at a
@@ -196,112 +200,190 @@ is complete and application data can start to flow.
 
    Handshake protocol to establish TLS session.
 
-
-
-We glossed over some of the details of how the client and server
-encrypt messages after the initial part of the exchange. These details
-are part of the record protocol, which we describe next.
+Encryption of data between client and server is performed by TLS’s
+*record protocol*. Because the handshake protocol in TLS 1.3 requires
+encryption after the first two messages, the record protocol actually
+comes into play at step 3 above, even before we get to sending any
+application data. We discuss the details of the record protocol below.
 
 6.2 Record Protocol
 --------------------
 
 .. WIP
 
-In TLS, the confidentiality cipher uses two keys, one for each
-direction, and similarly two initialization vectors. The HMACs are
-likewise keyed with different keys for the two participants. Thus,
-regardless of the choice of cipher and hash, a TLS session requires
-effectively six keys. TLS derives all of them from a single shared
-*master secret*. The master secret is a 384-bit (48-byte) value that in
-turn is derived in part from the “session key” that results from TLS’s
-session key establishment protocol.
+The task of the record protocol is to protect the data that is sent
+over a TLS connection with both encryption and authentication.  
+While TLS supports a wide range of encryption and authentication
+methods, the set of options has actually become narrower in version
+1.3 as weaknesses of older methods became clear and new cryptographic
+algorithms have emerged. All the algorithms in TLS 1.3 provide both
+encryption and authentication in a single cipher suite, using the
+technique known as authenticated encryption with additional data
+(AEAD) which was discussed in Chapter 3.
 
 
-Within a session established by the handshake protocol, TLS’s record
-protocol adds confidentiality and integrity to the underlying transport
-service. Messages handed down from the application layer are:
+In TLS, the cipher that provides authentication and encryption uses
+two keys, one for each direction. Similarly, two initialization
+vectors are required.  Thus, regardless of the choice of cipher suite,
+a TLS session requires effectively four keys to be agreed upon by the
+end points. TLS derives all of them from a single shared secret that
+was obtained during the handshake phase.
 
-1. Fragmented or coalesced into blocks of a convenient size for the
-   following steps
+The step that derives the keys and initialization vectors from the
+shared secret is called the "HMAC-based extract-and-expand key
+derivation function (HKDF)". The goal is to produce enough keying
+material for the record layer–two IVs and two symmetric keys of
+appropriate length–and to do so in such a way that an attacker has no
+better way of guessing them than a brute force attack. In other words,
+we want the keys and IVs to be as close to random as possible. This is
+a bit harder than it might first appear, because the shared secret
+that is obtained via Diffie Hellman, which is our starting point, is
+not itself completely random. The reason for this may not be obvious,
+but the goal of the various Diffie Hellman algorithms is to generate a
+shared secret, not that such secrets be randomly distributed.
 
-2. Optionally compressed
+There is some fairly serious mathematics underlying HKDF, but the
+basic idea is called "extract and expand". The first step is to
+"extract" the randomness from the shared secret. This is done by
+calculating a HMAC (hash-based message authentication code, as described
+in Chapter 3) over the shared secret. The resulting pseudorandom key
+is input to the next stage, along with an additional source of
+randomness: the hash of everything contained in the initial
+handshake. Note that the handshake messages include two random
+nonces. The "expand" step then applies the HMAC function using these
+inputs and HMAC is reapplied as many times as needed to produce the
+required amount of key and IV material.
 
-3. Integrity-protected using an HMAC
+When all the keys and IVs are available to client and server, the record
+layer can now protect the underlying data with encryption and
+authentication. The record layer also handles fragmentation and
+reassembly–breaking the incoming stream of plaintext into chunks of up
+to 2\ :sup:`14` bytes. 
 
-4. Encrypted using a secret-key cipher
+To encrypt one block for transmission, the record layer takes as input
+the encryption key, a nonce (which we explain below), the plaintext to
+be encrypted, and "additional data" to be authenticated but not
+encrypted. This additional data is the header for the record layer,
+indicating the type of data being encrypted (e.g., application data or
+handshake data) and its length. The nonce is calculated by computing
+the XOR of the IV and a sequence number that increments with every
+block. The AEAD cipher then computes the ciphertext that will follow
+the record header, and the resulting block is passed to the transport
+layer (normally TCP) for transmission.
 
-5. Passed to the transport layer (normally TCP) for transmission
+On the receiving side, the process runs in the other direction, with
+the appropriate key, nonce, ciphertext and additional data (headers)
+being passed to the AEAD decryption function. If authentication is
+successful, the plaintext is recovered and can be passed up to the
+application. If authentication does not succeed, the connection is
+terminated and an alert is generated. 
 
-The record protocol uses an HMAC as an authenticator. The HMAC uses
-whichever hash algorithm (MD5, SHA-1, etc.) was negotiated by the
-participants. The client and server have different keys to use when
-computing HMACs, making them even harder to break. Furthermore, each
-record protocol message is assigned a sequence number, which is included
-when the HMAC is computed—even though the sequence number is never
-explicit in the message. This implicit sequence number prevents replays
-or reorderings of messages. This is needed because, although TCP can
-deliver sequential, unduplicated messages to the layer above it under
-normal assumptions, those assumptions do not include an adversary that
-can intercept TCP messages, modify messages, or send bogus ones. On the
-other hand, it is TCP’s delivery guarantees that make it possible for
-TLS to rely on a legitimate TLS message having the next implicit
-sequence number in order.
 
-Another interesting feature of the TLS protocol is the ability to resume
-a session. To understand the original motivation for this, it is helpful
-to understand how HTTP originally mades use of TCP connections. (The
-details of HTTP are presented in the next chapter.) Each HTTP operation,
-such as getting a page from a server, required a new TCP connection to
-be opened. Retrieving a single page with a number of embedded graphical
-objects might take many TCP connections. Opening a TCP connection
-requires a three-way handshake before data transmission can start. Once
-the TCP connection is ready to accept data, the client would then need
-to start the TLS handshake protocol, taking at least another two
-round-trip times (and consuming some amount of processing resources and
-network bandwidth) before actual application data could be sent. The
-resumption capability of TLS was designed to alleviate this problem.
 
-The idea of session resumption is to optimize away the handshake in
-those cases where the client and the server have already established
-some shared state in the past. The client simply includes the session ID
-from a previously established session in its initial handshake message.
-If the server finds that it still has state for that session, and the
-resumption option was negotiated when that session was originally
-created, then the server can reply to the client with an indication of
-success, and data transmission can begin using the algorithms and
-parameters previously negotiated. If the session ID does not match any
-session state cached at the server, or if resumption was not allowed for
-the session, then the server will fall back to the normal handshake
-process.
+6.3 Session Resumption and Zero RTT Operation
+----------------------------------------------
 
-The reason the preceeding discussion emphasized the *original*
-motivation is that having to do a TCP handshake for every embedded
-object in a web page led to so much overhead, independent of TLS, that
-HTTP was eventually optimized to support *persistent connections* (also
-discussed in the next chapter). Because optimizing HTTP mitigated the
-value of session resumption in TLS (plus the realization that reusing
-the same session IDs and master secret key in a series of resumed
-sessions is a security risk), TLS changed its approach to resumption in
-the latest version (1.3).
+In our initial description of the TLS handshake, we described how
+Diffie-Hellman is used to established a shared secret, but noted
+that the option also exists to use a pre-shared key (PSK). While
+out-of-band provisioning of a PSK is possible, a much more common use
+of a PSK is to allow session resumption, thus removing the need to go
+through another Diffie-Hellman exchange.
 
-In TLS 1.3, the client sends an opaque, server-encrypted *session
-ticket* to the server upon resumption. This ticket contains all the
-information required to resume the session. The same master secret is
-used across handshakes, but the default behavior is to perform a session
-key exchange upon resumption.
+An important side-effect of using a pre-shared key is that it becomes
+possible to start sending data earlier in the process. This operation
+is referred to as "0-RTT Data" because it is possible to start sending
+application data along with the handshake material without waiting for
+the round trip time of the handshake to elapse. This is an important
+step in improving the latency of HTTPS connection establishment and
+thus the user experience when browsing the Web. 
 
-.. _key-layering:
-.. admonition:: Key Takeaway
+The idea of session resumption predates TLS 1.3 but it has evolved
+somewhat to become more secure. In TLS 1.3, the server may create a
+*session ticket* after the completion of the handshake process. The ticket
+contains an opaque identifier of the session and a ticket lifetime (as
+well as some other fields). The ticket is sent after the handshake
+which means it is encrypted much like application data. More than one
+ticket can be sent.
 
-   We call attention to this change in TLS because it illustrates the
-   challenge of knowing which layer should solve a given problem. In
-   isolation, session resumption as implemented in the earlier version
-   of TLS seems like a good idea, but it needs to be considered in the
-   context of the dominate use case, which is HTTP. Once the overhead of
-   doing multiple TCP connections was addressed by HTTP, the equation
-   for how resumption should be implemented by TLS changed. The bigger
-   lesson is that we need to avoid rigid thinking about the right
-   layer to implement a given function—the answer changes over time
-   as the network evolves—where a holistic/cross-layer analysis is
-   required to get the design right.
+A ticket is effectively a label for a previously established
+session, which has a shared secret already. When a client
+connects to a server to which it was previously connected, it can look
+at its stored tickets and, if there are any that have not expired, it
+can include one in the first message of a handshake. Along
+with the ticket, the client includes something called a "binding",
+which is a HMAC calculated over the current handshake message using a
+key derived from the *previous* handshake. The effect of this binding
+is to tie the new handshake back to the old one, since only a client
+that successfully completed the prior handshake can have the key
+required to calculate the HMAC. Thus, while an attacker might snoop on
+the ticket, it can't do much with it and any attempt to modify the new
+handshake message will fail.
+
+When the server sees that the client has sent a ticket, it validates
+the binding, and if the HMAC calculation succeeds, then the server and
+client now have agreement that they can use a shared secret
+established in the prior session. They use a "resumption master
+secret" that was calculated and stored in the prior session to derive
+a new set of keys for this session. The keys of the new
+session are different from those of the prior session to support
+forward secrecy (i.e., an attacker who learns the key for session N
+doesn't immediately have the keys for session N+1).
+
+When the server sends its "Finished" message, it calculates the HMAC
+over the handshake messages using the agreed-upon new key, and thus
+authenticates itself to the client.
+
+On its own, session resumption as just described may not seem that
+interesting. It avoids the need for another Diffie-Hellman exchange
+but is still requires a round trip time to establish the session. But
+because the new session keys are known to both sides before the first
+handshake message is sent, session resumption opens up the possibility
+of sending "0-RTT data" along with the handhsake. 0-RTT data can be
+included along with the handshake messages, without waiting one RTT
+for keys to be established. This is beneficial from a performance
+perspective, especially for short-lived connections, but it comes with
+some downsides in terms of security.
+
+There are two main drawbacks to 0-RTT data. The first is that it is
+prone to replay attacks in a way that other data transfers are not. If
+an attacker can sit between a client and a server, they have the
+opportunity to replay 0-RTT data. Exactly how much damage this does is
+very much application dependent, so the TLS specifications dictate
+that (a) 0-RTT data can only be sent when the application layer
+explicitly requests it, i.e., it can't just be an optimization
+provided by the socket layer (b) the application must know how to deal
+with replays of data sent as 0-RTT, e.g., by only sending 0-RTT
+data for operations that are idempotent.
+
+The other drawback of 0-RTT data is that it depends on keys that are
+derived from secrets used in an earlier transaction. If those secrets
+were somehow compromised, the attacker would have the necessary
+information to compromise the new session. Thus, 0-RTT data lacks
+forward secrecy. For this reason, the option exists to generate a new
+set of keys as part of the session resumption handshake with a new
+Diffie-Hellman exchange. This means that only the data sent in the
+first RTT lacks forward secrecy, and the rest of the session is
+protected by the new, uncompromised keys.
+
+
+All of this work to reduce the setup time of TLS by a single RTT might
+seem surprising, but in fact the history of HTTP and HTTPS over TCP is
+full of issues with excessive setup times. The very first
+implementations of HTTP were quite wasteful of TCP connections,
+setting up a new connection for every object on a requested web
+page. The history of HTTP over TCP and the addition of TLS is full of
+efforts to reduce the latency since the most simple approaches just
+layered one handshake on top of another. The next step in the process
+of reducing the latency of TLS session establishment involves
+rethinking the choice of TCP as the underlying transport, as we
+discuss below. 
+
+
+
+6.4 QUIC, HTTP/3 and TLS
+------------------------
+
+6.5 User Experience with HTTPS
+------------------------------
 

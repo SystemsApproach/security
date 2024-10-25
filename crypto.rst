@@ -598,6 +598,8 @@ recomputed code to the code received in the message.
 
    Computing a hashed message authentication code (HMAC).
 
+.. this appears to be out of date, see https://en.wikipedia.org/wiki/HMAC#Design_principles   
+
 One way to implement the approach just described is to apply a cryptographic hash (such as
 SHA-3) to the concatenation of the plaintext message and the
 secret value, as illustrated in :numref:`Figure %s
@@ -624,13 +626,13 @@ In recent years, the idea of using a single algorithm to support both
 authentication and encryption has gained support for reasons of
 performance and simplicity of implementation. This is referred to as
 *authenticated encryption* or *authenticated encryption with
-associated data*. The latter term allows for some data fields
-(e.g., packet headers) to be transmitted as plaintext—these are the
-associated data—while the rest
-of the message is encrypted, and the whole thing, headers included, is
-authenticated. We won't go into details here, but there is now a set of
-integrated algorithms that produce both ciphertext and authentication
-codes using a combination of ciphers and hash functions.
+associated data*. The latter term allows for some data fields (e.g.,
+packet headers) to be transmitted as plaintext—these are the
+associated data—while the rest of the message is encrypted, and the
+whole thing, headers included, is authenticated. We won't go into
+details here, but there is now a set of integrated algorithms that
+produce both ciphertext and authentication codes using a combination
+of ciphers and hash functions.
 
 If you want to get a deeper understanding of the principles of ciphers
 and hash functions, among other cryptographic concepts, we recommend the following book.
