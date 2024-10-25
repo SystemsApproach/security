@@ -598,7 +598,7 @@ recomputed code to the code received in the message.
 
    Computing a hashed message authentication code (HMAC).
 
-.. this appears to be out of date, see https://en.wikipedia.org/wiki/HMAC#Design_principles   
+.. this appears to be out of date, see https://en.wikipedia.org/wiki/HMAC#Design_principles
 
 One way to implement the approach just described is to apply a cryptographic hash (such as
 SHA-3) to the concatenation of the plaintext message and the

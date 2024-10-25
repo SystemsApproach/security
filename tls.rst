@@ -99,8 +99,9 @@ The handshake protocol needs to be resistant to man-in-the-middle
 (MITM) attacks, which we discussed in Chapter 4. At one point in its
 history, TLS version negotiation could be subverted by a MITM in such
 a way that the client and server settled on a lower version than
-necessary, opening up the risk that old vulnerabilities in the lower
-version could be exploited.
+necessary. Such a "downgrade attack" opens up the risk that old
+vulnerabilities in the lower version, such as weak cryptographic
+protocols, could be exploited.
 
 TLS takes multiple precautions to increase its resistance against MITM
 attacks. TLS 1.3 encrypts most of the handshake protocol, as early in
@@ -171,22 +172,17 @@ does not know who the client is because there has been no client
 authentication. TLS does support client authentication using client
 certificates, but it is not the norm in today's Internet for clients
 to authenticate in this way.
-   
 
-.. 0RTT needs coverage somewhere
-   Something about compatibility with 1.2 middleboxes
+..   Something about compatibility with 1.2 middleboxes
 
 Recall that public key cryptography is computationally more expensive
 than symmetric key cryptography, so we limit the use of public key
 operations to the handshake protocol. And when we said above that all
 the messages after the first two are encrypted, this is done using
-symmetric keys. The role of public keys in TLS are (a) the
+symmetric keys. The roles of public keys in TLS are (a) the
 Diffie-Hellman key exchange (b) the use of certificates to
 authenticate servers and, optionally, clients. All of that is limited
 to the handshake protocol.
-   
-
-
 
 :numref:`Figure %s <fig-tls-hand>` shows the handshake protocol at a
 high level.  When the client and server have each received a
@@ -209,10 +205,8 @@ application data. We discuss the details of the record protocol below.
 6.2 Record Protocol
 --------------------
 
-.. WIP
-
 The task of the record protocol is to protect the data that is sent
-over a TLS connection with both encryption and authentication.  
+over a TLS connection with both encryption and authentication.
 While TLS supports a wide range of encryption and authentication
 methods, the set of options has actually become narrower in version
 1.3 as weaknesses of older methods became clear and new cryptographic
@@ -258,7 +252,7 @@ When all the keys and IVs are available to client and server, the record
 layer can now protect the underlying data with encryption and
 authentication. The record layer also handles fragmentation and
 reassembly–breaking the incoming stream of plaintext into chunks of up
-to 2\ :sup:`14` bytes. 
+to 2\ :sup:`14` bytes.
 
 To encrypt one block for transmission, the record layer takes as input
 the encryption key, a nonce (which we explain below), the plaintext to
@@ -276,8 +270,7 @@ the appropriate key, nonce, ciphertext and additional data (headers)
 being passed to the AEAD decryption function. If authentication is
 successful, the plaintext is recovered and can be passed up to the
 application. If authentication does not succeed, the connection is
-terminated and an alert is generated. 
-
+terminated and an alert is generated.
 
 
 6.3 Session Resumption and Zero RTT Operation
@@ -296,7 +289,7 @@ is referred to as "0-RTT Data" because it is possible to start sending
 application data along with the handshake material without waiting for
 the round trip time of the handshake to elapse. This is an important
 step in improving the latency of HTTPS connection establishment and
-thus the user experience when browsing the Web. 
+thus the user experience when browsing the Web.
 
 The idea of session resumption predates TLS 1.3 but it has evolved
 somewhat to become more secure. In TLS 1.3, the server may create a
@@ -377,9 +370,7 @@ efforts to reduce the latency since the most simple approaches just
 layered one handshake on top of another. The next step in the process
 of reducing the latency of TLS session establishment involves
 rethinking the choice of TCP as the underlying transport, as we
-discuss below. 
-
-
+discuss below.
 
 6.4 QUIC, HTTP/3 and TLS
 ------------------------
