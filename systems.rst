@@ -373,9 +373,11 @@ end-users to authenticate themselves with public key cryptography, but
 if you need to authenticate yourself to, say, your bank, it's
 overwhelmingly the case today that you will use some combination of
 user name (maybe an account number or an email address) and a
-password. Encryption (using TLS) prevents your password from being
-seen by eavesdroppers when it is sent to the bank's site, but we
-normally don't use public key cryptography to authenticate users.
+password. Perhaps another factor such as a one-time code sent to your
+phone will also be used. Encryption (using TLS) prevents your password
+from being seen by eavesdroppers when it is sent to the bank's site,
+but currently there is little deployment of public key cryptography
+for the authentication of users.
 
 Password-based authentication had proven enormously problematic, with
 passwords frequently being compromised by a variety of attacks. If a
@@ -393,11 +395,11 @@ to the expected one, on a site that mimics the visual style of the
 legitimate web site.
 
 A range of efforts have been under way for many years to reduce the
-reliance on passwords and to drive adoption of public key
-cryptography. The most visible recent development has been the
-appearance of *passkeys*, which, as the name suggests, are a form of
-user authentication that replaces passwords with public key-based
-authentication.
+reliance on passwords and to drive adoption of public key cryptography
+for end-user authentication. The most visible recent development has
+been the appearance of *passkeys*, which, as the name suggests, are a
+form of user authentication that replaces passwords with public
+key-based authentication.
 
 .. can add a figure here
 
@@ -423,7 +425,7 @@ authenticate using a traditional approach (such as user name and
 password) is clearly a bit of a weakness. At the same time, it
 solves the thorny problem of how to scalably bind public
 keys to users which has proven challenging to date. Additional steps
-to secure the intial authentication might include the use of
+to secure the initial authentication might include the use of
 multi-factor authentication.
 
 Passkeys offer two protections against phishing. First, the private
@@ -435,6 +437,13 @@ received from the web site, the client-side software checks that it is
 coming from the correct web site using the standard authentication
 methods of TLS. A fraudulent web site will fail this check, so the
 user will not try to authenticate to the site.
+
+Of course, if passkeys are to be effective as a phishing-prevention
+tool, they need to *replace* passwords, not just supplement them. If
+passwords remain available as an alternative, it seems safe to assume
+that attackers will keep using that option to breach user
+accounts. This is one of the problems that needs to be addressed in
+the deployment of passkeys.
 
 
 The WebAuthn spec allows for considerable implementation flexibility,
@@ -460,7 +469,7 @@ password manager and then is made available to the user across
 different devices (laptops, mobile phones, etc.) when they need the
 passkey.
 
-Both approaches have their strengths and weaknesses. Hardware tokens
+There are strengths and weaknesses for each approach. Hardware tokens
 make phishing attacks almost impossible, since the only way to get
 access to the user's credential is to have physical access to the
 key. A password manager, on the other hand, is a piece of software
