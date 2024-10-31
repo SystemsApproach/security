@@ -458,10 +458,10 @@ fundamentally inseparable. It is not much use to say that a message came from a
 certain participant if the contents of the message have been modified
 after that participant created it.
 
-An *message authentication code* is a value, to be included in a transmitted message,
+A *message authentication code* is a value, to be included in a transmitted message,
 that can be used to verify simultaneously the authenticity and the data
 integrity of a message. We will see later how such codes can be used in
-protocols. For now, we focus on the algorithms that can generated and verify
+protocols. For now, we focus on the algorithms that can generate and verify
 authentication codes.
 
 When data is stored or transmitted, it is routine to use
@@ -485,7 +485,7 @@ For simplicity, let's assume initially that the original message need
 not be confidential—that a transmitted message will consist of the
 plaintext of the original message plus some additional code to support
 authentication. Later we will consider the case where confidentiality
-is desired.
+is also desired.
 
 One common build block of message authentication is a
 *cryptographic hash function*. Cryptographic hash algorithms are
@@ -503,7 +503,8 @@ larger than the space of possible message digests, there will be many
 different input messages that produce the same message digest, like
 collisions in a hash table. An important property of cryptographic
 hash functions is that such collisions may not be produced
-deliberately under the control of the attacker.
+deliberately under the control of the attacker. We will see why this
+is so in a moment.
 
 A message authentication code can be created by encrypting the message
 digest with some key. That key could be the private key of an
@@ -543,11 +544,10 @@ same digest much more easily than this, which would reduce the
 security of the algorithm. So a random distribution of hash outputs is
 an important property for these algorithms.
 
-If you were instead just trying to find any
-*collision*—any two messages that produce the same digest—then you
-would need to compute the digests of only 2\ :sup:`64` messages, on
-average.  This surprising fact is the basis of the “birthday
-attack” mentioned above.
+If you were instead just trying to find any *collision*—any two
+messages that produce the same digest—then you would need to compute
+the digests of only 2\ :sup:`64` messages, on average.  This
+surprising fact is the basis of the “birthday attack” mentioned above.
 
 There have been several common cryptographic hash algorithms over the
 years, including Message Digest 5 (MD5) and the Secure Hash Algorithm
@@ -555,44 +555,58 @@ years, including Message Digest 5 (MD5) and the Secure Hash Algorithm
 known for some time, which led NIST to recommend a family of
 algorithms known as SHA-3 in 2015.
 
-AS noted above, the encryption of the message digest can be performed using
-either a secret-key cipher or a public-key cipher. If a public-key
-cipher is used, the digest is encrypted using the sender’s private
-key, and the
-receiver—or anyone else—could decrypt the digest using the sender’s
-public key. If a secret-key cipher is used, the sender and receiver
-have to agree on the secret key ahead of time using some other means.
+As noted above, the encryption of the message digest can be performed
+using either a secret-key cipher or a public-key cipher. If a
+public-key cipher is used, the digest is encrypted using the sender’s
+private key, and the receiver—or anyone else—could decrypt the digest
+using the sender’s public key. If a secret-key cipher is used, the
+sender and receiver have to agree on the secret key ahead of time
+using some other means.
 
-A digest encrypted with a public-key algorithm using the private
-key of the sender
-is called a *digital signature* because it provides nonrepudiation
-similar to that of
-a written signature. The receiver of a message with a digital signature
-can prove to any third party that the sender really sent that message,
-because the third party can use the sender’s public key to check for
-herself. Secret-key encryption of a digest does not have this property
-because only the two participants know the key; furthermore, since both
-participants know the key, the alleged receiver could have created the
-message herself. Any public-key cipher can be used for digital
-signatures. NIST has produced a series of *Digital Signature
-Standards* (DSS). The most recent standard at the time of writing
-allows for the use of three public-key ciphers, one based on RSA,
-another based on elliptic curves, and
-and a third called the *Edwards-Curve Digital Signature Algorithm*.
+A digest encrypted with a public-key algorithm using the private key
+of the sender is called a *digital signature* because it provides
+nonrepudiation similar to that of a written signature. The receiver of
+a message with a digital signature can prove to any third party that
+the sender really sent that message, because the third party can use
+the sender’s public key to check for herself. Secret-key encryption of
+a digest does not have this property because only the two participants
+know the key; furthermore, since both participants know the key, the
+alleged receiver could have created the message herself. Any
+public-key cipher can be used for digital signatures. NIST has
+produced a series of *Digital Signature Standards* (DSS). The most
+recent standard at the time of writing allows for the use of three
+public-key ciphers, one based on RSA, another based on elliptic
+curves, and a third called the *Edwards-Curve Digital Signature
+Algorithm*.
 
-.. should check the above for updates
 
-An alternative approach to encrypting a
-hash is to use a hash function that takes a secret value (known
-only to the sender and the receiver) as an input parameter. Such a function outputs a
-message authentication code that is a function of both the secret key
-and the message contents. The sender
-appends the code to the plaintext message. The receiver recomputes the
-authentication code using the plaintext and the secret value and compares that
-recomputed code to the code received in the message.
+An widely used alternative approach to encrypting a hash is to use a
+hash function that takes a secret value (a key known only to the
+sender and the receiver) as an input parameter in addition to the
+message text. Such a function outputs a message authentication code
+that is a function of both the secret key and the message
+contents. The sender appends the calculated message authentication
+code to the plaintext message. The receiver recomputes the
+authentication code using the plaintext and the secret value and
+compares that recomputed code to the code received in the message. The
+most common approaches to generating these codes are called HMACs or
+keyed-hash message authentication codes.
 
-.. _fig-macAndHmac:
-.. figure:: figures/f08-05-modified.png
+HMACs can use any hash function of the sort described above, but the
+also include the key as part of the material to be hashed, so that a
+HMAC is a function of both the key and the input text. An approach to
+calculating HMACs has been standardized by NIST and takes the
+following form:
+
+HMAC = H((K⊕opad) || H((K⊕ipad) || text))
+
+H is the hash function, K is the key, and opad (output pad) and ipad
+(input pad) are well-known strings that are XORed (⊕) with the key. ||
+represents concatenation. 
+
+.. let's delete this incorrect pic for now
+  .. _fig-macAndHmac:
+  .. figure:: figures/f08-05-modified.png
    :width: 300px
    :align: center
 
@@ -600,17 +614,6 @@ recomputed code to the code received in the message.
 
 .. this appears to be out of date, see https://en.wikipedia.org/wiki/HMAC#Design_principles
 
-One way to implement the approach just described is to apply a cryptographic hash (such as
-SHA-3) to the concatenation of the plaintext message and the
-secret value, as illustrated in :numref:`Figure %s
-<fig-macAndHmac>`. The resulting digest is called a *hashed message
-authentication code* (HMAC). The HMAC,
-but not the secret value, is appended to the plaintext. Only a receiver
-who knows the secret value can compute the correct HMAC to compare
-with the received HMAC. If it weren’t for the one-way property of the
-hash, an adversary might be able to find the input that generated the
-HMAC and compare it to the plaintext message to determine the secret
-value.
 
 Up to this point, we have been assuming that the message wasn’t
 confidential, so the original message could be transmitted as plaintext.
