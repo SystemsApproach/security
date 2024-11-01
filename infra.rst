@@ -1,7 +1,9 @@
 Chapter 8. Securing Network Infrastructure
 ==========================================
 
-bgp
+8.1 BGP
+----------
 
-dns
+8.2 DNS
+----------
 

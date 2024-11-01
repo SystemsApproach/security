@@ -9,17 +9,18 @@ cryptography. So we begin our study of technical approaches to network
 security with an overview of cryptography.
 
 We introduce the concepts of cryptography-based security step by step.
-The first step is the cryptographic algorithms—ciphers and cryptographic
-hashes—that are introduced in this chapter. Such algorithms are not a solution in
-themselves, but provide building blocks from which a solution can be
-built. Cryptographic algorithms are parameterized by *keys*. The
-distribution of keys is in itself a challenge which we tackle in a later
-chapter.
+The first step is the cryptographic algorithms—ciphers and
+cryptographic hashes—that are introduced in this chapter. Such
+algorithms are not a solution in themselves, but provide building
+blocks from which a solution can be built. For example, cryptographic
+algorithms are parameterized by *keys*, with the distribution of keys
+a challenge that we tackle in the next chapter.
 
 Once we have a set of cryptographic algorithms and a way to distribute
 keys, we are in a position to build protocols that enable secure
-communication between participants. The final chapter describes several
-complete security protocols and systems in current use.
+communication between participants. Later chapters describes several
+such security protocols, culminating in a description of complete
+systems that use these protocols.
 
 3.1 Principles of Ciphers
 ---------------------------
@@ -80,12 +81,12 @@ there are plenty of people who will try to break ciphers and who will
 let it be widely known when they have succeeded.
 
 Parameterizing a cipher with keys provides us with what is in effect a
-very large family of ciphers; by switching keys, we are
-switching to another cipher in the family. It is common to limit the amount
-of data that a *cryptanalyst* (code-breaker) can access before the key
-changes. This provides the attacker with less ability to break the cipher
-(for reasons discussed below) and limits the damage done if the code is
-broken.
+very large family of ciphers; by switching keys, we are switching to
+another cipher in the family. It is common to limit the amount of data
+that a *cryptanalyst* (code-breaker) can access before the key
+changes. This provides the attacker with less ability to break the
+cipher, for reasons discussed below. It also limits the damage done if
+the code is broken.
 
 The basic requirement for an encryption algorithm is that it turns
 plaintext into ciphertext in such a way that only the intended
@@ -102,10 +103,10 @@ plaintext was written in English, which means that the letter *e*
 occurs more often in the plaintext that any other letter; the
 frequency of many other letters and common letter combinations can
 also be predicted. With simple ciphers, this information could greatly
-simplify the task of finding the key. Similarly, the attacker may know
-something about the likely contents of the message; for example, the
+simplify the task of determining the key. Similarly, the attacker may know
+something about the likely contents of the message. For example, the
 word “login” is likely to occur at the start of a remote login
-session. Common headers appear at the start of HTTP messages. This may
+session, and common headers appear at the start of HTTP messages. This may
 enable a *known plaintext* attack, which has a much higher chance of
 success than a *ciphertext only* attack. Even better is a *chosen
 plaintext* attack, which may be enabled by feeding some information to
@@ -207,17 +208,10 @@ overly large blocks. For this reason most ciphers today have settled
 on 128-bit blocks. Some details on how the birthday attacks were shown
 to be an issue is available at the "Sweet32" website.
 
-
-
 .. admonition:: Further Reading
 
    Sweet32. `Birthday attacks on 64-bit block ciphers in TLS and OpenVPN
    <https://sweet32.info>`__.
-
-
-
-
-
 
 3.2 Secret-Key Ciphers
 ------------------------
@@ -233,10 +227,15 @@ at the alternative, public-key ciphers, shortly. (Public-key ciphers
 are known as also asymmetric-key ciphers, since as we’ll soon see, the
 two participants use different keys.)
 
-.. [#] We use the term *participant* for the parties involved in a
-       secure communication since that is a common networking term to
-       identify the two endpoints of a communication channel. In the
-       security world, the parties are often called *principals*.
+.. [#] We use *participants* as a generic term for the endpoints of a
+       communication channel. Depending on the layer of the network
+       stack, a participant might correspond to a server, a process, a
+       mailbox, or some other system abstraction. In the context of
+       security, the communicating parties are often called
+       *principals*, which in turn implies *identify*, and ultimately,
+       an association with a human that can be held accountable. We
+       use the term principal in place of participant when this full
+       meaning is central to the discussion.
 
 The U.S. National Institute of Standards and Technology (NIST) has
 issued standards for a series of secret-key ciphers. *Data Encryption
@@ -478,7 +477,7 @@ knows a secret that is known only to the alleged sender
 of the message; for example, the secret could be a key, and the proof
 could be some value encrypted using the key. There is a mutual
 dependency between the way the code is generated and how it is used as
-proof of secret knowledge. We will discuss several workable
+proof of secret knowledge. The following discusses several workable
 combinations.
 
 For simplicity, let's assume initially that the original message need
@@ -487,7 +486,7 @@ plaintext of the original message plus some additional code to support
 authentication. Later we will consider the case where confidentiality
 is also desired.
 
-One common build block of message authentication is a
+One common building block of message authentication is a
 *cryptographic hash function*. Cryptographic hash algorithms are
 treated as public knowledge, as with cipher algorithms. A
 cryptographic hash function is a function that outputs sufficient
@@ -579,8 +578,7 @@ public-key ciphers, one based on RSA, another based on elliptic
 curves, and a third called the *Edwards-Curve Digital Signature
 Algorithm*.
 
-
-An widely used alternative approach to encrypting a hash is to use a
+A widely used alternative approach to encrypting a hash is to use a
 hash function that takes a secret value (a key known only to the
 sender and the receiver) as an input parameter in addition to the
 message text. Such a function outputs a message authentication code
@@ -592,7 +590,7 @@ compares that recomputed code to the code received in the message. The
 most common approaches to generating these codes are called HMACs or
 keyed-hash message authentication codes.
 
-HMACs can use any hash function of the sort described above, but the
+HMACs can use any hash function of the sort described above, but
 also include the key as part of the material to be hashed, so that a
 HMAC is a function of both the key and the input text. An approach to
 calculating HMACs has been standardized by NIST and takes the
@@ -656,9 +654,6 @@ and hash functions, among other cryptographic concepts, we recommend the followi
 
    A. Menezes, P. van Oorschot, and S. Vanstone. `Handbook of Applied
    Cryptography <https://cacr.uwaterloo.ca/hac/>`__. CRC Press, 1996.
-
-
-
 
 Now that we have seen some of the building blocks for encryption and
 authentication, we have the foundations for building some complete security

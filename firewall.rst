@@ -220,7 +220,7 @@ contrast, the cryptography-based security mechanisms described in this
 chapter are capable of providing secure communication between any
 participants anywhere. This being the case, why are firewalls so common?
 One reason is that firewalls can be deployed unilaterally (by a
-network adminstrator, for example), using individual
+network administrator, for example), using individual
 commercial products, while cryptography-based security requires support
 at both endpoints of the communication. A more fundamental reason for
 the dominance of firewalls is that they encapsulate security in a
@@ -264,7 +264,7 @@ with patches is a best practice, it is certainly not one that is
 followed uniformly.
 
 In Chapter 1 we discussed the threat posed by viruses, worms, and the
-general catergory of malware. While firewalls aim to stop the spread
+general category of malware. While firewalls aim to stop the spread
 of malware, it can be a difficult task, since many operations that the
 firewall needs to permit, such as web browsing or email delivery, can
 also be used for the delivery of malware.
@@ -314,7 +314,7 @@ machines on the same side of the firewall has enabled a set of attacks
 that make use of *lateral movement*. The core idea is that an attacker
 obtains a foothold in one system *inside* the firewall and then uses
 that as a base of operations to move around to the ultimate
-target. The intial system that the attacker breaches may not be particularly
+target. The initial system that the attacker breaches may not be particularly
 important. Perhaps he gains access via a phishing attack or by leveraging a
 vulnerability in the OS. But at this point the firewall is of no use,
 and the attacker can start trying to find ways to move from one system
@@ -393,7 +393,7 @@ distributed firewall needs to be configured somehow. It would be
 intractable to configure firewall policies in every single virtual
 switch throughout a data center. This is why distributed firewalls
 appeared as a feature of software-defined networks. The SDN controller
-provides a central point of admininstrative control for firewall
+provides a central point of administrative control for firewall
 policies, while the implementation of filtering rules is distributed
 out to the virtual switches. Thus, for example, a rule that specifies
 how traffic from VM A to VM B should be filtered can be expressed to
