@@ -611,7 +611,7 @@ hash by using the key (XORed with another string, *ipad*) as the first
 block to be fed into the hash function. The output of
 the keyed hash is then itself subjected to another keyed hash (again
 by XORing the key with a string and using that as the first block fed
-to the hash.) The two passes of the keyed-hash function are important
+to the hash). The two passes of the keyed-hash function are important
 to the proof of security for this HMAC construction.
 
 .. let's delete this incorrect pic for now
