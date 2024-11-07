@@ -1,4 +1,4 @@
-Chapter 8:   Example Systems
+Chapter 9:  Example Systems
 ==============================
 
 .. Assuming we keep a substantial set of examples, we should look
@@ -6,7 +6,9 @@ Chapter 8:   Example Systems
    general role open source plays in helping secure the Internet --
    lots of eyes on the code).
 
-.. key parts of this chapter moving out to standalone chapters
+.. Key parts of this chapter moving out to standalone chapters.
+   It's likely also the case that these are "Other" Example Systems,
+   since new chapters are system focused.
 
 We have now seen many of the components required to provide one or two
 aspects of security. These components include cryptographic algorithms,
@@ -49,7 +51,7 @@ change keys without changing the algorithm; if one of your cryptographic
 algorithms turns out to be flawed, it would be great if your entire
 security architecture didn’t need an immediate redesign.
 
-8.1 Pretty Good Privacy (PGP)
+9.1 Pretty Good Privacy (PGP)
 -------------------------------
 
 Pretty Good Privacy (PGP) is an approach to providing authentication,
@@ -118,7 +120,7 @@ the application works can you make the right choices about which attacks
 to defend against (like forged email) versus which to ignore (like
 delayed or replayed email).
 
-8.2 Secure Shell (SSH)
+9.2 Secure Shell (SSH)
 ------------------------
 
 The Secure Shell (SSH) protocol is used to provide a remote login
@@ -245,7 +247,7 @@ which in this case happens to provide confidentiality and
 authentication. It’s possible to provide a form of virtual private
 network (VPN) using SSH tunnels in this way.
 
-8.3 IP Security (IPsec)
+9.3 IP Security (IPsec)
 -------------------------
 
 One of the earliest efforts to integrate security
@@ -362,7 +364,7 @@ between particular endpoints. A network of such tunnels can be used to
 implement an entire virtual private network. Hosts communicating over a
 VPN need not even be aware that it exists.
 
-8.4 Web Authentication (WebAuthn) and Passkeys
+9.4 Web Authentication (WebAuthn) and Passkeys
 -----------------------------------------------
 
 While public key cryptography has been well understood for decades,
@@ -505,7 +507,7 @@ replace the ubiquitous password for user authentication.
 
 
 
-8.5 Wireless Security (802.11i)
+9.5 Wireless Security (802.11i)
 ---------------------------------
 
 Wireless links are particularly exposed to security threats due to the

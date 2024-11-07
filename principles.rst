@@ -87,7 +87,7 @@ security is just one of many requirements placed on any system.  It's
 also important for systems to be reliable, available, scalable, performant,
 usable, manageable, evolvable, observable, and so on.
 
-These system requirements are sometimes indistiguishable from
+These system requirements are sometimes indistinguishable from
 security. For example, a retail system brought down by a security
 breach is just as unavailable as one brought down by a hardware
 failure or a software bug. Similarly, a video delivery system designed
@@ -95,7 +95,7 @@ to scale up to handle a flash crowd may also able to scale to fend off
 a DoS attack. In practice, it can be difficult to pinpoint the root
 cause of a failure (was it malicious or benign) and the root source of
 workload (was it malicious or legitimate). The main difference is that
-it is generally possible to provision for legitmate workload and
+it is generally possible to provision for legitimate workload and
 benign failures, which can be measured and predicted (although not
 always accurately), whereas malicious attacks are often less
 predictable (although they should be expected).

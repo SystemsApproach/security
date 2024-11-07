@@ -101,7 +101,7 @@ and software.
 ----------------------------------------
 
 The Internet architecture was initially created with essentially no
-security features. This was not because the inventors, implementors and
+security features. This was not because the inventors, implementers and
 architects were unaware of security issues, but rather because there
 were other, more pressing goals. As Vint Cerf, the co-inventor of
 TCP/IP said: *"getting this thing to work at all was
@@ -214,7 +214,7 @@ there are different *threat actors* with different motivations,
 ranging from those who enjoy the technical challenge of finding
 vulnerabilities, to criminals looking to obtain valuable information
 such as credit card details, to government actors looking to perform
-surveillence or interfere in elections.
+surveillance or interfere in elections.
 
 It is common to talk about security as a "negative goal". That is, we
 are trying to ensure that a set of undesirable things cannot

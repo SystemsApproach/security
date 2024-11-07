@@ -7,7 +7,7 @@ to know what keys to use. In the case of a secret-key cipher, how does a
 pair of participants obtain the key they share? In the case of a
 public-key cipher, how does one participants know which public key
 belongs to another chosen participant? To answer these questions, we
-need firs to understand that there are two different classes of keys
+need to first understand that there are two different classes of keys
 to consider: short-lived *session keys* and longer-lived *predistributed keys*.
 
 A session key is a key used to secure a single, relatively short
@@ -79,7 +79,9 @@ Bob. (Remember that to digitally sign the statement Bob would append a
 cryptographic hash of it that has been encrypted using his private key.)
 Since you trust Bob to tell the truth, you would now know that Alice’s
 key is *x*, even though you had never met her or exchanged a single
-message with her. Using digital signatures, Bob wouldn’t even have to
+message with her.
+
+Using digital signatures, Bob wouldn’t even have to
 send you a message; he could simply create and publish a digitally
 signed statement that Alice’s key is *x*. Such a digitally signed
 statement of a public key binding is called a *public key certificate*,
@@ -133,7 +135,7 @@ discuss the two main approaches.
 4.1.1 Certification Authorities
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In this model of trust, trust is binary; you either trust someone
+In the first model, trust is binary; you either trust someone
 completely or not at all. Together with certificates, this allows the
 building of *chains of trust*. If X certifies that a certain public key
 belongs to Y, and then Y goes on to certify that another public key
@@ -249,8 +251,6 @@ key-signing party, an individual can:
 Thus, over time, users collect a set of certificates with varying
 degrees of trust and the web of trust can be extended and made stronger.
 
-
-
 4.1.3 Certificate Revocation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -287,8 +287,7 @@ Secret key ciphers present a bootstrapping problem: how do you
 securely get the secret key to be shared by two participants?
 If Alice wants to use a secret-key cipher to communicate with Bob, she
 can’t just pick a key and send it to him because, without already having
-a key, they can’t encrypt this key to keep it confidential. Further
-more, if they
+a key, they can’t encrypt this key to keep it confidential. Furthermore, if they
 can’t authenticate each other, then Alice can't safely send the key to
 some unauthenticated recipient. As with public keys, then, some predistribution
 scheme is needed. Predistribution is harder for secret keys than for
