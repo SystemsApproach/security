@@ -232,7 +232,7 @@ two participants use different keys.)
        stack, a participant might correspond to a server, a process, a
        mailbox, or some other system abstraction. In the context of
        security, the communicating parties are often called
-       *principals*, which in turn implies *identify*, and ultimately,
+       *principals*, which in turn implies *identity*, and ultimately,
        an association with a human that can be held accountable. We
        use the term principal in place of participant when this full
        meaning is central to the discussion.
