@@ -375,6 +375,152 @@ discuss below.
 6.4 QUIC, HTTP/3 and TLS
 ------------------------
 
-6.5 User Experience with HTTPS
+Since the invention of the World Wide Web in the 1990s, HTTP has run
+over TCP. HTTP/1.0, the original version, had quite a number of
+performance problems due to the way it used TCP, such as the fact that
+every request for an object required a new TCP connection to be set up
+and then closed after the reply was returned. HTTP/1.1 was proposed at
+an early stage to make better use of TCP. TCP continued to be the
+protocol used by HTTP for another twenty-plus years.
+
+Adding security to HTTP-over-TCP in the form of SSL and TLS further
+exacerbated performance issues, even as advancements to HTTP mitigated
+some of the original problems. As noted in the preceding section, it
+takes at least one round trip time to establish a secure TLS
+session. The relatively recent introduction of 0-RTT data reduces the
+latency before the first data can be sent; it also comes with some
+security drawbacks as we observed above.
+
+Of course, the time required to set up a secure session with TLS in
+*in addition* to the time need to set up a TCP connection. TCP needs
+to complete its 3-way handshake before the first TLS handshake
+message-which is just data as far as TCP is concerned-can be sent. So
+the sequence of events was:
+
+- Client initiates TCP 3-way handshake to establish TCP session.
+
+- TLS handshake establishes security parameters for client-server
+  communication.
+
+- First HTTP message gets sent from client to server.
+
+In other words, in the original TLS-over-TCP model it would take at
+least three RTTs to get a response to a single HTTPS request. In fact
+up until TLS 1.3 arrived it was at least four RTTs due to the use of
+two RTTs to complete the TLS handshake.
+
+This is not the only problem with running HTTP over TCP. A reliable,
+ordered byte stream as provided by TCP isn't exactly the right model
+for Web traffic. In particular, since most web pages contain many
+objects, it makes sense to be able to request many objects in
+parallel, but TCP only provides a single byte stream. If one packet is
+lost, TCP waits for its retransmission and successful delivery before
+continuing, while HTTP would have been happy to receive other objects
+that were not affected by that single lost packet. Opening multiple
+TCP connections would appear to be a solution to this, but that has
+its own set of drawbacks including a lack of shared information about
+congestion across connections.
+
+Other factors such as the rise of high-latency wireless networks and
+the availability of multiple networks for a single device (e.g., Wi-Fi
+and cellular) contributed to the realization that the transport layer
+for HTTP would benefit from a new approach. The protocol that emerged
+to fill this need was QUIC.
+
+In this section we will focus on how QUIC particularly improves the
+performance of TLS compared to running over TCP. QUIC is quite a
+comprehensive re-working of the transport layer that could fill its
+own book-indeed the set of RFCs that define it run to the hundreds of
+pages.
+
+QUIC originated at Google in 2012 and was subsequently developed as a
+proposed standard at the IETF. It has already seen a solid amount of
+deployment—it is in most Web browsers, many popular websites, and is
+even starting to be used for non-HTTP applications. Deployability was
+a key consideration for the designers of the protocol. There are a lot
+of moving parts to QUIC—its specification spans three RFCs—but we
+focus here on how it changes the relationship between TLS and the
+underlying transport.
+
+The single most important change in QUIC from the perspective of TLS
+performance is that it doesn't treat the transport and security
+handshakes as two distinct layers. Instead, QUIC has build a
+cryptographic handshake based on TLS into the transport. This is
+illustrated by Figure foo. As RFC 9001 puts it:
+
+
+*Rather than a strict layering, these two protocols cooperate: QUIC
+uses the TLS handshake; TLS uses the reliability, ordered delivery,
+and record layer provided by QUIC.*
+
+
+.. _fig-quic-tls:
+.. figure:: figures/QUIC-TLS.png
+   :width: 500px
+   :align: center
+
+   Protocol stacks compared. (a) HTTP over TLS over TCP. (b) HTTP and
+   TLS Handshake over QUIC.
+
+This rearrangement of layers takes a bit of work to understand. The
+central idea is that QUIC has the ability to provide encryption and
+authentication to the data it transmits once it has a set of keys to
+work with. So the TLS handshake operates pretty much as it did over
+TCP, but instead of wrapping up TLS handshake messages in the TLS
+record layer before sending them out over TCP, we can send the TLS
+handshake messages over QUIC directly. QUIC also provides the
+reliability, congestion control, etc. that TCP provides. Once the TLS
+handshake is complete, the keying material for the connection is
+passed to QUIC, which now is able to encrypt and authenticate the data
+that is sent by HTTP.
+
+The most obvious practical impact of this is that the establishment of
+a QUIC connection takes place at the same time as the transmission of TLS
+handshake messages, rather than taking place prior to the TLS
+handshake as with TCP. By the time the TLS handshake completes, the
+two ends of the QUIC connection have all the state needed to transmit
+data such as HTTP messages. Furthermore, in the cases where 0-RTT data
+can be sent (because there are shared secrets cached from a
+previous connection), the first HTTP request can actually be sent at
+the same time as the client Hello message.
+
+A final detail of note is that QUIC runs on top of UDP rather than
+directly over IP. The reason behind this is that there are plenty of
+middleboxes in the Internet that assume that the only acceptable
+transport protocols are TCP and UDP and block anything else. So while
+UDP doesn't add much in the way of useful functionality to QUIC, it
+was an expedient step to run QUIC over UDP to ease deployment
+of QUIC in the Internet.
+
+QUIC is an interesting development in the world of transport protocols
+and not just for its impact on security. Many of the limitations of
+TCP have been known for decades, but QUIC represents one of the most
+successful efforts to date to stake out a different point in the
+design space. Because QUIC was inspired by experience with HTTP, TLS,
+and the Web—which arose long after TCP was well established in the
+Internet—it presents a fascinating case study in the unforeseen
+consequences of layered designs and in the evolution of the
+Internet. There is a lot more to it that we can cover here. The
+definitive reference for QUIC is RFC 9000, while RFC 9001 covers the
+relationship of TLS to QUIC. A more readable overview of the
+protocol's design and deployment appears in the following paper from
+SIGCOMM 2017.
+
+
+.. _reading_quic:
+.. admonition::  Further Reading
+
+   A. Langley *et al.*
+   `The QUIC Transport Protocol: Design and Internet-Scale Deployment
+   <https://research.google/pubs/the-quic-transport-protocol-design-and-internet-scale-deployment/>`__.
+   SIGCOMM 2017.
+
+   We also covered the impact of QUIC on congestion control in our book
+   on TCP Congestion Control.
+   `TCP Congestion Control: A Systems Approach <https://tcpcc.systemsapproach.org>`__.
+
+
+6.5 A Systems View of TLS
 ------------------------------
 
+.. talk about how user sees things from browser
