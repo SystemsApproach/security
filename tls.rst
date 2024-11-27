@@ -523,4 +523,83 @@ SIGCOMM 2017.
 6.5 A Systems View of TLS
 ------------------------------
 
-.. talk about how user sees things from browser
+When we talk about "The Systems Approach", we always come back to the
+need to consider how all the parts of a system interact with each
+other to form a coherent whole, rather than just looking at single
+components in isolation. For example, TLS is a system that includes
+both public-key and symmetric-key cryptography, authentication and
+privacy mechanisms, certification authorities, and sub-layers such as
+the record protocol and the handshake protocol. But the systems
+approach applies recursively too. As we have already seen, it is
+important to look at how TLS sits within the overall protocol stack,
+with HTTP and other applications above it, and a choice of transport
+layer protocols (TCP and QUIC) below it. The interactions among these
+layers have proven critical to the performance of the World Wide Web
+and other applications that run over HTTPS.
+
+We can take yet another step back and consider a broader system that
+includes end users, their browsers, and the servers that make up the
+World Wide Web. For most users, the only indication that TLS is being
+used when they browse the Web is a little padlock icon next to the URL
+in the browser's address bar. Over the decades that SSL and TLS have
+been in use, the browser companies have, with some success, educated
+users to expect encrypted connections to most web sites, particularly
+when data is being sent by the user. If a user tries to send data
+(e.g., by filling out a form) over an unencrypted HTTP connection, the
+browser pops up a warning about the risk of doing so. If a certificate
+has expired or does not match the URL of the site being browsed,
+another warning is presented. Users can generally choose to override
+these warnings but the overall effect is to reinforce behaviors that
+are more secure and discourage those that are insecure.
+
+Certification authorities are a critical part of this overall
+system. Most users have no way to determine whether any given CA does
+its job properly. As discussed in Chapter 4, the way that CA
+hierarchies work means that a lot of trust is placed at the top-level
+CAs. These are the CAs that are trusted by default in browsers; if
+they trust lower-level CAs that are not doing a good job of verifying
+the legitimacy of organizations to whom they issue certificates, it
+creates weaknesses in the overall CA system that can be exploited.
+
+An important development in the deployment of TLS was the creation of
+Let's Encrypt, a CA run by a non-profit that provides TLS certificates
+at no charge. By making certificates free for web sites, Let's
+Encrypt helped advance the cause of making encrypted connections on
+the Web the default. Prior to the establishment of Let's Encrypt, it
+was typical for sites to pay for a certificate from a CA, and the cost
+was non-trivial for small sites. Let's Encrypt issues
+*domain-validated certificates*. Issuance of these certificates can be
+fully automated and depends on the domain implementing a
+challenge-response protocol known as ACME (Automated Certificate
+Management Environment). We won't dwell on the details here, but the
+availability of certificates that are both free and automatically
+issued and renewed has dramatically increased the adoption of
+HTTPS. This in turn helps with setting user expectations that a
+padlock should be present in their browser's address bar, even if they
+have no understanding of what is going on under the covers.
+
+One area that remains challenging for end users is the ability of
+malicious actors to create sites that look legitimate and use URLs
+that are similar enough to the original to fool users. This might be
+done using easily missed spelling errors (accoounts-google.com being
+one infamous example). An encrypted connection is of no value to the end
+user if they are being connected to a malicious site. In
+Chapter 9 we take a look at passkeys as part of the solution to the
+problem of phishing attacks that steer users to such sites. Again, the
+system that we are trying to protect is more than just a connection
+from a browser to a web site.
+
+One conclusion to draw from this discussion is that we need to take a
+broad view of the "systems" that we are trying to secure, and the way
+that users interact with the system are critical to its success. It's
+also worth recalling some of the points from earlier in the book: any
+analysis of security should start by looking at the threats that we
+need to protect against. And there are always going to be trade-offs
+between the costs we are willing to pay and the security we can
+provide. TLS is not a perfect of complete solution but it has
+certainly done a lot to improve security of communication on the
+Internet. 
+
+
+
+.. consider a reference on Let's Encrypt, anything else?
