@@ -598,8 +598,7 @@ need to protect against. And there are always going to be trade-offs
 between the costs we are willing to pay and the security we can
 provide. TLS is not a perfect of complete solution but it has
 certainly done a lot to improve security of communication on the
-Internet. 
-
+Internet.
 
 
 .. consider a reference on Let's Encrypt, anything else?
