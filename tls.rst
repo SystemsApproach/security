@@ -578,6 +578,19 @@ HTTPS. This in turn helps with setting user expectations that a
 padlock should be present in their browser's address bar, even if they
 have no understanding of what is going on under the covers.
 
+More detail on Let's Encrypt can be found in the following paper.
+
+
+
+.. _reading_encrypt:
+.. admonition::  Further Reading
+
+   J. Aas *et al.*
+   `Let's Encrypt: An Automated Certificate Authority to Encrypt the Entire Web
+   <https://dl.acm.org/doi/10.1145/3319535.3363192/>`__.
+   SIGSAC 2019.
+
+
 One area that remains challenging for end users is the ability of
 malicious actors to create sites that look legitimate and use URLs
 that are similar enough to the original to fool users. This might be
