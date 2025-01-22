@@ -258,14 +258,55 @@ zero-trust architectures.  We will discuss these developments in a later chapter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This principle states that the amount of mechanism that is common to
-more than one user should be minimized. In operating systems, this
-would imply that a piece of mechanism should not be baked into the
-kernel if it could be provided in some other way, e.g., as a
-library. This principle, applied in the context of network security,
-shows up in the end-to-end argument: we avoid putting functions such
-as encryption into the network when the user is likely to need
-end-to-end encryption anyway.
+more than one user should be minimized. The principle was originally
+articulated by Gerald Popek in 1974, where in the context of operating
+system design, he argued in favor of minimizing the number of
+mechanisms put in the OS kernel. A failure (or security breach) of
+such a shared mechanism would impact all users, and so it is better to
+provide it in some other way, such as a library running the user's
+address space. The failure of such a mechanism then negatively impacts
+only that user, and not all users.
 
+The counter argument is that any mechanism that requires privileged
+access—e.g., accessing an I/O device or modifying a shared data
+structure—must be implemented in a common layer (i.e., the kernel),
+but even then, care should be taken to decompose the mechanism so as
+to minimize the sub-pieces that are common. Library OS designed during
+the 1990s took this argument to its logical conclusion, reducing the
+"kernel" to its bare minimum, with most functionality one typically
+expects from an OS running as a library co-located with the
+application.\ [#]_
+
+.. [#] While strictly adhering to the principle of least common
+   mechanism, Library OSes are not widely adopted in practice,
+   illustrating that security is only one of many system requirements
+   taken into consideration.
+
+.. admonition:: Further Reading
+
+  G. Popek. `A Principle of Kernel Design
+  <https://dl.acm.org/doi/pdf/10.1145/1500175.1500361>`__.  Security
+  Kernel Panel at the AFIPS '74 National Computer Security Conference
+  and Exposition. May 1974.
+
+  D. Engler, F. Kaashoek, and J. O'Toole Jr. `Exokernel: an Operating
+  System Architecture for Application-level Resource Management
+  <https://dl.acm.org/doi/pdf/10.1145/224057.224076>`__.  SIGOPS
+  Symposium on Operating System Principles. December 1995.
+
+  J. Saltzer, D. Reed, and D. Clark. `End-to-End Arguments in System
+  Design <https://dl.acm.org/doi/abs/10.1145/357401.357402>`__.  ACM
+  Transactions on Computer Systems. November 1984.
+
+In an OS setting, the principle of least common mechanism is related to
+the principle of least privilege since the common platform (kernel)
+runs with greater privilege. This is because minimizing the number of
+mechanisms that require elevated kernel privilege also minimizes the
+privilege required across all mechanisms that make up a system. In a
+network setting, the principle is related to the
+end-to-end-argument. That is, it is best to avoid putting functions
+such as encryption into the network when the user is likely to need
+end-to-end encryption anyway.
 
 2.3.6 Design for Iteration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -320,8 +361,44 @@ secure. A determined attacker will, in all likelihood, try to erase their tracks
 so logging for audit purposes cannot just be an afterthought; it has
 to be part of the design of a secure system.
 
+2.4 Best Practices
+---------------------
 
-2.4 Summary
+Design principles help guide how a system is architected to be secure,
+but an architecture has to be implemented by an engineering team and
+run on a day-to-day basis by an operations team. Mistakes in the
+implementation or operational practices render the best intentions
+impotent. To this end, software companies typically establish a set of
+best practices for the the entire software lifecycle, from design to
+coding, deployment, and operation.
+
+These practices start by establishing the security metrics that the
+end result is to be judged by, along with the processes used to review
+designs and test compliance. On the development side, emphasis is
+placed on using cryptography standards and the best available
+protocols, platforms, and languages. It is **not** an engineer's job
+to reinvent the security mechanisms described in this book, but
+rather, to know what mechanisms are available and how to use
+them. Once a system is deployed and operational, the emphasis is on
+proactively monitoring the system for anomalous behavior and
+establishing an incident response plan to deal with suspected attacks.
+Continuously collecting data about a running system is commonplace,
+and using AI/ML to respond to detect (and potentially respond to)
+attacks is becoming increasingly common.
+
+The details of these procedures is beyond the scope of this book,
+except as we note, that they depend on engineers and operators being
+well-informed about available security mechanisms. For an example of
+industry practices, we recommend Microsoft's Security Development
+Lifecycle (SDL) practices.
+
+.. admonition:: Further Reading
+
+  `Microsoft Security Development Lifecycle (SDL)
+  <https://www.microsoft.com/en-us/securityengineering/sdl>`__.
+
+
+2.5 Summary
 -----------
 
 Just as we can never be quite sure that we have covered all possible
