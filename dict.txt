@@ -262,6 +262,7 @@ parallelized
 parameterizing
 performant
 plaintext
+plugable
 pre
 preconfigured
 predistribute
@@ -286,6 +287,7 @@ rollout
 runtime
 scalably
 schedulable
+selectable
 serverless
 siloed
 spacings

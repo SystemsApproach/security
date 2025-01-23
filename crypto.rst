@@ -62,9 +62,16 @@ since it takes a lot of work to develop (and establish the security
 of) a new cipher. In the pre-computer era, ciphers were often
 implemented by specialized hardware such as the Enigma machine; these
 could not be easily replaced, but were re-keyed frequently. Today's
-algorithms, while implemented in software, are the result of length
+algorithms, while implemented in software, are the result of lengthy
 processes of development, testing, analysis and standardization; all
-of this makes the expensive to replace.
+of this makes the algorithms expensive to replace.
+
+Because cryptography algorithms are expensive to replace, they are
+typically treated as plugable modules in the end-to-end security
+solutions described in the following chapters.  In many cases, the
+algorithm is a selectable parameter of those solutions, which means
+the overall system does not become obsolete just because one of its
+cryptography modules needs to be deprecated.
 
 Also, one of the best ways to know that a cipher is secure is to use
 it for a long time—the longer it goes unbroken, the better the chance
