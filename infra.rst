@@ -112,9 +112,37 @@ algorithm). It also lacks dynamic key management and the ability to update the
 cryptographic algorithm, so it is now deprecated in favor of a more
 general TCP authentication option which is described in RFC 5925.
 
-RFC 5925
+It might seem somewhat counter-intuitive that BGP does not currently run
+over TLS, given the maturity and widespread adoption of that
+technology today. The explanation for this comes down to a combination
+of factors including history, intertia, and the different operational
+model of running BGP versus connecting to a remote website. For
+example, BGP sessions often run between directly connected routers at
+a peering point or internet exchange points (IXPs) which allows for a
+simple TTL-based method to prevent spoofing. Privacy of BGP updates is
+considerably less important than autheniticity. And as we shall see,
+there is a lot more to establishing the authenticitiy of a BGP
+advertisement that just authenticating the messages from a peer.
 
-RFC 7454
+When BGP was being
+developed in the 1980s and 1990s, TLS was still far in the future, and
+packet encryption and decryption operations were generally quite
+computationally expensive. So it made sense that the initial focus was
+on authenticating messages rather than providing the greater
+protection of encryption that TLS offers.
+
+With this background, the idea of running BGP over TLS is an area of
+current research, and would offer potential benefits beyond simply
+adding privacy to BGP advertisements. Most notably, certificate
+management for TLS is now highly automated, which contrasts with the
+manual provisioning that must be performed when using MD5
+or TCP-based authentication for BGP. The paper below on secure
+transport for BGP outlines this approach and suggests further
+enhancements that might further improve the securiy of BGP. However,
+in terms of the current state of the Internet, the recommended best
+practice for BGP sessions (described in RFC 7454) does not extend to
+TLS.
+
 
 .. _reading_BGPTLS:
 .. admonition::  Further Reading
@@ -122,6 +150,10 @@ RFC 7454
    Thomas Wirtgen, Nicolas Rybowski, Cristel Pelsser, Olivier
    Bonaventure. `The Multiple Benefits of Secure Transport for BGP <https://conferences.sigcomm.org/co-next/2024/files/papers/p186.pdf/>`__.
    ACM Conext, December 2024.
+
+   J. Durand, I. Pepelnjak and G. Dorering. `BGP Operations and
+      Security <https://www.rfc-editor.org/info/rfc7454>`__. RFC 7454,
+      February 2015.
 
 .. _reading_rpki:
 .. admonition::  Further Reading
