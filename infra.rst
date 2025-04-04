@@ -339,8 +339,13 @@ especially those caused by misconfiguration. To more fully combat the
 advertisement of false information in BGP, it is necessary to adopt
 some sort of path validation, as discussed below.
 
-
-ROV adoption
+The adoption of RPKI for route origin validation has been moving along
+steadily for many years now. According to monitoring performed by
+NIST, more than 55% of IPv4 prefixes advertised in the Internet (as
+of the time of writing in 2025) have
+a validated route origin. Just over 1% are invalid with the remainder
+(43%) are not found, i.e., no ROA is found in the repository for those
+prefixes. 
 
 .. rubric:: path validation
 
