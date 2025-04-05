@@ -250,12 +250,15 @@ Resource Public Key Infrastructure.
 RPKI provides a means by which entities involved in routing, such as
 the operator of an AS, can prove that they are authorized to advertise
 routing information such as address prefixes. A Route Origin
-Authorization (ROA), for example, contains a certificate, and AS
+Authorization (ROA), for example, contains a certificate, an AS
 number, and a set of prefixes that the AS is authorized to
 advertise. The ROA is cryptographically signed by an entity that is
-itself trusted to provide this authorization, such as Regional
-Internet Registry (RIR). Because RIRs a responsible for the allocation
-of address space, they are a logical place to locate trust for the
+itself trusted to provide this authorization, generally the AS to
+which this address prefix has been allocated.
+
+Because Regional Internet Registries (RIRs) are at the top of the hierarchy
+for address allocation,  they are a logical place to place the root of
+trust, known as a trust anchor, for the
 RPKI. There are five RIRs globally and each has a root certificate in
 the RPKI.
 
@@ -263,17 +266,18 @@ Address allocation is a hierarchical process. For example, an RIR can
 allocate a chunk of address space to an ISP, and the ISP can
 sub-allocate from that chunk to one of its customers. A hierarchy of
 certificates can be used that follows this hierarchy of address
-allocation.  The RIRs form "trust anchors" from which chains of trust
+allocation.  The RIRs form trust anchors from which chains of trust
 can be built, much the way a modern browser comes with a set of
 trusted root certification authorities (CAs) so that the certificates
-issued by web sites can be checked for validity.
+issued by web sites, which are signed by CAs, can be checked for validity.
 
 A key distinction between RPKI and the certificates that we are
 familiar with from TLS is this: the certificates in TLS are used to
 validate the *identity* of a web site (e.g., a certificate for cnn.com
 tells your browser that it is actually talking to cnn.com), whereas
-RPKI certificates are used to validate the *authority* to advertise
-certain IP addresses. As IP address allocation starts with the RIRs
+RPKI certificates are used to validate the *resources* allocated to an
+entity such as an ISP or an end customer. The resources in particular
+include IP address prefixes. As IP address allocation starts with the RIRs
 and proceeds down through ISPs to end customers, resource certificates
 are generated at each level in the hierarchy.
 
@@ -287,14 +291,16 @@ are generated at each level in the hierarchy.
 :numref:`Figure %s <fig-rpki>` shows how the
 certificates are arranged for a simple example of an ISP *A* with
 customer *C*. There is a chain of trust from the root certificate to
-the customer, much like the sort certification hierarchy we have seen
-used for TLS. However, because the goal here is to certify the
+the customer, much like the sort of certification hierarchy we have seen
+used for TLS. However, because the goal here is ultimately to certify the
 authority of a certain AS to advertise a prefix, the details of the
 certificates are different from those used in TLS. For example, the
 certificate that ISP *A* issues, on the far right of the picture, says
 that some address prefix has been allocated to customer *C*, and
-includes the AS number of customer C. This certificate is signed by
-ISP *A* using the private key of *A*.
+includes the public key of customer C. This certificate is signed by
+ISP *A* using the private key of *A*. So if we can trust *A*, we learn
+two things about *C*: its public key and the set of addresses
+allocated to the holder of that public key.
 
 One level higher in the chain, the Local Internet Registry (LIR) has
 issued a certificate that states ISP *A* has authority to allocate
@@ -308,7 +314,11 @@ allocated to it by *A*.
 with its private key. The ROA contains the AS number of *C* and the
 prefix or prefixes that it wishes to advertise. Anyone who looks at
 the ROA and the resource certificate chain that leads from the root CA to *C*
-can validate that the ROA is legitimate. 
+can validate that it has been signed with the private key
+belonging to the entity authorized to advertise the prefixes in the
+ROA. Because the ROA also contains the AS number for *C*, we now know
+that we should trust advertisements of this prefix if they originate
+from the stated AS.
 
 
 Rather than being passed around in real time like certificates in TLS,
@@ -319,10 +329,14 @@ feasible to fetch the entire contents of the RPKI repository to build up a
 complete picture of the chains of certificates that have been
 issued. With this information, a router running BGP can determine *in advance* which
 ASes could originate routing advertisements for which prefixes and use
-this to configure filtering rules on what advertisements they are
+this to configure filtering rules that specify which advertisements they are
 willing to accept. There is a well-established set of software tools
 to automate this process for popular operating systems and commercial
-routing platforms.
+routing platforms. Notably, the routers running BGP do not perform
+cryptographic operations in real time when processing route
+advertisements; all the cryptographic operations happen in advance
+when setting up the filtering rules based on information from the RPKI
+repository. 
 
 With the RPKI in place it is now possible to perform Route Origin
 Validation. That is, if a given AS claims to be the originator of a
@@ -334,7 +348,8 @@ such an advertiment, not just the neighbors of the offending ISP.
 
 While there are many forms of attack or misconfiguration that would
 not be caught by ROV (such as an AS falsely claiming a shorter path that
-doesn't actually exist) it does prevent a large number of issues,
+doesn't actually exist, or a BGP speaker falsely claiming an AS number
+not allocated to it) it does prevent a large number of issues,
 especially those caused by misconfiguration. To more fully combat the
 advertisement of false information in BGP, it is necessary to adopt
 some sort of path validation, as discussed below.
