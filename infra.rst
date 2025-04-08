@@ -310,7 +310,14 @@ By following the chain back to the root certificate, it is possible to
 establish that *C* is legitimately able to advertise the prefix
 allocated to it by *A*.
 
-*C* can now create a Route Origin Authorization (ROA) which it signs
+At this point we have created a set of bindings between public keys,
+which are held by entities such as Internet Registries, ISPs, and end
+customers, and IP address prefixes allocated to those entities. The
+next step is to create a Route Origin Authorization (ROA), which
+cryptographically associates a prefix with an AS that is authorized to
+originate routing advertisements for that prefix.
+
+In our example above, *C* can create an ROA which it signs
 with its private key. The ROA contains the AS number of *C* and the
 prefix or prefixes that it wishes to advertise. Anyone who looks at
 the ROA and the resource certificate chain that leads from the root CA to *C*
@@ -318,7 +325,8 @@ can validate that it has been signed with the private key
 belonging to the entity authorized to advertise the prefixes in the
 ROA. Because the ROA also contains the AS number for *C*, we now know
 that we should trust advertisements of this prefix if they originate
-from the stated AS.
+from the stated AS. An ROA may also limit the maximum length of the prefix to
+protect against bogus advertisements of more specific routes to a sub-prefix.
 
 
 Rather than being passed around in real time like certificates in TLS,
@@ -364,7 +372,9 @@ prefixes.
 
 .. rubric:: path validation
 
+example - path shortening attack
 
+cryptographic signature on all BGP adverts
 
 
 
