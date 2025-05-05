@@ -347,12 +347,12 @@ when setting up the filtering rules based on information from the RPKI
 repository. 
 
 With the RPKI in place it is now possible to perform Route Origin
-Validation. That is, if a given AS claims to be the originator of a
+Validation (ROV). That is, if a given AS claims to be the originator of a
 certain prefix, that claim can be checked against the information in
 the RPKI. So, for example, if Pakistan Telecom were now to claim to be the
 origin AS for a subprefix of YouTube, that could immediately be
 detected as false information and discarded by any router receiving
-such an advertiment, not just the neighbors of the offending ISP.
+such an advertisement, not just the neighbors of the offending ISP.
 
 While there are many forms of attack or misconfiguration that would
 not be caught by ROV (such as an AS falsely claiming a shorter path that
@@ -372,10 +372,89 @@ prefixes.
 
 .. rubric:: path validation
 
-example - path shortening attack
+Route origin validation only tackles part of the problem with BGP
+security. Even if the originating AS can be shown to be valid, what do
+we know about the rest of the path? For example, if a malicious ISP
+has a valid path to a certain prefix that traverses five ASes, but
+chooses to falsely advertise that it can reach that prefix in two AS
+hops, it is likely to attract traffic destined for that
+prefix. Whatever the motive for such a step may be (e.g., to increase
+revenue or to censor certain traffic, or even simple misconfiguration) it clearly undermines the
+correct operation of Internet routing. The solution to such attacks is
+to validate not just the originator of a prefix but the entire
+path. It turns out this is a considerably harder problem to solve than ROV.
 
-cryptographic signature on all BGP adverts
+There are a few different proposals for how to securely validate
+paths. We focus here on the BGPsec standard from the IETF which
+illustrates the overall approach and the challenges with achieving
+widespread deployment.
 
+In contrast to ROV, BGP path validation relies on cryptographic
+operations being adopted as part of BGP itself. Leveraging the RPKI,
+BGP speakers (routers) taking part in path validation sign their BGP announcements
+using private key associated with the AS in which the speaker is
+located. Thus, anyone receiving such an announcement can verify that
+it came from the AS that it claims to represent, and that it has not
+been modified in transit. The RPKI enables the recipient to obtain the
+public key corresponding to the announcing AS and thus validate the
+message.
+
+The harder part of the problem is validating that the *contents* of
+the message are correct from the perspective of BGP. Since a BGP
+announcement is an ordered list of ASes, each of which has added
+itself into the path to the destination, we need to validate that
+every AS in the path has correctly announced a route to the
+destination when it added itself into the path.
+
+The way this is achieved is to have every AS in the path sign its
+announcement. We saw above that the RPKI could be used to create
+bindings between public keys and entities authorized to advertise a
+particular prefix. For path validation, we use the RPKI to create
+bindings between public keys and Autonomous Systems.
+With the RPKI in place, every AS participating in BGPsec can be assumed
+to have a well-known public key and matching private key.
+
+Now consider the process of constructing a path to a particular
+prefix. The path consists of a set of ASes. For example, AS1, the origin AS, signs
+an announcement that says it is the origin for the prefix, using its
+private key. Furthermore, it includes the number of the target AS,
+AS2, to which it is sending the announcement, in the set of fields
+covered by the signature. Thus, we end up with a message that says
+"AS1 can reach prefix P and has sent this information to AS2" signed
+by AS1.
+
+A router in AS2 receives this announcement, and, having validated the
+signature, it can now add itself to the path. AS2 can now issue a
+signed announcement that says "the path <AS2,AS1> leads to prefix P"
+and sign this using its private key. It includes the full signed
+message from AS1 as well as the new path. Again, before signing, it
+includes the number of the target AS to which it is sending this
+announcement. This announcement is received by AS3 which can now add
+itself to the path and sign the result, and so on.
+
+Including the target AS in the material that is signed is essential to
+the correct operation of BGPsec. Suppose that, for example, AS3 tries
+to lie about the path it has to AS1, claiming that the path <AS3,AS1>
+is valid (skipping over AS2). It can't construct a valid message to
+make this claim this with the information that it received from
+AS2, because of the fact that AS2 is the target given by AS1. An
+attempt to create a signed path <AS3,AS1> could be detected as
+invalid, because the signed statement from AS1 includes the fact that
+its target was AS2, not AS3.
+
+Thus, when a valid signed announcement is received, the receiver is
+able to validate that every AS in the chain to the destination has
+received an announcement of the rest of the path to the
+destination. While this still does not prove that the path to the
+destination will actually be able to carry data, it does prove that a
+set of announcements made their way along the stated path. It remains
+a possibility that some AS might have advertised a path that it will
+not honor—AS2, for example, might refuse to forward traffic from AS3
+to AS1 in spite of having advertised the path—but at least it is not
+possible for a non-existent path, such as <AS3,AS1>, to be advertised.
+
+Deployment
+~~~~~~~~~~
 
 
 
