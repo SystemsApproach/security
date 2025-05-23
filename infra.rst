@@ -24,7 +24,7 @@ end-systems connected to the Internet and on securing communication
 between parties as their traffic traverses the Internet. But the
 Internet itself consists of infrastructure, such as routers, that must
 also be defended against attacks. Two areas of particular concern are
-the interdomain routing system and the domain name system. Both
+the interdomain routing system and the domain name system (DNS). Both
 systems routinely come under attack. There are efforts under way to
 make them more resistant to attacks as we discuss in the following
 sections.
@@ -41,7 +41,7 @@ multi-factor authentication, using access control lists and firewalls,
 etc.  That is only a starting point, however, because the actual
 routing protocols themselves represent an opportunity for attack. BGP,
 the Border Gateway Protocol, is vulnerable to a wide range of
-attacks, and is the only protocol that is expected to cross the
+attacks, and is the only routing protocol that is expected to cross the
 boundaries of a single administrative domain, so we focus our
 attention here.
 
@@ -53,7 +53,7 @@ web site we wanted to connect to? But there are multiple levels to
 this problem when it comes to inter-domain routing.  When you have a
 secure, encrypted connection to your bank, you probably trust them to
 show you accurate information about your account (mostly-banks do make
-mistakes on occasions) and the secure connection protects if from
+mistakes on occasions) and the secure connection protects it from
 modification by an attacker. A secure, encrypted connection to the
 website of the New York Times, however, doesn't mean you should
 believe every word published by the New York Times. Similarly, a
@@ -138,7 +138,8 @@ advertisement that just authenticating the messages from a peer.
 When BGP was being developed in the 1980s and 1990s, TLS was still far
 in the future, and packet encryption and decryption operations were
 generally quite computationally expensive. So it made sense that the
-initial focus was on authenticating messages rather than providing the
+initial focus was on authenticating messages, first using MD5 and then
+with updated algorithms, rather than providing the
 greater protection of encryption that TLS offers.
 
 With this background, the idea of running BGP over TLS is an area of
@@ -157,8 +158,8 @@ Whether TLS or a more basic authentication mechanism is used, the
 effect is only to verify that the information came from the intended
 peer and has not been modified in transit. The much more challenging
 part of Internet routing security is in the validation of the routing
-information itself. When a peer announces that they have a path to a
-certain prefix, how do we know that they really do have this path?
+information itself. When a peer announces a path to a
+certain prefix, how do we know that they really have this path?
 
 
 .. _reading_BGPTLS:
@@ -177,7 +178,8 @@ certain prefix, how do we know that they really do have this path?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When a BGP speaker announces a path to a particular prefix, how do we
-know that they really have such a path? The short answer is that we
+know that they really have such a path? And do we know that they will
+use the path if asked to do so? The short answer to both questions is that we
 don't, but there has been a multi-decade quest to build mechanisms that
 enable greater confidence in the correctness of such
 announcements. This quest, and the slowness of its progress, was well
@@ -234,7 +236,7 @@ incorrect that could be advertised. The set of rules that need to be
 configured on a BGP router for an ISP that carries hundreds of
 thousands of routes can also get very large. 
 
-Furthermore, as noted by Sharon Goldberg in her article "*Why Is It
+Furthermore, as noted by in the article "*Why Is It
 Taking So Long to Secure Internet Routing?*", the incentives for
 prefix filtering are somewhat misaligned. The cost of filtering falls
 on the AS that is immediately upstream of the misbehaving ISP, while
@@ -248,24 +250,33 @@ particular prefix. This technology behind this is referred to as RPKI:
 Resource Public Key Infrastructure.
 
 RPKI provides a means by which entities involved in routing, such as
-the operator of an AS, can prove that they are authorized to advertise
-routing information such as address prefixes. A Route Origin
-Authorization (ROA), for example, contains a certificate, an AS
-number, and a set of prefixes that the AS is authorized to
+the operator of an AS, can make assertions about information that is
+related to the advertisement of routes. These assertions take various
+forms depending on which part of the problem they aim to solve. We
+describe three different uses of the RPKI in the following sections.
+
+8.1.3 Route Origin Validation (ROV)
+---------------------------------------------
+
+The first use of RPKI is to allow an AS to prove that it is authorized
+to originate routing advertisements to specific address prefixes. A
+Route Origin Authorization (ROA) contains a certificate,
+an AS number, and a set of prefixes that the AS is authorized to
 advertise. The ROA is cryptographically signed by an entity that is
 itself trusted to provide this authorization, generally the AS to
 which this address prefix has been allocated.
 
-Because Regional Internet Registries (RIRs) are at the top of the hierarchy
-for address allocation,  they are a logical place to place the root of
-trust, known as a trust anchor, for the
-RPKI. There are five RIRs globally and each has a root certificate in
-the RPKI.
+Address allocation is a hierarchical process. Because Regional
+Internet Registries (RIRs) are at the top of the hierarchy for address
+allocation, they are a logical place to place the root of trust, known
+as a trust anchor, for the RPKI. There are five RIRs globally and each
+has a root certificate in the RPKI.
 
-Address allocation is a hierarchical process. For example, an RIR can
+Hierarchical address allocation operates in the following manner. An RIR can
 allocate a chunk of address space to an ISP, and the ISP can
-sub-allocate from that chunk to one of its customers. A hierarchy of
-certificates can be used that follows this hierarchy of address
+sub-allocate from that chunk to one of its customers. There can be
+multiple layers in this hierarchy. A hierarchy of
+certificates can be created to follow this hierarchy of address
 allocation.  The RIRs form trust anchors from which chains of trust
 can be built, much the way a modern browser comes with a set of
 trusted root certification authorities (CAs) so that the certificates
@@ -274,12 +285,13 @@ issued by web sites, which are signed by CAs, can be checked for validity.
 A key distinction between RPKI and the certificates that we are
 familiar with from TLS is this: the certificates in TLS are used to
 validate the *identity* of a web site (e.g., a certificate for cnn.com
-tells your browser that it is actually talking to cnn.com), whereas
-RPKI certificates are used to validate the *resources* allocated to an
-entity such as an ISP or an end customer. The resources in particular
-include IP address prefixes. As IP address allocation starts with the RIRs
-and proceeds down through ISPs to end customers, resource certificates
-are generated at each level in the hierarchy.
+tells your browser that it is actually talking to the entity that
+operates cnn.com), whereas RPKI certificates are used to validate the
+*resources* allocated to an entity such as an ISP or an end
+customer. The resources in the case of ROA certificates are IP address
+prefixes. As IP address allocation starts with the RIRs and proceeds down
+through ISPs to end customers, resource certificates are
+generated at each level in the hierarchy.
 
 .. _fig-rpki:
 .. figure:: figures/rpki.png
@@ -355,22 +367,37 @@ detected as false information and discarded by any router receiving
 such an advertisement, not just the neighbors of the offending ISP.
 
 While there are many forms of attack or misconfiguration that would
-not be caught by ROV (such as an AS falsely claiming a shorter path that
-doesn't actually exist, or a BGP speaker falsely claiming an AS number
-not allocated to it) it does prevent a large number of issues,
+not be caught by ROV (particularly an AS falsely advertising a path that
+doesn't actually exist to a valid AS) it does prevent a large number of issues,
 especially those caused by misconfiguration. To more fully combat the
 advertisement of false information in BGP, it is necessary to adopt
 some sort of path validation, as discussed below.
 
 The adoption of RPKI for route origin validation has been moving along
-steadily for many years now. According to monitoring performed by
-NIST, more than 55% of IPv4 prefixes advertised in the Internet (as
-of the time of writing in 2025) have
-a validated route origin. Just over 1% are invalid with the remainder
-(43%) are not found, i.e., no ROA is found in the repository for those
-prefixes. 
+steadily for several years now. The deployment of ROV is tracked by
+NIST (the National Institute of Standards and Technology in the
+U.S.)—see the Further Reading section. At the time of writing, the
+NIST RPKI monitor indicates that of the one-million-plus routes
+advertised globally in BGP, about 56% carry valid ROA information. Less than 2%
+are detected as invalid (the ROV check fails) while the remaining 42%
+do not contain ROA information.  Looking at the deployment over time
+we can see a steady increase in valid ROV and a corresponding decrease
+in the "not found" group—the advertisements with no ROA. While 56% is
+a long way from 100%, this level of penetration is a significant
+accomplishment—especially given the historical difficulty of making
+changes to Internet routing and the "core" of the Internet.
 
-.. rubric:: path validation
+One final point of note about the RPKI is that, just like other forms
+of certificate infrastructure, it relies on Certificate Revocation
+Lists (CRLs) to revoke certificates. This is important for handling
+cases such as the re-allocation of an address prefix from one provider
+to another. The good news is that CRLs can be readily distributed from
+the RPKI repositories just like other objects in the RPKI.
+
+
+8.1.4 Path Validation
+---------------------------------
+
 
 Route origin validation only tackles part of the problem with BGP
 security. Even if the originating AS can be shown to be valid, what do
@@ -379,20 +406,21 @@ has a valid path to a certain prefix that traverses five ASes, but
 chooses to falsely advertise that it can reach that prefix in two AS
 hops, it is likely to attract traffic destined for that
 prefix. Whatever the motive for such a step may be (e.g., to increase
-revenue or to censor certain traffic, or even simple misconfiguration) it clearly undermines the
-correct operation of Internet routing. The solution to such attacks is
-to validate not just the originator of a prefix but the entire
-path. It turns out this is a considerably harder problem to solve than ROV.
+revenue or to censor certain traffic, or even simple misconfiguration)
+it clearly undermines the correct operation of Internet routing. The
+solution to such attacks is to validate not just the originator of a
+prefix but the entire path. It turns out this is a considerably harder
+problem to solve than ROV.
 
 There are a few different proposals for how to securely validate
 paths. We focus here on the BGPsec standard from the IETF which
 illustrates the overall approach and the challenges with achieving
 widespread deployment.
 
-In contrast to ROV, BGP path validation relies on cryptographic
+In contrast to ROV, BGPsec path validation relies on cryptographic
 operations being adopted as part of BGP itself. Leveraging the RPKI,
 BGP speakers (routers) taking part in path validation sign their BGP announcements
-using private key associated with the AS in which the speaker is
+using a private key associated with the AS in which the speaker is
 located. Thus, anyone receiving such an announcement can verify that
 it came from the AS that it claims to represent, and that it has not
 been modified in transit. The RPKI enables the recipient to obtain the
@@ -436,7 +464,7 @@ Including the target AS in the material that is signed is essential to
 the correct operation of BGPsec. Suppose that, for example, AS3 tries
 to lie about the path it has to AS1, claiming that the path <AS3,AS1>
 is valid (skipping over AS2). It can't construct a valid message to
-make this claim this with the information that it received from
+make this claim with the information that it received from
 AS2, because of the fact that AS2 is the target given by AS1. An
 attempt to create a signed path <AS3,AS1> could be detected as
 invalid, because the signed statement from AS1 includes the fact that
@@ -449,12 +477,89 @@ destination. While this still does not prove that the path to the
 destination will actually be able to carry data, it does prove that a
 set of announcements made their way along the stated path. It remains
 a possibility that some AS might have advertised a path that it will
-not honor—AS2, for example, might refuse to forward traffic from AS3
-to AS1 in spite of having advertised the path—but at least it is not
-possible for a non-existent path, such as <AS3,AS1>, to be advertised.
+not honor—AS2, for example, might refuse (or be unable) to forward
+traffic from AS3 to AS1 in spite of having advertised the path. A
+particular concern is route leaks, in which misconfiguration causes an
+AS to advertise a route by mistake, with no intention of attracting
+traffic to that prefix. When such traffic arrives it might overwhelm
+the resources of the AS that accidentally advertised the route,
+causing traffic to be dropped.
 
-Deployment
-~~~~~~~~~~
+Compared to ROV, the deployment story for path validation using BGPsec
+is disappointing. We've only described one of several proposals to
+cryptographically validate the paths advertised in BGP, but the sad
+fact is that there is little to no deployment of any of them. There
+are at least two challenges with path validation that contribute to
+this situation. One is that it is relatively costly to start
+performing cryptographic operations as part of BGP (in contrast to
+ROV, where cryptographic operations happen separately from the
+validation of BGP messages). The second is a "collective action
+problem": when a single ISP pays the cost of implementing BGPsec, it
+does little if anything to improve the situation for that ISP. Only
+when a critical mass of ISPs are using BGPsec does it start to provide
+significant incremental benefits over ROV. This unfortunate situation
+is captured in the paper "BGP Security in Partial Deployment". An
+approach that holds promise to address both these issues is described
+in the following section.
+
+8.1.5 AS Provider Authorization (ASPA)
+----------------------------------------
+
+At the time of writing, there is an effort underway at the IETF to
+standardize an approach to path validation known as ASPA (AS Provider
+Authorization). The idea is to use a new set of objects in the RPKI to
+capture the relationships among ASes, and then use that information to
+check the validity of BGP advertisements as they are received.
+
+ASPA shares an attractive property with ROV: no cryptographic
+operations are added to BGP itself. Just as ROV builds a database (in
+the RPKI) of who is allowed to originate an advertisement, ASPA builds
+a database showing which ASes provide transit to other ASes. This,
+too, uses the RPKI, but with different types of certificates.
+
+An important ingredient in ASPA is the insight that the relationships
+between ASes can be placed into a small set of categories. First, if there is
+no BGP connection between a pair of ASes, they have no relationship—and
+hence we should never see this pair of ASes next to each other in an
+advertised path. For any pair of ASes that do interconnect, the
+relationship can normally be classified as customer-to-provider, or
+peer-to-peer.  A customer depends on a provider to deliver traffic to
+and from their AS, and that means that it is expected that the
+provider's AS number will appear in routing advertisements to reach
+the customer AS. Customer ASes, on the other hand, only deliver
+traffic to their provider ASes if it originates in the customer AS itself or
+comes from the customer's customers.
+
+The relationship between customers and providers is normally capture
+visually as "valley-free" routing. Routing advertisements flow "up" from customers
+to providers, then (optionally) across between peers, then down from
+providers to customers, as depicted in :numref:`Figure %s
+<fig-valleyfree>`. In this figure, customer ASes are depicted below
+their provider AS, while the two ASes at the top have a peer-to-peer
+relationship. Valley-free routes have the property that they never
+start to go down (towards customers) and then head up again towards
+providers. The appearance of a valley is a strong indication of a
+route leak. A database that establishes the customer-to-provider
+relationships gives us the ability to detect such anomalies. 
+
+
+.. _fig-valleyfree:
+.. figure:: figures/valleyfree.png
+   :width: 500px
+   :align: center
+
+   Valley-free topology of Autonomous Systems
+   
+
+Suppose there is an ASPA object asserting that AS X is a provider for
+AS Y, and not vice versa. If a router receives an advertisement in
+which Y appears to be a provider for X, this is clearly wrong and the
+router drops the advertisement. Notably, ASPA catches some
+routing problems (such as accidental leakage of routes) that are not
+caught by BGPsec. This is because BGPsec shows that ASes are connected
+to each other but does not capture the customer-provider
+relationships.
+
 
 
 
@@ -465,6 +570,15 @@ Deployment
    Routing? <https://dl.acm.org/doi/pdf/10.1145/2668152.2668966/>`__.
    ACM Queue, August 2014.
 
+   NIST. `RPKI Monitor <https://rpki-monitor.antd.nist.gov/ROV>`__.
+
+   Robert Lychev, Sharon Goldberg and Michael Schapira. `BGP security
+   in partial deployment: is the juice worth the squeeze?
+   <https://dl.acm.org/doi/10.1145/2534169.2486010>`__ ACM
+   SIGCOMM, August 2013.
+
+   
+   
 8.2 DNS
 ----------
 
