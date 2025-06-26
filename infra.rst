@@ -184,7 +184,8 @@ don't, but there has been a multi-decade quest to build mechanisms that
 enable greater confidence in the correctness of such
 announcements. This quest, and the slowness of its progress, was well
 documented by Sharon Goldberg in 2014, and the progress continues
-today.
+today. A more recent study by Testart and Clark from 2021 backs up the
+claim that progress has been slow.
 
 Let's start with a simple and well-studied example. In 2008, ISPs in
 Pakistan were ordered by the government to block access to YouTube for
@@ -195,7 +196,7 @@ so that it could then redirect traffic that would try to follow that
 path. The problem was that not only was this path not a viable way to
 reach YouTube, it was also a *more specific* path, that is, it was for
 a longer prefix than the true path to YouTube that was being
-advertised by other ASes. This turned into a problem well beyond the
+advertised by other ASs. This turned into a problem well beyond the
 boundaries of Pakistan when the ISP advertised the route upstream to a
 larger ISP.  The upstream ISP now saw the more specific route as a
 distinct piece of routing information from the true, less specific
@@ -217,7 +218,7 @@ advertisement that said "I have a route to YouTube". How would it know
 not to accept this? After all, BGP needs to be dynamic, so a newly
 advertised prefix is sometimes going to be correct. One solution to
 this problem is the use of Internet Routing Registries, which serve as
-databases mapping address prefixes to the ASes that are authorized to
+databases mapping address prefixes to the ASs that are authorized to
 advertise them. In the prior example, since YouTube is not a customer
 of Pakistan Telecom, the IRR would show that the YouTube prefix should
 not be advertised by this AS. The responsibility to filter out the
@@ -255,8 +256,21 @@ related to the advertisement of routes. These assertions take various
 forms depending on which part of the problem they aim to solve. We
 describe three different uses of the RPKI in the following sections.
 
+
+
+.. admonition::  Further Reading
+
+   Sharon Goldberg. `Why Is It Taking So Long to Secure Internet
+   Routing? <https://dl.acm.org/doi/pdf/10.1145/2668152.2668966/>`__
+   ACM Queue, August 2014.
+
+   Ceclia Testart and David Clark. `A Data-Driven Approach to
+   Understanding the State of Internet Routing Security
+   <https://faculty.cc.gatech.edu/~ctestart8/publications/RoutingSecTPRC.pdf>`__. TPRC
+   48, February 2021.
+
 8.1.3 Route Origin Validation (ROV)
----------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The first use of RPKI is to allow an AS to prove that it is authorized
 to originate routing advertisements to specific address prefixes. A
@@ -348,7 +362,7 @@ timescale, and certificates can be issued at the same time. Thus it is
 feasible to fetch the entire contents of the RPKI repository to build up a
 complete picture of the chains of certificates that have been
 issued. With this information, a router running BGP can determine *in advance* which
-ASes could originate routing advertisements for which prefixes and use
+ASs could originate routing advertisements for which prefixes and use
 this to configure filtering rules that specify which advertisements they are
 willing to accept. There is a well-established set of software tools
 to automate this process for popular operating systems and commercial
@@ -395,14 +409,21 @@ to another. The good news is that CRLs can be readily distributed from
 the RPKI repositories just like other objects in the RPKI.
 
 
-8.1.4 Path Validation
----------------------------------
+.. _reading_rpki:
+.. admonition::  Further Reading
+
+
+   NIST. `RPKI Monitor <https://rpki-monitor.antd.nist.gov/ROV/>`__.
+
+
+8.1.4 Path Validation (BGPsec)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 Route origin validation only tackles part of the problem with BGP
 security. Even if the originating AS can be shown to be valid, what do
 we know about the rest of the path? For example, if a malicious ISP
-has a valid path to a certain prefix that traverses five ASes, but
+has a valid path to a certain prefix that traverses five ASs, but
 chooses to falsely advertise that it can reach that prefix in two AS
 hops, it is likely to attract traffic destined for that
 prefix. Whatever the motive for such a step may be (e.g., to increase
@@ -429,7 +450,7 @@ message.
 
 The harder part of the problem is validating that the *contents* of
 the message are correct from the perspective of BGP. Since a BGP
-announcement is an ordered list of ASes, each of which has added
+announcement is an ordered list of ASs, each of which has added
 itself into the path to the destination, we need to validate that
 every AS in the path has correctly announced a route to the
 destination when it added itself into the path.
@@ -443,7 +464,7 @@ With the RPKI in place, every AS participating in BGPsec can be assumed
 to have a well-known public key and matching private key.
 
 Now consider the process of constructing a path to a particular
-prefix. The path consists of a set of ASes. For example, AS1, the origin AS, signs
+prefix. The path consists of a set of ASs. For example, AS1, the origin AS, signs
 an announcement that says it is the origin for the prefix, using its
 private key. Furthermore, it includes the number of the target AS,
 AS2, to which it is sending the announcement, in the set of fields
@@ -502,40 +523,48 @@ is captured in the paper "BGP Security in Partial Deployment". An
 approach that holds promise to address both these issues is described
 in the following section.
 
+
+.. _reading_bgpsec:
+.. admonition::  Further Reading
+
+   Robert Lychev, Sharon Goldberg and Michael Schapira. `BGP security
+   in partial deployment: is the juice worth the squeeze? <https://dl.acm.org/doi/10.1145/2534169.2486010>`__ ACM
+   SIGCOMM, August 2013.
+
 8.1.5 AS Provider Authorization (ASPA)
-----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 At the time of writing, there is an effort underway at the IETF to
 standardize an approach to path validation known as ASPA (AS Provider
 Authorization). The idea is to use a new set of objects in the RPKI to
-capture the relationships among ASes, and then use that information to
+capture the relationships among ASs, and then use that information to
 check the validity of BGP advertisements as they are received.
 
 ASPA shares an attractive property with ROV: no cryptographic
 operations are added to BGP itself. Just as ROV builds a database (in
 the RPKI) of who is allowed to originate an advertisement, ASPA builds
-a database showing which ASes provide transit to other ASes. This,
+a database showing which ASs provide transit to other ASs. This,
 too, uses the RPKI, but with different types of certificates.
 
 An important ingredient in ASPA is the insight that the relationships
-between ASes can be placed into a small set of categories. First, if there is
-no BGP connection between a pair of ASes, they have no relationship—and
-hence we should never see this pair of ASes next to each other in an
-advertised path. For any pair of ASes that do interconnect, the
+between ASs can be placed into a small set of categories. First, if there is
+no BGP connection between a pair of ASs, they have no relationship—and
+hence we should never see this pair of ASs next to each other in an
+advertised path. For any pair of ASs that do interconnect, the
 relationship can normally be classified as customer-to-provider, or
 peer-to-peer.  A customer depends on a provider to deliver traffic to
 and from their AS, and that means that it is expected that the
 provider's AS number will appear in routing advertisements to reach
-the customer AS. Customer ASes, on the other hand, only deliver
-traffic to their provider ASes if it originates in the customer AS itself or
+the customer AS. Customer ASs, on the other hand, only deliver
+traffic to their provider ASs if it originates in the customer AS itself or
 comes from the customer's customers.
 
 The relationship between customers and providers is normally capture
 visually as "valley-free" routing. Routing advertisements flow "up" from customers
 to providers, then (optionally) across between peers, then down from
 providers to customers, as depicted in :numref:`Figure %s
-<fig-valleyfree>`. In this figure, customer ASes are depicted below
-their provider AS, while the two ASes at the top have a peer-to-peer
+<fig-valleyfree>`. In this figure, customer ASs are depicted below
+their provider AS, while the two ASs at the top have a peer-to-peer
 relationship. Valley-free routes have the property that they never
 start to go down (towards customers) and then head up again towards
 providers. The appearance of a valley is a strong indication of a
@@ -551,46 +580,161 @@ relationships gives us the ability to detect such anomalies.
    Valley-free topology of Autonomous Systems
    
 
-Suppose there is an ASPA object asserting that AS X is a provider for
-AS Y, and not vice versa. If a router receives an advertisement in
-which Y appears to be a provider for X, this is clearly wrong and the
-router drops the advertisement. Notably, ASPA catches some
-routing problems (such as accidental leakage of routes) that are not
-caught by BGPsec. This is because BGPsec shows that ASes are connected
-to each other but does not capture the customer-provider
-relationships.
+Suppose that two ASs, X and Y, publish a list of their providers
+using APSA objects in the RPKI. Let's say that there is an ASPA object
+asserting that AS X is a provider for AS Y, as well as an ASPA object
+asserting the AS Y is *not* among the providers for AS X. If a router
+receives an advertisement in which Y appears to be a provider for X,
+this is clearly wrong and the router drops the advertisement. The
+question of how we can tell that a particular AS is a provider, 
+customer, or peer of another AS is a bit subtle, but it depends on the
+properties of valley-free routing. We can't have an arbitarty mix of
+customer-provider and provider-customer links in a valid path; there
+must be a set of paths going "up" towards providers followed by at
+most one lateral path followd by a set of paths going "down" towards
+customers. The more relationships that are placed in the RPKI, the more
+power a BGP speaker gains to detect paths that are invalid. 
+
+Notably,
+ASPA catches some routing problems (such as accidental leakage of
+routes) that are not caught by BGPsec. This is because BGPsec shows
+that ASs are connected to each other but does not capture the
+customer-provider relationships.
+
+Interestingly, ASPA starts to provide some benefit to those using it
+as soon as there are two ASs taking part. In other words, it has
+quite good incremental deployment properties, another advantage over BGPsec.
 
 
 
 
-.. _reading_rpki:
+.. _reading_aspa:
 .. admonition::  Further Reading
 
-   Sharon Goldberg. `Why Is It Taking So Long to Secure Internet
-   Routing? <https://dl.acm.org/doi/pdf/10.1145/2668152.2668966/>`__.
-   ACM Queue, August 2014.
-
-   NIST. `RPKI Monitor <https://rpki-monitor.antd.nist.gov/ROV>`__.
-
-   Robert Lychev, Sharon Goldberg and Michael Schapira. `BGP security
-   in partial deployment: is the juice worth the squeeze?
-   <https://dl.acm.org/doi/10.1145/2534169.2486010>`__ ACM
-   SIGCOMM, August 2013.
+   Alexander Azimov et al. `BGP AS_PATH Verification Based on
+   Autonomous System Provider Authorization (ASPA) Objects <https://datatracker.ietf.org/doc/draft-ietf-sidrops-aspa-verification/>`__. Internet
+   draft, work in progress.
 
    
    
 8.2 DNS
 ----------
 
-Threat model (RFC 3833) - explain cache poisoning
+The Domain Name System (DNS) is, like BGP, another critical component of the
+Internet's infrastructure that has come under repeated attack in the
+decades since it was first introduced. Also like BGP, it was developed
+in an era when attacks on the Internet were not a top concern of
+protocol designers.
 
-DNS over HTTP (DoH)
 
-DNSSEC
+If you need a refesher on how DNS operates, see the section in our
+main textbook listed below.  DNS queries and responses are sent
+between name servers as UDP datagrams, unprotected by encryption
+or authentication. Thus, the recipient of a DNS response is unable to
+determine who sent it—just because it looks like a reply to the query
+doesn't mean it came from the server to which the query was sent. Nor
+can the recipient establish whether it contains valid information. And
+it turns out to be relatively easy to send false reponses to DNS
+requests that can fool the recipients. Because of the way DNS caches
+responses, the impact of such false information can be widespread.
 
+"Cache poisoning"—also known as DNS spoofing—is a common from of
+attack on DNS. An attacker can send a DNS query to a DNS resolver for
+a certain domain name and then, assuming that the resolver will have
+to make a recursive query to an authoritative name server, the
+attacker can try to send a fake response to *that* query. If the
+attacker's fake response arrives before the real one, there is a
+chance that it will be inserted into the name server cache of the
+resolver under attack. Subsequent queries to that resolver will now
+return the fake answer for as long as the data remains in the cache
+(which can be a long time). Figures :numref:`Figure %s <fig-DNS>` and
+:numref:`Figure %s <fig-poison>` a show an example.
+
+
+
+.. _fig-DNS:
+.. figure:: figures/DNS-example.png
+   :width: 500px
+   :align: center
+
+   Example of DNS Resolution
+
+When everything works as intended, a client machine makes a query to
+the local DNS resolver, which, finding nothing in its cache, sends a
+query to an authoritative name server. This is one of the simplest
+scenarios for name resolution when the answer is not already cached
+locally. The answer is returned by the authoritative server and then
+cached and returned to the client. Subsequent requests for the same
+query from any client server by the local resolver can now be served
+from the resolver's cache without steps 2 and 3 taking place.
+   
+
+.. _fig-poison:
+.. figure:: figures/DNS-poison.png
+   :width: 500px
+   :align: center
+
+   Attacker poisons DNS cache
+
+The cache poisoning attack depends on an attacker getting false
+information into the cache of a server, where it will stay until the
+TTL (time to live) for that information expires. A TTL is often on the
+order of an hour. There are many ways to do this; we sketch one
+possibility.
+
+Suppose that the attacker is able to observe the client
+request (1) in Figure :numref:`Figure %s <fig-DNS>`, perhaps by
+snooping on open Wifi. The attacker can now flood the resolver with
+fake versions of the expected reponse (3), hoping that with enough
+guesses they can generate a response that will be accepted by the
+resolver. The ID field in the DNS header is a 16-bit field and the
+server UDP port associated with DNS is a well-known value, so there
+are only :math:`2^{32}` possible combinations of ID and client UDP port for a
+given client and server.
+
+Even with no visibility of the client traffic, the attacker can force
+the resolver to make queries to example.com by issuing queries of its
+own, and then send the flood of responses to impersonate the
+authoritative server. If successful, this leaves the fake data in the
+cache until its TTL expires.
+
+There are many variations of this attack, broadly cataloged in
+RFC 3833. The use of packet inspection to identify DNS queries passing
+through a network and then to inject fake responses is part of the suite
+of techniques used to control Internet access by national
+governments. See the Further Reading section for a thorough study on
+this phenomenon and its widespread effects in and beyond China.
+
+
+
+.. _reading_dns:
+.. admonition:: Further Reading
+
+   
+   Peterson, L. and Davie, B. `Computer Networks: A Systems
+   Approach. Name Service (DNS)   
+   <https://book.systemsapproach.org/applications/infrastructure.html#name-service-dns>`__.
+
+   Derek Atkins and Ron Austein. `Threat Analysis of the Domain Name
+   System (DNS) <https://www.rfc-editor.org/info/rfc3833/>`__. RFC 3833,
+   August 2004.
+
+   Anonymous. `The Collateral Damage of Internet Censorship by DNS
+   Injection
+   <https://dl.acm.org/doi/10.1145/2317307.2317311>`__. Computer
+   Communications Review, July 2012. 
+   
    Geoff Huston. `Calling Time on DNSSEC?
-   <https://labs.apnic.net/index.php/2024/05/27/calling-time-on-dnssec/>`__.
+   <https://labs.apnic.net/index.php/2024/05/27/calling-time-on-dnssec/>`__
    APNIC Blog, May 2024.
+
+.. notes
+
+   DNS over HTTP (DoH)
+
+   DNSSEC
+
+  
 
    RFC 3833
 
@@ -603,4 +747,7 @@ DNSSEC
    compare infra mechanisms vs e2e, notably TLS
 
 
-8.3 DOS-preventing infra (Cloudflare et al)
+   
+.. sidebar:: DOS-preventing infrastructure
+
+       *Cloudflare is the answer*

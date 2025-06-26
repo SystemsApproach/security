@@ -395,9 +395,9 @@ slower than secret-key ciphers. Consequently, secret-key ciphers are
 used for the vast majority of encryption, while public-key ciphers are
 reserved for use in authentication and session key establishment.
 
-.. admonition:: Post-Quantum Cryptography
+.. sidebar:: Post-Quantum Cryptography
 
-   As we have seen, a lot of cryptography depends on the difficulty of
+   *As we have seen, a lot of cryptography depends on the difficulty of
    solving certain mathematical problems, such as factoring prime
    numbers or computing discrete logarithms. When the efforts of
    mathematicians over decades to solve a problem have proven
@@ -410,9 +410,9 @@ reserved for use in authentication and session key establishment.
    progress is made towards ever larger quantum computers, measured by
    the number of quantum bits (qubits), there is a real
    risk that many current cryptographic algorithms will at some point
-   become breakable.
+   become breakable.*
 
-   There is plenty of debate about whether quantum computing will ever
+   *There is plenty of debate about whether quantum computing will ever
    progress to the point that the risks to conventional cryptography
    materialize. Current quantum computers are much too small and lack
    the error-correcting capabilities necessary to solve the
@@ -427,9 +427,9 @@ reserved for use in authentication and session key establishment.
    considering the possibility that some data that is well protected
    today could be stored for a decade or two and then decrypted by a
    future quantum computer, so even data produced today could be at
-   risk.
+   risk.*
 
-   The response to this uncertain threat has been to develop suites of
+   *The response to this uncertain threat has been to develop suites of
    cryptographic algorithms for which no quantum solution is
    known. This is the field of "Post-Quantum Cryptography". Note the
    use of the phrase "no solution is known". It is hard to prove that
@@ -437,13 +437,13 @@ reserved for use in authentication and session key establishment.
    prove a negative. But NIST is running a process to evaluate and
    standardize a set of quantum-resistant algorithms, and there is
    plenty of focus on the candidate algorithms to establish their
-   suitability over the long term.
+   suitability over the long term.*
 
-   There is a general, if not universal, sense that at some point
+   *There is a general, if not universal, sense that at some point
    post-quantum cryptographic algorithms will be needed. While the
    timeframe is uncertain and the exact algorithms to be used may
    change, the requirement for *crypto-agility*—the ability to swap
-   out one set of algorithms for another—is now well established.
+   out one set of algorithms for another—is now well established.*
 
 3.4 Message Authentication
 ---------------------------------
