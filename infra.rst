@@ -638,10 +638,10 @@ it turns out to be relatively easy to send false reponses to DNS
 requests that can fool the recipients. Because of the way DNS caches
 responses, the impact of such false information can be widespread.
 
-"Cache poisoning"—also known as DNS spoofing—is a common from of
-attack on DNS. An attacker can send a DNS query to a DNS resolver for
-a certain domain name and then, assuming that the resolver will have
-to make a recursive query to an authoritative name server, the
+"Cache poisoning"—also sometimes referred to as DNS spoofing—is a common from of
+attack on DNS. If an attacker can either force a resolver 
+to make a recursive query to an authoritative name server, or predict
+roughly when such a query is to be made, the
 attacker can try to send a fake response to *that* query. If the
 attacker's fake response arrives before the real one, there is a
 chance that it will be inserted into the name server cache of the
@@ -663,10 +663,11 @@ When everything works as intended, a client machine makes a query to
 the local DNS resolver, which, finding nothing in its cache, sends a
 query to an authoritative name server. This is one of the simplest
 scenarios for name resolution when the answer is not already cached
-locally. The answer is returned by the authoritative server and then
-cached and returned to the client. Subsequent requests for the same
-query from any client server by the local resolver can now be served
-from the resolver's cache without steps 2 and 3 taking place.
+locally. (There will often be multiple queries required at step 2.)
+The answer is returned by the authoritative server and then cached and
+returned to the client. Subsequent requests for the same query from
+any client served by the local resolver can now be served from the
+resolver's cache without steps 2 and 3 taking place.
    
 
 .. _fig-poison:
@@ -696,14 +697,51 @@ Even with no visibility of the client traffic, the attacker can force
 the resolver to make queries to example.com by issuing queries of its
 own, and then send the flood of responses to impersonate the
 authoritative server. If successful, this leaves the fake data in the
-cache until its TTL expires.
+cache until its TTL expires. There are many variations of this type of
+attack, broadly cataloged in RFC 3833, which analyzes the threats
+faced by DNS.
 
-There are many variations of this attack, broadly cataloged in
-RFC 3833. The use of packet inspection to identify DNS queries passing
-through a network and then to inject fake responses is part of the suite
-of techniques used to control Internet access by national
-governments. See the Further Reading section for a thorough study on
-this phenomenon and its widespread effects in and beyond China.
+When the goal is to limit access to certain sites, rather than to
+redirect a client to a fake site, simply disrupting the process of DNS
+resolution is sufficent to make access to the target sites difficult
+for end users.  The use of packet inspection to intercept DNS queries
+passing through a network and then to inject fake responses, or simply
+drop the query, is part of the suite of techniques used to control
+Internet access by national governments. See the Further Reading
+section for a thorough study on this phenomenon and its widespread
+effects in and beyond China.
+
+DNS Security Extensions (DNSSEC)
+---------------------------------
+
+Since DNS queries are, by default,  unauthenticated, cleartext UDP datagrams, a
+natural approach to preventing attacks on DNS would be to use some of
+the techniques outlined in Chapter 5 to authenticate DNS
+responses. That is precisely what the first big effort to improve DNS
+security, the DNS Security Extensions (DNSSEC) does.
+
+The first step for DNSSEC is, as we have seen in other scenarios, to
+establish chains of trusted public keys using a
+hierarachy of certificates. Of course, in DNS we have an existing
+hierarchical relationship between zones that sits below the root zone,
+so it is natural to establish a certificate
+hierarchy following the zone hierarchy. As a reminder, see the
+example hierarchy from the section on DNS in our main textbook,
+reproduced below.
+
+.. _fig-dns-hier:
+.. figure:: figures/f09-17-9780123850591.png 
+   :width: 500px
+   :align: center
+
+   Hierarchy of DNS name servers
+
+
+
+
+
+DNS over HTTPS (DoH)
+--------------------
 
 
 
