@@ -107,7 +107,6 @@ more difficult to address.
    <https://labs.apnic.net/index.php/2021/08/03/a-survey-on-securing-inter-domain-routing-part-1-bgp-design-threats-and-security-requirements/>`__.
    APNIC Blog, August 2021.
 
-   
    Peterson, L. and Davie, B. `Computer Networks: A Systems Approach. Interdomain
    Routing <https://book.systemsapproach.org/scaling/global.html#interdomain-routing-bgp>`__.
 
@@ -235,7 +234,7 @@ global presence. Some obviously bad routes can be filtered but it's
 very hard to get a complete picture sufficient to rule out anything
 incorrect that could be advertised. The set of rules that need to be
 configured on a BGP router for an ISP that carries hundreds of
-thousands of routes can also get very large. 
+thousands of routes can also get very large.
 
 Furthermore, as noted by in the article "*Why Is It
 Taking So Long to Secure Internet Routing?*", the incentives for
@@ -370,7 +369,7 @@ routing platforms. Notably, the routers running BGP do not perform
 cryptographic operations in real time when processing route
 advertisements; all the cryptographic operations happen in advance
 when setting up the filtering rules based on information from the RPKI
-repository. 
+repository.
 
 With the RPKI in place it is now possible to perform Route Origin
 Validation (ROV). That is, if a given AS claims to be the originator of a
@@ -569,8 +568,7 @@ relationship. Valley-free routes have the property that they never
 start to go down (towards customers) and then head up again towards
 providers. The appearance of a valley is a strong indication of a
 route leak. A database that establishes the customer-to-provider
-relationships gives us the ability to detect such anomalies. 
-
+relationships gives us the ability to detect such anomalies.
 
 .. _fig-valleyfree:
 .. figure:: figures/valleyfree.png
@@ -578,7 +576,6 @@ relationships gives us the ability to detect such anomalies.
    :align: center
 
    Valley-free topology of Autonomous Systems
-   
 
 Suppose that two ASs, X and Y, publish a list of their providers
 using APSA objects in the RPKI. Let's say that there is an ASPA object
@@ -586,27 +583,23 @@ asserting that AS X is a provider for AS Y, as well as an ASPA object
 asserting the AS Y is *not* among the providers for AS X. If a router
 receives an advertisement in which Y appears to be a provider for X,
 this is clearly wrong and the router drops the advertisement. The
-question of how we can tell that a particular AS is a provider, 
+question of how we can tell that a particular AS is a provider,
 customer, or peer of another AS is a bit subtle, but it depends on the
 properties of valley-free routing. We can't have an arbitarty mix of
 customer-provider and provider-customer links in a valid path; there
 must be a set of paths going "up" towards providers followed by at
 most one lateral path followd by a set of paths going "down" towards
 customers. The more relationships that are placed in the RPKI, the more
-power a BGP speaker gains to detect paths that are invalid. 
+power a BGP speaker gains to detect paths that are invalid.
 
-Notably,
-ASPA catches some routing problems (such as accidental leakage of
-routes) that are not caught by BGPsec. This is because BGPsec shows
-that ASs are connected to each other but does not capture the
-customer-provider relationships.
+Notably, ASPA catches some routing problems (such as accidental
+leakage of routes) that are not caught by BGPsec. This is because
+BGPsec shows that ASs are connected to each other but does not capture
+the customer-provider relationships.
 
 Interestingly, ASPA starts to provide some benefit to those using it
 as soon as there are two ASs taking part. In other words, it has
 quite good incremental deployment properties, another advantage over BGPsec.
-
-
-
 
 .. _reading_aspa:
 .. admonition::  Further Reading
@@ -615,11 +608,8 @@ quite good incremental deployment properties, another advantage over BGPsec.
    Autonomous System Provider Authorization (ASPA) Objects <https://datatracker.ietf.org/doc/draft-ietf-sidrops-aspa-verification/>`__. Internet
    draft, work in progress.
 
-   
-   
-8.2 DNS
-----------
-
+8.2 Domain Name System (DNS)
+------------------------------
 
 The Domain Name System (DNS) is, like BGP, another critical component of the
 Internet's infrastructure that has come under repeated attack in the
@@ -639,19 +629,17 @@ it turns out to be relatively easy to send false reponses to DNS
 requests that can fool the recipients. Because of the way DNS caches
 responses, the impact of such false information can be widespread.
 
-"Cache poisoning"—also sometimes referred to as DNS spoofing—is a common from of
-attack on DNS. If an attacker can either force a resolver 
-to make a recursive query to an authoritative name server, or predict
-roughly when such a query is to be made, the
-attacker can try to send a fake response to *that* query. If the
-attacker's fake response arrives before the real one, there is a
-chance that it will be inserted into the name server cache of the
-resolver under attack. Subsequent queries to that resolver will now
-return the fake answer for as long as the data remains in the cache
-(which can be a long time). Figures :numref:`Figure %s <fig-DNS>` and
-:numref:`Figure %s <fig-poison>` a show an example.
-
-
+"Cache poisoning"—also sometimes referred to as DNS spoofing—is a
+common from of attack on DNS. If an attacker can either force a
+resolver to make a recursive query to an authoritative name server, or
+predict roughly when such a query is to be made, the attacker can try
+to send a fake response to *that* query. If the attacker's fake
+response arrives before the real one, there is a chance that it will
+be inserted into the name server cache of the resolver under
+attack. Subsequent queries to that resolver will now return the fake
+answer for as long as the data remains in the cache (which can be a
+long time). Figures :numref:`Figure %s <fig-DNS>` and :numref:`Figure
+%s <fig-poison>` a show an example.
 
 .. _fig-DNS:
 .. figure:: figures/DNS-example.png
@@ -669,7 +657,6 @@ The answer is returned by the authoritative server and then cached and
 returned to the client. Subsequent requests for the same query from
 any client served by the local resolver can now be served from the
 resolver's cache without steps 2 and 3 taking place.
-   
 
 .. _fig-poison:
 .. figure:: figures/DNS-poison.png
@@ -712,46 +699,89 @@ Internet access by national governments. See the Further Reading
 section for a thorough study on this phenomenon and its widespread
 effects in and beyond China.
 
-DNS Security Extensions (DNSSEC)
----------------------------------
+8.2.1 DNS Security Extensions (DNSSEC)
+-------------------------------------------
 
-Since DNS queries are, by default,  unauthenticated, cleartext UDP datagrams, a
+Since DNS queries are unauthenticated, cleartext UDP datagrams, a
 natural approach to preventing attacks on DNS would be to use some of
 the techniques outlined in Chapter 5 to authenticate DNS
 responses. That is precisely what the first big effort to improve DNS
-security, the DNS Security Extensions (DNSSEC) does.
+security, the DNS Security Extensions (DNSSEC), does.
 
-The first step for DNSSEC is, as we have seen in other scenarios, to
-establish chains of trusted public keys using a
+The first step for DNSSEC is similar to an approach we have seen used
+in other scenarios: to establish chains of trusted public keys using a
 hierarachy of certificates. Of course, in DNS we have an existing
-hierarchical relationship between zones that sits below the root zone,
-so it is natural to establish a certificate
-hierarchy following the zone hierarchy. As a reminder, see the
-example hierarchy from the section on DNS in our main textbook,
-reproduced below.
+hierarchical relationship between zones, with the root zone at the top,
+so it is natural to establish a certificate hierarchy following the
+zone hierarchy. As a reminder, see the example hierarchy from the
+section on DNS in our main textbook, reproduced below.
 
 .. _fig-dns-hier:
-.. figure:: figures/f09-17-9780123850591.png 
-   :width: 500px
+.. figure:: figures/f09-17-9780123850591.png
+   :width: 400px
    :align: center
 
    Hierarchy of DNS name servers
 
+Suppose, for example, an administrator of the princeton.edu domain
+wants to start signing the responses issued by the nameserver they
+operate. They need to obtain a certificate for the public/private key
+pair that they plan to use, and that certificate will be issued and
+signed by the .edu domain. The .edu domain in turn requires a
+certificate to establish that their key can be trusted, and that
+certificate is issued and signed by the root domain. As with other
+systems such as TLS certficates, establishing a root of trust must be
+done by some out-of-band mechanism. There is actually an elaborate, formal
+process for generating the root key—a signing ceremony with multiple
+participants and auditors—that enables the keys for the root zone to be
+trusted.
 
+While there are obvious similarities to the chains of trust used for
+TLS and BGP security, the notable difference here is that the chain of
+certificates that must be followed is precisely defined by the
+hierarchy of the DNS. Whereas a TLS certificate could be issued by a
+range of certification authorities, the certificates for any zone in DNSSEC must be
+issued by the parent zone. This has some advangtages, such as limiting
+the opportunities for bad behavior by CAs that has occasionally
+occurred with TLS certificates. However, it also introduces a
+weakness: if your parent zone, or any zone in the path between the
+zone seeking a certificate and the root, is not using DNSSEC, then
+this zone is unable to use DNSSEC. To put it another way, DNSSEC
+starts at the top of the zone hierarchy and flows down to the leaves,
+and any zone along that path that fails to implement DNSSEC prevents
+its children from implementing DNSSEC. For example, using our figure
+above, if princeton.edu does not implement DNSSEC, the CS department
+would be out of luck if they wanted to implement it, since they could
+not get their key signed by the parent zone.
 
+The requirement to implement at every level from root to leaf is one
+of the barriers to DNSSEC adoption that is cited in an article by
+Geoff Huston of APNIC about the poor deployment of the technology (see
+Further Reading). Given that the work to secure DNS has been going on
+for over thirty years now, and it has yet to reach 40% deployment
+(based on measurements reported by APNIC), it is reasonable to ask
+whether it is ever likely to succeed. Huston notes a number of other
+reasons why its success has been limited, not least of which is that
+TLS, while solving a different problem, somewhat sidesteps the need
+for validating DNS. If you know that you are connected to the correct
+web site using HTTPS because it has proven its identity using a TLS
+certificate that you trust, do you really care what IP address was
+used by the underlying protocols to connect you to the web site?
 
+This is not to say that protecting DNS is unimportant,
+however. Interference with DNS is still a vector for censorship and
+surviellance of Internet usage. For this reason there are other
+methods of protecting DNS that have started to gain traction more
+recently.
 
-DNS over HTTPS (DoH)
---------------------
-
-
+8.2.2 DNS over HTTPS (DoH)
+-----------------------------
 
 .. _reading_dns:
 .. admonition:: Further Reading
 
-   
    Peterson, L. and Davie, B. `Computer Networks: A Systems
-   Approach. Name Service (DNS)   
+   Approach. Name Service (DNS)
    <https://book.systemsapproach.org/applications/infrastructure.html#name-service-dns>`__.
 
    Derek Atkins and Ron Austein. `Threat Analysis of the Domain Name
@@ -761,32 +791,20 @@ DNS over HTTPS (DoH)
    Anonymous. `The Collateral Damage of Internet Censorship by DNS
    Injection
    <https://dl.acm.org/doi/10.1145/2317307.2317311>`__. Computer
-   Communications Review, July 2012. 
-   
+   Communications Review, July 2012.
+
    Geoff Huston. `Calling Time on DNSSEC?
    <https://labs.apnic.net/index.php/2024/05/27/calling-time-on-dnssec/>`__
    APNIC Blog, May 2024.
 
 .. notes
 
-   DNS over HTTP (DoH)
 
-   DNSSEC
-
-  
-
-   RFC 3833
-
-   RFCs 4033-4035
-
-   
    adoption of RPKI vs DNSSEC - the difference between detecting
    corrupt info vs. preventing spread of corrupt info
 
    compare infra mechanisms vs e2e, notably TLS
 
-
-   
 .. sidebar:: DOS-preventing infrastructure
 
 
