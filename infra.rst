@@ -792,7 +792,7 @@ DNS over HTTPS (DoH)
 
    *Capacity is another aspect of network infrastructure that is
    vulnerable to malicious attack.  Such attacks—or as they are
-   commonly known, *Denial of Service (DoS)* attacks—threaten
+   commonly known,* Denial of Service (DoS) *attacks—threaten
    availability (as opposed to confidentiality or integrity). They
    typically involve an adversary trying to overwhelm "good" resources
    (link bandwidth, packet forwarding rates, server response
@@ -801,24 +801,24 @@ DNS over HTTPS (DoH)
    devices). Many of the defenses described in this book help protect
    devices from being compromised in the first place, but because they
    are not perfect (a human is usually the weakest link), we also need
-   ways to mitigate the impact of a *Distributed DoS (DDoS)* attacks.
+   ways to mitigate the impact of* Distributed DoS (DDoS) *attacks.*
 
-   The DDoS challenge is addressed by two general countermeasures;
+   *The DDoS challenge is addressed by two general countermeasures;
    there is no silver bullet. The first is to absorb potential attacks
    with even greater resources than the adversary is able to
    muster. For content, this is done using the same mechanism as is
-   used to absorb flash crowds of legitimate traffic: a *Content
-   Distribution Network (CDN)*. The idea is to replicate content
+   used to absorb flash crowds of legitimate traffic: a* Content
+   Distribution Network (CDN). *The idea is to replicate content
    (whether it's a movie or a critical piece of infrastructure
    metadata) across many, widely-distributed servers. As long as the
    aggregate capacity of these servers is greater than the aggregate
-   capacity of the botnet, content remains available. This notion of
-   *aggregate* capacity generalizes beyond servers responding to GET
+   capacity of the botnet, content remains available. This notion of*
+   aggregate *capacity generalizes beyond servers responding to GET
    requests. A network is itself a distributed collection of
    forwarding and transmission resources, engineered to distribute
-   those resources in a way that avoids vulnerable bottlenecks.
+   those resources in a way that avoids vulnerable bottlenecks.*
 
-   The second countermeasure is to filter malicious traffic as early
+   *The second countermeasure is to filter malicious traffic as early
    (close to the source) as possible.  If a DoS attack comes from a
    single source, then it is easy to "block" traffic from from that
    source at an ingress to a network you control. This is why DoS
