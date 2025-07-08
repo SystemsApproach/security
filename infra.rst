@@ -263,7 +263,7 @@ describe three different uses of the RPKI in the following sections.
    Routing? <https://dl.acm.org/doi/pdf/10.1145/2668152.2668966/>`__
    ACM Queue, August 2014.
 
-   Ceclia Testart and David Clark. `A Data-Driven Approach to
+   Cecilia Testart and David Clark. `A Data-Driven Approach to
    Understanding the State of Internet Routing Security
    <https://faculty.cc.gatech.edu/~ctestart8/publications/RoutingSecTPRC.pdf>`__. TPRC
    48, February 2021.
@@ -578,17 +578,17 @@ relationships gives us the ability to detect such anomalies.
    Valley-free topology of Autonomous Systems
 
 Suppose that two ASs, X and Y, publish a list of their providers
-using APSA objects in the RPKI. Let's say that there is an ASPA object
+using ASPA objects in the RPKI. Let's say that there is an ASPA object
 asserting that AS X is a provider for AS Y, as well as an ASPA object
 asserting the AS Y is *not* among the providers for AS X. If a router
 receives an advertisement in which Y appears to be a provider for X,
 this is clearly wrong and the router drops the advertisement. The
 question of how we can tell that a particular AS is a provider,
 customer, or peer of another AS is a bit subtle, but it depends on the
-properties of valley-free routing. We can't have an arbitarty mix of
+properties of valley-free routing. We can't have an arbitrary mix of
 customer-provider and provider-customer links in a valid path; there
 must be a set of paths going "up" towards providers followed by at
-most one lateral path followd by a set of paths going "down" towards
+most one lateral path followed by a set of paths going "down" towards
 customers. The more relationships that are placed in the RPKI, the more
 power a BGP speaker gains to detect paths that are invalid.
 
@@ -618,14 +618,14 @@ in an era when attacks on the Internet were not a top concern of
 protocol designers.
 
 
-If you need a refesher on how DNS operates, see the section in our
+If you need a refresher on how DNS operates, see the section in our
 main textbook listed below.  DNS queries and responses are sent
 between name servers as UDP datagrams, unprotected by encryption
 or authentication. Thus, the recipient of a DNS response is unable to
 determine who sent it—just because it looks like a reply to the query
 doesn't mean it came from the server to which the query was sent. Nor
 can the recipient establish whether it contains valid information. And
-it turns out to be relatively easy to send false reponses to DNS
+it turns out to be relatively easy to send false responses to DNS
 requests that can fool the recipients. Because of the way DNS caches
 responses, the impact of such false information can be widespread.
 
@@ -673,8 +673,8 @@ possibility.
 
 Suppose that the attacker is able to observe the client
 request (1) in Figure :numref:`Figure %s <fig-DNS>`, perhaps by
-snooping on open Wifi. The attacker can now flood the resolver with
-fake versions of the expected reponse (3), hoping that with enough
+snooping on open WiFi. The attacker can now flood the resolver with
+fake versions of the expected response (3), hoping that with enough
 guesses they can generate a response that will be accepted by the
 resolver. The ID field in the DNS header is a 16-bit field and the
 server UDP port associated with DNS is a well-known value, so there
@@ -691,7 +691,7 @@ faced by DNS.
 
 When the goal is to limit access to certain sites, rather than to
 redirect a client to a fake site, simply disrupting the process of DNS
-resolution is sufficent to make access to the target sites difficult
+resolution is sufficient to make access to the target sites difficult
 for end users.  The use of packet inspection to intercept DNS queries
 passing through a network and then to inject fake responses, or simply
 drop the query, is part of the suite of techniques used to control
@@ -710,7 +710,7 @@ security, the DNS Security Extensions (DNSSEC), does.
 
 The first step for DNSSEC is similar to an approach we have seen used
 in other scenarios: to establish chains of trusted public keys using a
-hierarachy of certificates. Of course, in DNS we have an existing
+hierarchy of certificates. Of course, in DNS we have an existing
 hierarchical relationship between zones, with the root zone at the top,
 so it is natural to establish a certificate hierarchy following the
 zone hierarchy. As a reminder, see the example hierarchy from the
@@ -730,7 +730,7 @@ pair that they plan to use, and that certificate will be issued and
 signed by the .edu domain. The .edu domain in turn requires a
 certificate to establish that their key can be trusted, and that
 certificate is issued and signed by the root domain. As with other
-systems such as TLS certficates, establishing a root of trust must be
+systems such as TLS certificates, establishing a root of trust must be
 done by some out-of-band mechanism. There is actually an elaborate, formal
 process for generating the root key—a signing ceremony with multiple
 participants and auditors—that enables the keys for the root zone to be
@@ -741,7 +741,7 @@ TLS and BGP security, the notable difference here is that the chain of
 certificates that must be followed is precisely defined by the
 hierarchy of the DNS. Whereas a TLS certificate could be issued by a
 range of certification authorities, the certificates for any zone in DNSSEC must be
-issued by the parent zone. This has some advangtages, such as limiting
+issued by the parent zone. This has some advantages, such as limiting
 the opportunities for bad behavior by CAs that has occasionally
 occurred with TLS certificates. However, it also introduces a
 weakness: if your parent zone, or any zone in the path between the
@@ -770,12 +770,72 @@ used by the underlying protocols to connect you to the web site?
 
 This is not to say that protecting DNS is unimportant,
 however. Interference with DNS is still a vector for censorship and
-surviellance of Internet usage. For this reason there are other
+surveillance of Internet usage. For this reason there are other
 methods of protecting DNS that have started to gain traction more
 recently.
 
-8.2.2 DNS over HTTPS (DoH)
------------------------------
+8.2.2 Encrypted DNS (DoH, ODNS)
+-------------------------------------
+
+
+With the widespread adoption of TLS to encrypt and authenticate HTTP
+traffic, as discussed in Chapter 6, it should come as no surprise that
+there are now a number of standard ways to send DNS queries and
+responses over TLS-secured channels. There have been a number of
+similar proposals to achieve this outcome, with the IETF having
+standardized both DNS over TLS (DoT) in RFC 7858, and DNS over HTTPS
+(DoH) in RFC 8484. There is some debate about the merits of each but
+for the purposes of our discussion the differences are not terribly
+significant. 
+
+The basic idea behind both approaches is simple enough. Rather than sending DNS
+queries and responses as plaintext UDP datagrams, the DNS client
+establishes a TLS or HTTPS connection to the DNS resolver, and then issues
+queries as requests within that encrypted channel. The details of
+how to encode the requests and responses are spelled out in the RFCs
+and we need not dwell on them here.
+
+It's worth noting that in this model, we no longer have an assurance
+that they DNS information being provided by the resolver is correct at
+the same level that we did with DNSSEC. What we can be sure of is the
+identity of the resolver we are connected to, since that is provided
+by its TLS certificate, and the fact that the query sent and response
+issued by the resolver have not been modified or observed by an
+intermediary, since they are both encrypted and authenticated. But if
+the resolver itself is giving bad information, perhaps because the
+information provided to it from upstream in the DNS hierarchy has been
+corrupted, the client will be none the wiser. So while the need to
+deploy DNSSEC all the way along the hierarchy is something of an
+impediment to deployment, it does provide a level of security that
+isn't provided by simply securing the client-to-resolver channel.
+
+Another notable security risk that is not addressed by any of the
+approaches discussed to this point, is the privacy of the client
+making the queries. The resolver has access to all the client requests
+in unencrypted form, which would seem to be a requirement for those
+requests to be served. However, there have been efforts to improve the
+privacy of client requests using a technique known as *Oblivious
+DNS*. 
+
+.. _fig-odns:
+.. figure:: figures/odns.png
+   :width: 400px
+   :align: center
+
+   Oblivious DNS
+
+The central idea in oblivious DNS is to hide the identity of the
+client from the resolver. This is done by leveraging DoH to encrypt
+the requests from the client and the responses sent to the client,
+using a key that is associated with the target. But rather than send
+the queries direct to the target, as in standard DoH, oblivious DNS
+inserts a proxy between client and target. So the proxy gets an
+encrypted request that it cannot interpret, and then passes the
+request on to the target. The target can decrypt the request but
+doesn't know which client sent it, and sends an encrypted response
+back to the proxy. As long as the proxy supports a mix of clients, and
+and the proxy and target do not collude, neither of them has the
+information to figure out what queries a given client is making.
 
 .. _reading_dns:
 .. admonition:: Further Reading
@@ -796,6 +856,17 @@ recently.
    Geoff Huston. `Calling Time on DNSSEC?
    <https://labs.apnic.net/index.php/2024/05/27/calling-time-on-dnssec/>`__
    APNIC Blog, May 2024.
+
+   Hu, Z., et al. `Specification for DNS over Transport Layer
+   Security (TLS) <https://www.rfc-editor.org/info/rfc7858>`__. RFC 7858, May 2016.
+   
+   Hoffman, P. and P. McManus. `DNS Queries over HTTPS (DoH)
+   <https://www.rfc-editor.org/info/rfc8484>`__. RFC 8484,
+   October 2018.
+
+   Kinnear, E., McManus, P., Pauly, T., Verma, T.,
+   and C. Wood. `Oblivious DNS over HTTPS
+   <https://www.rfc-editor.org/info/rfc9230>`__. RFC 9230, June 2022.
 
 .. notes
 
