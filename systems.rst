@@ -15,30 +15,29 @@ authentication building blocks to secure the transport and network
 layers, we now turn our attention to other examples of how Internet
 systems are secured. The examples are part of the overall
 *defense-in-depth* strategy introduced in Chapter 2; they address
-specific threats that remain even when mechansism like TLS and DNSSEC
-are deployed.
+specific threats—associated with specific use case—that remain even
+when mechansism like TLS and DNSSEC are deployed.
 
 The systems described in this chapter are at different layers: some
 are are built into applications, some run at the IP layer, and some
-secure network links. While they address different layer-specific
+secure network links. But while they address different layer-specific
 threats, what the examples have in common is that they all leverage
 the same set of security builing blocks. Seeing how these building
 blocks can be assembled in different ways to build different solutions
 is main value of this chapter. To this end, the following sections
-focus on the use case and corresponding threat, with a brief
+focus on the use case and corresponding threat, with a high-level
 description of how the system addresses the threat; no new algoritms
 or fundamental capabilities are required.
 
 It is also noteworthy that in addition to taking avantage of existing
-building blocks, the example system are highly configurable. The idea
+building blocks, the example systems are highly configurable. The idea
 of making a security system algorithm independent is a good one,
 because you never know when your preferred cryptographic algorithm
-might be proved to be insufficiently strong for your purposes. It
-would be nice if you could quickly change to a new algorithm without
-having to change the rest of the system. Note the analogy to being
-able to change keys without changing the algorithm; if one of your
-cryptographic algorithms turns out to be flawed, it would be great if
-your entire security architecture didn’t need an immediate redesign.
+might be proved to be insufficiently strong for your purposes. Note
+the analogy to being able to change keys without changing the
+algorithm; if one of your cryptographic algorithms turns out to be
+flawed, it would be great if your entire security architecture didn’t
+need an immediate redesign.
 
 9.1 Pretty Good Privacy (PGP)
 -------------------------------
@@ -51,10 +50,10 @@ for using a “web of trust” model for distribution of keys rather than
 a tree-like hierarchy.
 
 The other thing of note about PGP is that it is *not* widely used, in
-large part because most users elect to trust their email provider (or,
-at least, are not concerned about their email being used for marketing
-purposes). On the other hand, PGP is an option for users that put a
-premium on privacy and being certain of who they are exchanging
+large part because most users elect to trust their email provider (or
+rather, are not concerned about their email being used for marketing
+purposes). In contrast, PGP is an option for users that put a premium
+on privacy and being certain about who they are exchanging messages
 with. The availability of easy-to-use client software is now making
 that option more viable.
 
@@ -96,20 +95,21 @@ application reverses this process step-by-step to obtain the original
 plaintext message and confirm Alice’s digital signature—and reminds
 Bob of the level of trust he has in Alice’s public key.
 
-Email has particular characteristics that allow PGP to embed an adequate
-authentication protocol in this one-message data transmission protocol,
-avoiding the need for any prior message exchange (and sidestepping some
-of the complexities described in the previous chapter). Alice’s digital
-signature suffices to authenticate her. Although there is no proof that
-the message is timely, legitimate email isn’t guaranteed to be timely
-either. There is also no proof that the message is original, but Bob is
-an email user and probably a fault-tolerant human who can recover from
-duplicate emails (which, again, are not out of the question under normal
-operation anyway). Alice can be sure that only Bob could read the
-message because the session key was encrypted with his public key.
-Although this protocol doesn’t prove to Alice that Bob is actually there
-and received the email, an authenticated email from Bob back to Alice
-could do this.
+PGP is not strictly for email, but email has particular
+characteristics that allow PGP to embed an adequate authentication
+protocol in this one-message data transmission protocol. This avoids
+the need for any prior message exchange (and sidestepping some of the
+complexities described in the earlier chapter). Alice’s digital
+signature suffices to authenticate her. Although there is no proof
+that the message is timely, legitimate email isn’t guaranteed to be
+timely either. There is also no proof that the message is original,
+but Bob is an email user and probably a fault-tolerant human who can
+recover from duplicate emails (which, again, are not out of the
+question under normal operation anyway). Alice can be sure that only
+Bob could read the message because the session key was encrypted with
+his public key.  Although this protocol doesn’t prove to Alice that
+Bob is actually there and received the email, an authenticated email
+from Bob back to Alice could do this.
 
 The preceding discussion gives a good example of why application-layer
 security mechanisms can be helpful. Only with a full knowledge of how
@@ -120,9 +120,9 @@ delayed or replayed email).
 9.2 Secure Shell (SSH)
 ------------------------
 
-The Secure Shell (SSH) protocol is used to provide a remote login
-service, replacing the less secure Telnet used in the early days of
-the Internet. SSH can also be used to remotely execute commands and
+The Secure Shell (SSH) protocol provides a remote login service,
+replacing the less secure Telnet used in the early days of the
+Internet. SSH can also be used to remotely execute commands and
 transfer files. It is most often used to provide strong client/server
 authentication/message integrity—where the SSH client runs on the
 user’s laptop (for example) and the SSH server runs on some remote
@@ -156,7 +156,7 @@ increasingly the case for tools that support Cloud DevOps, with
 GitHub, Docker, Ansible, and Jenkins being popular examples that use
 SSH's remote execution feature.
 
-The latest version of SSH, version 2, consists of three protocols:
+The latest version of SSH, Version 2, consists of three protocols:\ [#]_
 
 -  SSH-TRANS, a transport layer protocol
 
@@ -166,6 +166,11 @@ The latest version of SSH, version 2, consists of three protocols:
 
 We focus on the first two, which are involved in remote login. We
 briefly discuss the purpose of SSH-CONN at the end of the section.
+
+.. [#] Version 3 of SSH (SSH3) is also being defined, but it is
+   currently an experimental effort optimized for web-based use
+   cases. For example, SSH3 runs on top of QUIC (which is UDP-based)
+   instead of TCP. SSH2 remains the widely adopted standard.
 
 SSH-TRANS provides an encrypted channel between the client and server
 machines. It runs on top of a TCP connection. Any time a user uses an
@@ -238,7 +243,7 @@ machines (i.e., they are used on the client side).
 
 Finally, SSH has proven so useful as a system for securing remote login,
 it has been extended to also support other applications, such as sending
-and receiving email. The idea is to run these applications over a secure
+and receiving email. The idea is to run the applications over a secure
 “SSH tunnel.” This capability is called *port forwarding*, and it uses
 the SSH-CONN protocol. The idea is illustrated in :numref:`Figure
 %s <fig-ssh-tunnel>`, where we see a client on host A indirectly
@@ -246,10 +251,16 @@ communicating with a server on host B by forwarding its traffic through
 an SSH connection. The mechanism is called *port forwarding* because
 when messages arrive at the well-known SSH port on the server, SSH first
 decrypts the contents and then “forwards” the data to the actual port at
-which the server is listening. This is just another sort of tunnel,
-which in this case happens to provide confidentiality and
-authentication. It’s possible to provide a form of virtual private
-network (VPN) using SSH tunnels in this way.
+which the server is listening.
+
+This is effectively a tunnel, which in this case happens to provide
+confidentiality and authentication. (In practice, it ma also get you
+through a corporate firewall, which leaves port 22 open.)  It is
+possible to provide a kind of virtual private network (VPN) using SSH
+tunnels in this way.  But unlike the VPN mechanism described in the
+next section, it is a tunnel to a single remote machine rather than to
+a remote network. The latter gives you access to *any* machine on the
+local network.
 
 9.3 IP Security (IPsec)
 -------------------------
@@ -262,21 +273,21 @@ that the central ideas could also be retrofitted into IPv4. It's also
 noteworthy that while the original intent was for IPsec to be part
 securing the network infrastructrue (as discussed in the previous
 chapter), today IPsec is most commonly used to implement secure
-tunnels running on top of the public IP substrate. These tunnels
-are often part of a Virtual Private Network (VPN), for example,
-connecting a remote user to their "home" enterprise.
+tunnels running on top of the public Internet. These tunnels are often
+part of a Virtual Private Network (VPN), for example, connecting a
+remote user to their "home" enterprise network.
 
-IPsec is really a framework (as opposed to a single protocol or system)
-for providing a broad set of security services discussed throughout this
-book. IPsec provides three degrees of freedom. First, it is highly
-modular, allowing users (or more likely, system administrators) to
-select from a variety of cryptographic algorithms and specialized
-security protocols. Second, IPsec allows users to select from a large
-menu of security properties, including access control, integrity,
-authentication, originality, and confidentiality. Third, IPsec can be
-used to protect narrow streams (e.g., packets belonging to a particular
-TCP connection being sent between a pair of hosts) or wide streams
-(e.g., all packets flowing between a pair of routers or locations).
+IPsec is really a framework (as opposed to a single protocol or
+system) for providing a broad set of security services. It provides
+three degrees of freedom. First, it is highly modular, allowing users
+(or more likely, system administrators) to select from a variety of
+cryptographic algorithms and specialized security protocols. Second,
+IPsec allows users to select from a large menu of security properties,
+including access control, integrity, authentication, originality, and
+confidentiality. Third, IPsec can be used to protect narrow streams
+(e.g., packets belonging to a particular TCP connection being sent
+between a pair of hosts) or wide streams (e.g., all packets flowing
+between a pair of routers or locations).
 
 When viewed from a high level, IPsec consists of two parts. The first
 part is a pair of protocols that implement the available security
