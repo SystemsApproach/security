@@ -881,7 +881,7 @@ similar proposals to achieve this outcome, with the IETF having
 standardized both DNS over TLS (DoT) in RFC 7858, and DNS over HTTPS
 (DoH) in RFC 8484. There is some debate about the merits of each but
 for the purposes of our discussion the differences are not terribly
-significant. 
+significant.
 
 The basic idea behind both approaches is simple enough. Rather than sending DNS
 queries and responses as plaintext UDP datagrams, the DNS client
@@ -910,7 +910,7 @@ making the queries. The resolver has access to all the client requests
 in unencrypted form, which would seem to be a requirement for those
 requests to be served. However, there have been efforts to improve the
 privacy of client requests using a technique known as *Oblivious
-DNS*. 
+DNS*.
 
 .. _fig-odns:
 .. figure:: figures/odns.png
@@ -937,14 +937,14 @@ deployments already available of both the proxy and target
 behavior. Notably, Apple has built a privacy-focused service that
 combines oblivious DNS with several other technologies to support
 private browsing. Large CDN operators such as Cloudflare have support
-for the target function. 
+for the target function.
 
 .. _reading_doh:
 .. admonition:: Further Reading
 
    Hu, Z., et al. `Specification for DNS over Transport Layer
    Security (TLS) <https://www.rfc-editor.org/info/rfc7858>`__. RFC 7858, May 2016.
-   
+
    Hoffman, P. and P. McManus. `DNS Queries over HTTPS (DoH)
    <https://www.rfc-editor.org/info/rfc8484>`__. RFC 8484,
    October 2018.
