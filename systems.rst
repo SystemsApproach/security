@@ -557,9 +557,9 @@ first-generation security algorithms—including Wired Equivalent
 Privacy (WEP)—that are now known to have major security flaws. We will
 focus here on 802.11i’s newer, stronger algorithms.
 
-.. admonition:: Securing Mobile Cellular Networks
+.. sidebar:: Securing Mobile Cellular Networks
 
-   The other widely used wireless networking technology is the Mobile
+   *The other widely used wireless networking technology is the Mobile
    Cellular Network, today ubiquitously known as 5G. The biggest
    difference between 5G and Wi-Fi is that the Mobile Network Operator
    (MNO)—the counterpart of an enterprise network administrator—has
@@ -568,9 +568,9 @@ focus here on 802.11i’s newer, stronger algorithms.
    Module (SIM) card that must be present in the mobile device. This
    SIM hosts a small database that includes a globally unique
    identifier (known as an IMSI, for International Mobile Subscriber
-   Identifier) and a secret key.
+   Identifier) and a secret key.*
 
-   When a device first becomes active, it communicates with a nearby
+   *When a device first becomes active, it communicates with a nearby
    base station over an unauthenticated radio channel. The base
    station forwards the request to a backend server over a secure
    backhaul connection, and that server (assuming it recognizes the
@@ -580,9 +580,9 @@ focus here on 802.11i’s newer, stronger algorithms.
    in the clear since the base station to device channel is not yet
    secure. (The 5G specification uses significantly more precise
    terminology for all its components, but "backend server" conveys
-   the basic idea; it is analogous to the AS used by Wi-Fi.)
+   the basic idea; it is analogous to the AS used by Wi-Fi.)*
 
-   Once the device and backend server are satisfied with each other's
+   *Once the device and backend server are satisfied with each other's
    identity, the server informs the other 5G components of the
    parameters they will need to service the device (e.g., the IP
    address assigned to the device and the appropriate QoS
@@ -593,7 +593,7 @@ focus here on 802.11i’s newer, stronger algorithms.
    key of the device, so only the device can decrypt it. It does this
    using the secret key on its SIM card. Once complete, the device can
    use this encrypted channel to send and receive data over the
-   wireless link to the base station.
+   wireless link to the base station.*
 
 802.11i authentication supports two modes. In either mode, the end
 result of successful authentication is a shared Pairwise Master Key.
