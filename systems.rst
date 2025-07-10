@@ -1,5 +1,5 @@
-Chapter 9:  Example Systems
-==============================
+Chapter 7:  Other Example Systems
+========================================
 
 .. Assuming we keep a substantial set of examples, we should look
    for ways to highlight the underlying open source software (and the
@@ -10,56 +10,50 @@ Chapter 9:  Example Systems
    It's likely also the case that these are "Other" Example Systems,
    since new chapters are system focused.
 
-We have now seen many of the components required to provide one or two
-aspects of security. These components include cryptographic algorithms,
-key predistribution mechanisms, and authentication protocols. In this
-chapter, we examine some complete systems that use these components.
+Having focused on how to use the available cryptographic and
+authentication building blocks to secure the transport layer, we now
+turn our attention to other examples of how Internet systems are
+secured. The examples address specific threats—associated with
+specific use cases—that remain even when TLS is deployed.
 
-These systems can be roughly categorized by the protocol layer at which
-they operate. Systems that operate at the application layer include
-Pretty Good Privacy (PGP), which provides electronic mail security, and
-Secure Shell (SSH), a secure remote login facility. At the transport
-layer, there is the IETF’s Transport Layer Security (TLS) standard and
-the older protocol from which it derives, Secure Socket Layer (SSL). The
-IPsec (IP Security) protocols, as their name implies, operate at the IP
-(network) layer. 802.11i provides security at the link layer of wireless
-networks. This chapter describes the salient features of each of these
-approaches.
+The systems described in this chapter are at different layers: some
+are are built into applications, some run at the IP layer, and some
+secure network links. But while they address different layer-specific
+threats, what the examples have in common is that they all leverage
+the same set of security building blocks. Seeing how these building
+blocks can be assembled in different ways to build different solutions
+is main value of this chapter. To this end, the following sections
+focus on the use case and corresponding threat, with a high-level
+description of how the system addresses the threat; no new algorithms
+or fundamental capabilities are required.
 
-You might reasonably wonder why security has to be provided at so many
-different layers. One reason is that different threats require different
-defensive measures, and this often translates into securing a different
-protocol layer. For example, if your main concern is with a person in
-the building next door snooping on your traffic as it flows between your
-laptop and your 802.11 access point, then you probably want security at
-the link layer. However, if you want to be really sure you are connected
-to your bank’s website and preventing all the data that you send to the
-bank from being read by curious employees of some Internet service
-provider, then something that extends all the way from your machine to
-the bank’s server—like the transport layer—may be the right place to
-secure the traffic. As is often the case, there is no one-size-fits-all
-solution.
+It is also noteworthy that in addition to taking advantage of existing
+building blocks, the example systems are highly configurable. The idea
+of making a security system algorithm independent is a good one,
+because you never know when your preferred cryptographic algorithm
+might be proved to be insufficiently strong for your purposes. Note
+the analogy to being able to change keys without changing the
+algorithm; if one of your cryptographic algorithms turns out to be
+flawed, it would be great if your entire security architecture didn’t
+need an immediate redesign.
 
-The security systems described below have the ability to vary which
-cryptographic algorithms they use. The idea of making a security system
-algorithm independent is a very good one, because you never know when
-your favorite cryptographic algorithm might be proved to be
-insufficiently strong for your purposes. It would be nice if you could
-quickly change to a new algorithm without having to change the protocol
-specification or implementation. Note the analogy to being able to
-change keys without changing the algorithm; if one of your cryptographic
-algorithms turns out to be flawed, it would be great if your entire
-security architecture didn’t need an immediate redesign.
-
-9.1 Pretty Good Privacy (PGP)
--------------------------------
+7.1 Pretty Good Privacy (PGP)
+------------------------------------------
 
 Pretty Good Privacy (PGP) is an approach to providing authentication,
-confidentiality, data integrity, and nonrepudiation. Originally devised
-by Phil Zimmerman in 1991, it has evolved into an IETF standard known as
-OpenPGP. As we saw in a previous chapter, PGP is notable for using a
-“web of trust” model for distribution of keys rather than a tree-like
-hierarchy.
+confidentiality, data integrity, and nonrepudiation for email.
+Originally devised by Phil Zimmerman in 1991, it has evolved into an
+IETF standard known as OpenPGP. As we saw in Chapter 4, PGP is notable
+for using a “web of trust” model for distribution of keys rather than
+a tree-like hierarchy.
+
+The other thing of note about PGP is that it is *not* widely used, in
+large part because most users elect to trust their email provider (or
+rather, are not concerned about their email being used for marketing
+purposes). In contrast, PGP is an option for users that put a premium
+on privacy and being certain about who they are exchanging messages
+with. The availability of easy-to-use client software is now making
+that option more viable.
 
 PGP’s confidentiality and receiver authentication depend on the receiver
 of a message having a public key that is known to the sender. To
@@ -99,20 +93,21 @@ application reverses this process step-by-step to obtain the original
 plaintext message and confirm Alice’s digital signature—and reminds
 Bob of the level of trust he has in Alice’s public key.
 
-Email has particular characteristics that allow PGP to embed an adequate
-authentication protocol in this one-message data transmission protocol,
-avoiding the need for any prior message exchange (and sidestepping some
-of the complexities described in the previous chapter). Alice’s digital
-signature suffices to authenticate her. Although there is no proof that
-the message is timely, legitimate email isn’t guaranteed to be timely
-either. There is also no proof that the message is original, but Bob is
-an email user and probably a fault-tolerant human who can recover from
-duplicate emails (which, again, are not out of the question under normal
-operation anyway). Alice can be sure that only Bob could read the
-message because the session key was encrypted with his public key.
-Although this protocol doesn’t prove to Alice that Bob is actually there
-and received the email, an authenticated email from Bob back to Alice
-could do this.
+PGP is not strictly for email, but email has particular
+characteristics that allow PGP to embed an adequate authentication
+protocol in this one-message data transmission protocol. This avoids
+the need for any prior message exchange (and sidestepping some of the
+complexities described in the earlier chapter). Alice’s digital
+signature suffices to authenticate her. Although there is no proof
+that the message is timely, legitimate email isn’t guaranteed to be
+timely either. There is also no proof that the message is original,
+but Bob is an email user and probably a fault-tolerant human who can
+recover from duplicate emails (which, again, are not out of the
+question under normal operation anyway). Alice can be sure that only
+Bob could read the message because the session key was encrypted with
+his public key.  Although this protocol doesn’t prove to Alice that
+Bob is actually there and received the email, an authenticated email
+from Bob back to Alice could do this.
 
 The preceding discussion gives a good example of why application-layer
 security mechanisms can be helpful. Only with a full knowledge of how
@@ -120,39 +115,46 @@ the application works can you make the right choices about which attacks
 to defend against (like forged email) versus which to ignore (like
 delayed or replayed email).
 
-9.2 Secure Shell (SSH)
+7.2 Secure Shell (SSH)
 ------------------------
 
-The Secure Shell (SSH) protocol is used to provide a remote login
-service, replacing the less secure Telnet used in the early days of the
-Internet. (SSH can also be used to remotely execute commands and
-transfer files, but we will focus first on how SSH supports remote
-login.) SSH is most often used to provide strong client/server
-authentication/message integrity—where the SSH client runs on the user’s
-desktop machine and the SSH server runs on some remote machine that the
-user wants to log into—but it also supports confidentiality. Telnet
-provides none of these capabilities. Note that “SSH” is often used to
-refer to both the SSH protocol and applications that use it; you need to
-figure out which from the context.
+The Secure Shell (SSH) protocol provides a remote login service,
+replacing the less secure Telnet used in the early days of the
+Internet. SSH can also be used to remotely execute commands and
+transfer files. It is most often used to provide strong client/server
+authentication/message integrity—where the SSH client runs on the
+user’s laptop (for example) and the SSH server runs on some remote
+machine that the user wants to log into—but it also supports
+confidentiality. Telnet provides none of these capabilities. Note that
+“SSH” is often used to refer to both the SSH protocol and applications
+that use it; you need to figure out which from the context.
 
-To better appreciate the importance of SSH on today’s Internet, consider
-a couple of the scenarios where it is used. Telecommuters, for example,
-often subscribe to ISPs that offer high-speed Internet access at home, and
-they use these ISPs (plus some chain of other ISPs) to reach machines
-operated by their employer. This means that when a telecommuter logs
-into a machine inside his employer’s data center, both the passwords and
-all the data sent or received potentially passes through any number of
+To better appreciate the importance of SSH in today’s Internet,
+consider two scenarios where it is used. Telecommuters often subscribe
+to ISPs that offer high-speed Internet access at home, and they use
+these ISPs (plus some chain of other ISPs) to reach machines operated
+by their employer. This means that when a telecommuter logs into a
+machine inside their employer’s data center, both the passwords and all
+the data sent or received potentially passes through any number of
 untrusted networks. SSH provides a way to encrypt the data sent over
 these connections and to improve the strength of the authentication
-mechanism used to log in. (A similar situation occurs when said employee
-connects to work using the public Wi-Fi at a coffee shop.) Another usage of
-SSH is remote login to a router, perhaps to change its configuration or
-read its log files; clearly, a network administrator wants to be sure
-that he can log into a router securely and that unauthorized parties can
-neither log in nor intercept the commands sent to the router or the output
-sent back to the administrator.
+mechanism used to log in. (A similar situation occurs when said
+employee connects to work using the public Wi-Fi at a coffee shop.)
 
-The latest version of SSH, version 2, consists of three protocols:
+A second common usage of SSH is to login into a remote router, server,
+or VM for the purpose of managing it; for example, changing its
+configuration, reading its log files, or installing the latest software.
+Clearly, administrators want to be sure that they can log into a
+remote machine securely and that unauthorized parties can neither log
+in nor intercept the commands sent to the machine or the output sent
+back to the administrator. This use case is common enough that SSH is
+often incorporated into more sophisticated management software that
+automates some aspect of remote operations. This is increasingly the
+case for tools that support Cloud DevOps, with GitHub, Docker,
+Ansible, and Jenkins being popular examples that use SSH's remote
+execution feature.
+
+The latest version of SSH, Version 2, consists of three protocols:\ [#]_
 
 -  SSH-TRANS, a transport layer protocol
 
@@ -162,6 +164,11 @@ The latest version of SSH, version 2, consists of three protocols:
 
 We focus on the first two, which are involved in remote login. We
 briefly discuss the purpose of SSH-CONN at the end of the section.
+
+.. [#] Version 3 of SSH (SSH3) is also being defined, but it is
+   currently an experimental effort optimized for web-based use
+   cases. For example, SSH3 runs on top of QUIC (which is UDP-based)
+   instead of TCP. SSH2 remains the widely adopted standard.
 
 SSH-TRANS provides an encrypted channel between the client and server
 machines. It runs on top of a TCP connection. Any time a user uses an
@@ -211,19 +218,20 @@ connect; standard SSH-TRANS only authenticates the server by default.
 
 The main thing you should take away from this discussion is that SSH
 is a fairly straightforward application of the protocols and
-algorithms we have seen throughout this chapter. However, what
-sometimes makes SSH a challenge to understand is all the keys a user
-has to create and manage, where the exact interface is operating
-system dependent. For example, the OpenSSH package that runs on most
-Unix machines supports a command that can be used to create
-public/private key pairs. These keys are then stored in various files
-in directory in the user’s home directory. For example, file
-``~/.ssh/known_hosts`` records the keys for all the hosts the user has
-logged into, file ``~/.ssh/authorized_keys`` contains the public keys
-needed to authenticate the user when he or she logs into this machine
-(i.e., they are used on the server side), and file ``~/.ssh/id_rsa``
-contains the private keys needed to authenticate the user on remote
-machines (i.e., they are used on the client side).
+algorithms we have seen throughout this book. However, what sometimes
+makes SSH a challenge to understand is all the keys a user has to
+create and manage, where the exact interface is operating system
+dependent. For example, the OpenSSH package that runs on most Unix
+machines (e.g., Linux, MacOS) supports a command (``ssh-keygen``) that
+can be used to create public/private key pairs. These keys are then
+stored in various files in directory in the user’s home directory. For
+example, file ``~/.ssh/known_hosts`` records the keys for all the
+hosts the user has logged into, file ``~/.ssh/authorized_keys``
+contains the public keys needed to authenticate the user when he or
+she logs into this machine (i.e., they are used on the server side),
+and file ``~/.ssh/id_rsa`` contains the private keys needed to
+authenticate the user on remote machines (i.e., they are used on the
+client side).
 
 .. _fig-ssh-tunnel:
 .. figure:: figures/f08-14-9780123850591.png
@@ -232,42 +240,54 @@ machines (i.e., they are used on the client side).
 
    Using SSH port forwarding to secure other TCP-based applications.
 
-Finally, SSH has proven so useful as a system for securing remote login,
-it has been extended to also support other applications, such as sending
-and receiving email. The idea is to run these applications over a secure
-“SSH tunnel.” This capability is called *port forwarding*, and it uses
-the SSH-CONN protocol. The idea is illustrated in :numref:`Figure
-%s <fig-ssh-tunnel>`, where we see a client on host A indirectly
-communicating with a server on host B by forwarding its traffic through
-an SSH connection. The mechanism is called *port forwarding* because
-when messages arrive at the well-known SSH port on the server, SSH first
-decrypts the contents and then “forwards” the data to the actual port at
-which the server is listening. This is just another sort of tunnel,
-which in this case happens to provide confidentiality and
-authentication. It’s possible to provide a form of virtual private
-network (VPN) using SSH tunnels in this way.
+Finally, SSH has proven so useful for securing remote login that it
+has been extended to also support other applications (e.g., sending
+and receiving email). The idea is to run the applications over a
+secure “SSH tunnel.” This capability is called *port forwarding*, and
+it uses the SSH-CONN protocol. The idea is illustrated in
+:numref:`Figure %s <fig-ssh-tunnel>`, where we see a client on host A
+indirectly communicating with a server on host B by forwarding its
+traffic through an SSH connection. The mechanism is called *port
+forwarding* because when messages arrive at the well-known SSH port on
+the server, SSH first decrypts the contents and then “forwards” the
+data to the actual port at which the server is listening.
 
-9.3 IP Security (IPsec)
--------------------------
+Port forwarding effectively creates a secure tunnel that provides
+confidentiality and authentication. It is possible to provide a kind
+of virtual private network (VPN) using SSH tunnels in this way, but
+unlike the VPN mechanism described in the next section, SSH tunnels to
+a single remote machine rather than to a remote network. The latter
+gives you access to *any* machine on the local network. In practice,
+it is also the case that corporate firewalls often block port 22 (SSH's
+well-known port) limiting the situations in which SSH works as a
+VPN-like tunnel.
 
-One of the earliest efforts to integrate security
-into the Internet sits at the IP layer. Support for IPsec, as the
-architecture is called, is optional in IPv4 but mandatory in
-IPv6. Indeed, better security was one of the stated goals of IPv6,
-although it turned out that the central ideas could also be retrofitted
-into IPv4 .
+7.3 IP Security (IPsec)
+--------------------------------
 
-IPsec is really a framework (as opposed to a single protocol or system)
-for providing a broad set of security services discussed throughout this
-book. IPsec provides three degrees of freedom. First, it is highly
-modular, allowing users (or more likely, system administrators) to
-select from a variety of cryptographic algorithms and specialized
-security protocols. Second, IPsec allows users to select from a large
-menu of security properties, including access control, integrity,
-authentication, originality, and confidentiality. Third, IPsec can be
-used to protect narrow streams (e.g., packets belonging to a particular
-TCP connection being sent between a pair of hosts) or wide streams
-(e.g., all packets flowing between a pair of routers or locations).
+One of the earliest efforts to integrate security into the Internet
+sits at the IP layer. Support for IPsec, as the architecture is
+called, is optional in IPv4 but mandatory in IPv6. Indeed, better
+security was one of the stated goals of IPv6, although it turned out
+that the central ideas could also be retrofitted into IPv4. It's also
+noteworthy that while the original intent was for IPsec to be part
+securing the network infrastructure (as discussed in the next
+chapter), today IPsec is most commonly used to implement secure
+tunnels running on top of the public Internet. These tunnels are often
+part of a Virtual Private Network (VPN), for example, connecting a
+remote user to their "home" enterprise network.
+
+IPsec is really a framework (as opposed to a single protocol or
+system) for providing a broad set of security services. It provides
+three degrees of freedom. First, it is highly modular, allowing users
+(or more likely, system administrators) to select from a variety of
+cryptographic algorithms and specialized security protocols. Second,
+IPsec allows users to select from a large menu of security properties,
+including access control, integrity, authentication, originality, and
+confidentiality. Third, IPsec can be used to protect narrow streams
+(e.g., packets belonging to a particular TCP connection being sent
+between a pair of hosts) or wide streams (e.g., all packets flowing
+between a pair of routers or locations).
 
 When viewed from a high level, IPsec consists of two parts. The first
 part is a pair of protocols that implement the available security
@@ -354,18 +374,19 @@ destination.
    An IP packet with a nested IP packet encapsulated using ESP in tunnel
    mode. Note that the inner and outer packets have different addresses.
 
-These tunnels may also be configured to use ESP with confidentiality and
-authentication, thus preventing unauthorized access to the data that
-traverses this virtual link and ensuring that no spurious data is
-received at the far end of the tunnel. Furthermore, tunnels can provide
-traffic confidentiality, since multiplexing multiple flows through a
-single tunnel obscures information about how much traffic is flowing
-between particular endpoints. A network of such tunnels can be used to
-implement an entire virtual private network. Hosts communicating over a
-VPN need not even be aware that it exists.
+These tunnels may also be configured to use ESP with confidentiality
+and authentication, thus preventing unauthorized access to the data
+that traverses this virtual link and ensuring that no spurious data is
+received at the far end of the tunnel. Furthermore, tunnels can
+provide traffic confidentiality, since multiplexing multiple flows
+through a single tunnel obscures information about how much traffic is
+flowing between particular endpoints. And as mentioned in the
+introduction to this section, a network of such tunnels can be used to
+implement an entire virtual private network. Hosts communicating over
+a VPN need not even be aware that it exists.
 
-9.4 Web Authentication (WebAuthn) and Passkeys
------------------------------------------------
+7.4 Web Authentication (WebAuthn) and Passkeys
+----------------------------------------------------------------
 
 While public key cryptography has been well understood for decades,
 and forms the basis for authentication of web sites using Transport
@@ -411,8 +432,8 @@ defined in the Web Authentication (WebAuthn) specification of the W3C
 efforts including those of the FIDO alliance (FIDO = Fast Identity
 Online).
 
-The basic idea behind passkeys is simple enough: a user (or more
-likely, a device owned by the user) creates a private/public key pair
+The basic idea behind passkeys is simple: a user (or more likely, a
+device owned by the user) creates a private/public key pair
 specifically for a single web site and provides the public key to the
 site. The user proves their identity to the web site using some other
 method such as a previously established user name and password. The
@@ -420,7 +441,10 @@ web site stores the public key for subsequent use. The next time that
 the user wants to authenticate to the web site, the site issues a
 challenge to the user, who uses the locally stored private key to sign
 their response to the challenge. The web site uses the stored public
-key to authenticate the user.
+key to authenticate the user. Said another way, if you are familiar
+with SSH's use of public/private key pairs to authenticate a user
+logging into a remote server, you understand how passkeys are used to
+log into a remote web service.
 
 The fact that the process is bootstrapped by getting the user to
 authenticate using a traditional approach (such as user name and
@@ -447,7 +471,6 @@ that attackers will keep using that option to breach user
 accounts. This is one of the problems that needs to be addressed in
 the deployment of passkeys.
 
-
 The WebAuthn spec allows for considerable implementation flexibility,
 but there are two broad categories of passkey implementation. One
 approach binds the key to a specific piece of hardware, such as a USB
@@ -456,18 +479,17 @@ names as the commercial offerings and standards around them have
 evolved. The generic names include U2F (universal second factor) and
 FIDO (from the FIDO Alliance).
 
-Now that biometric
-authentication, such as facial and fingerprint recognition, is
-available on many devices, it is common to require biometric
-authentication to access a passkey. So a passkey might be stored on a
-mobile phone and require facial recognition of the owner before the
-passkey can be accessed.
+Now that biometric authentication, such as facial and fingerprint
+recognition, is available on many devices, it is common to require
+biometric authentication to access a passkey. So a passkey might be
+stored on a mobile phone and require facial recognition of the owner
+before the passkey can be accessed.
 
-The second class of passkey implementation allows the credentials to be
-copied among multiple devices, typically using some sort of password
-manager to keep the credentials secure and synchronized across
-devices. In this case, the private/public key pair is stored in the
-password manager and then is made available to the user across
+The second class of passkey implementation allows the credentials to
+be copied among multiple devices, typically using some sort of
+password manager to keep the credentials secure and synchronized
+across devices. In this case, the private/public key pair is stored in
+the password manager and then is made available to the user across
 different devices (laptops, mobile phones, etc.) when they need the
 passkey.
 
@@ -506,9 +528,8 @@ sites. Those who have led their development hope that they start to
 replace the ubiquitous password for user authentication.
 
 
-
-9.5 Wireless Security (802.11i)
----------------------------------
+7.5 Wireless Security (802.11i)
+--------------------------------------------
 
 Wireless links are particularly exposed to security threats due to the
 lack of any physical security on the medium. While the convenience of
@@ -525,10 +546,6 @@ corporate network if that same computer has, say, an Ethernet
 connection as well.
 
 Consequently, there has been considerable work on securing Wi-Fi links.
-Somewhat surprisingly, one of the early security techniques developed
-for 802.11, known as Wired Equivalent Privacy (WEP), turned out to be
-seriously flawed and quite easily breakable.
-
 The IEEE 802.11i standard provides authentication, message integrity,
 and confidentiality to 802.11 (Wi-Fi) at the link layer. *WPA3* (Wi-Fi
 Protected Access 3) is often used as a synonym for 802.11i, although it
@@ -536,9 +553,9 @@ is technically a trademark of the Wi-Fi Alliance that certifies product
 compliance with 802.11i.
 
 For backward compatibility, 802.11i includes definitions of
-first-generation security algorithms—including WEP—that are now known to
-have major security flaws. We will focus here on 802.11i’s newer,
-stronger algorithms.
+first-generation security algorithms—including Wired Equivalent
+Privacy (WEP)—that are now known to have major security flaws. We will
+focus here on 802.11i’s newer, stronger algorithms.
 
 802.11i authentication supports two modes. In either mode, the end
 result of successful authentication is a shared Pairwise Master Key.
@@ -580,6 +597,45 @@ to prevent an adversary from fooling our wireless devices with a bogus,
 malicious AP. The end result of a successful authentication is a
 Pairwise Master Key shared between the wireless device and the AS, which
 the AS then conveys to the AP.
+
+
+.. sidebar:: Securing Mobile Cellular Networks
+
+   *The other widely used wireless networking technology is the Mobile
+   Cellular Network, today ubiquitously known as 5G. The biggest
+   difference between 5G and Wi-Fi is that the Mobile Network Operator
+   (MNO)—the counterpart of an enterprise network administrator—has
+   more direct control over the devices that are allowed to connect to
+   their network. Specifically, the MNO provides a Subscriber Identity
+   Module (SIM) card that must be present in the mobile device. This
+   SIM contains a small database that includes a globally unique
+   identifier (known as an IMSI, for International Mobile Subscriber
+   Identifier) and a secret key.*
+
+   *When a device first becomes active, it communicates with a nearby
+   base station over an unauthenticated radio channel. The base
+   station forwards the request to a backend server over a secure
+   backhaul connection, and that server (assuming it recognizes the
+   IMSI) initiates an authentication protocol with the device. There
+   are a set of options for authentication and encryption, but AES is
+   commonly used. Note that this authentication exchange is initially
+   in the clear since the base station to device channel is not yet
+   secure. (The 5G specification uses significantly more precise
+   terminology for all its components, but "backend server" conveys
+   the basic idea; it is analogous to the AS used by Wi-Fi.)*
+
+   *Once the device and backend server are satisfied with each other's
+   identity, the server informs the other 5G components of the
+   parameters they will need to service the device (e.g., the IP
+   address assigned to the device and the appropriate QoS
+   parameters). It also instructs the base station to establish an
+   encrypted channel to the device and gives the device the symmetric
+   key it will subsequently use for the encrypted data channel with
+   the base station.  This symmetric key is encrypted using the public
+   key of the device, so only the device can decrypt it. It does this
+   using the secret key on its SIM card. Once complete, the device can
+   use this encrypted channel to send and receive data over the
+   wireless link to the base station.*
 
 One of the main differences between the stronger AS-based mode and the
 weaker personal mode is that the former readily supports a unique key
