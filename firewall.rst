@@ -285,6 +285,50 @@ enterprise or a data center that has no need to pass through such a
 choke point. These limitations have led to the development of
 *distributed firewalls*, which we discuss in the following section.
 
+
+.. sidebar:: Other Security Appliances
+
+         *Firewalls are often placed inside a larger category of*
+         security appliances—*devices placed at some strategic point
+         in the network to perform a security function. Other example
+         appliances include* intrusion detection systems *(IDS) and*
+         intrusion prevention systems *(IPS). These systems try to
+         look for anomalous activity, such as an unusually large
+         amount of traffic targeting a given host or port number, for
+         example, and generate alarms for network managers or perhaps
+         even take direct action to limit a possible attack.*
+
+         *A good example of an IPS is Snort, an open source project
+         first published in 1999, having started life as an IDS, and
+         now owned by Cisco. In its original incarnation, Snort
+         provided a lightweight, rule-based packet filtering and
+         capture tool based on Berkeley Packet Filters. The idea is
+         that attacks, such as DoS attacks or worms, have a
+         recognizable signature, and that the IDS can be programmed
+         with a rule to recognize the attack traffic. An IPS does the
+         additional step of blocking the attack, which sounds easy
+         enough but does raise the issue of false positives.*
+
+         *For an IDS/IPS that uses packet signatures to be effective,
+         the set of potential attacks need to have been spotted in the wild
+         and analyzed so that suitable rules can be formulated. Sharing rules
+         among a community of users helps to speed up this process,
+         and commercial IDS/IPS systems typically come with a
+         subscription to a frequently-updated rules database.*
+
+         *Another approach to using signatures is to look for*
+         anomalies—*patterns in the behavior of traffic that somehow
+         stand out from "normal" and can be categorized as a potential
+         attack. Clearly this approach is attractive in that novel
+         attacks can be detected before they make it into a rule
+         database. The hard part is achieving high detection
+         accuracy. Anomaly detection typically relies on machine
+         learning algorithms to classify traffic as "normal" or
+         "anomalous". Because both signature-based and anomaly-based
+         detection have their respective strengths and weaknesses, it
+         is common to find both approaches used in modern IDS/IPS systems.*
+
+
 9.3 Distributed Firewalls
 -------------------------
 
@@ -411,14 +455,3 @@ we recommend our companion book on software-defined networks.
    L. Peterson, C. Cascone, B. O’Connor, T. Vachuska,
       and B. Davie. `Software-Defined Networks: A Systems
       Approach. <https://sdn.systemsapproach.org>`__.
-
-6.5 Other Security Appliances
-------------------------------
-
-Related to firewalls are systems known as *intrusion detection systems*
-(IDS) and *intrusion prevention systems* (IPS). These systems try to
-look for anomalous activity, such as an unusually large amount of
-traffic targeting a given host or port number, for example, and generate
-alarms for network managers or perhaps even take direct action to limit
-a possible attack. While there are commercial products in this space
-today, it is still a developing field.
