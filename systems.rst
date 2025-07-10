@@ -1,5 +1,5 @@
 Chapter 7:  Other Example Systems
-============================
+========================================
 
 .. Assuming we keep a substantial set of examples, we should look
    for ways to highlight the underlying open source software (and the
@@ -38,7 +38,7 @@ flawed, it would be great if your entire security architecture didn’t
 need an immediate redesign.
 
 7.1 Pretty Good Privacy (PGP)
--------------------------------
+------------------------------------------
 
 Pretty Good Privacy (PGP) is an approach to providing authentication,
 confidentiality, data integrity, and nonrepudiation for email.
@@ -263,7 +263,7 @@ well-known port) limiting the situations in which SSH works as a
 VPN-like tunnel.
 
 7.3 IP Security (IPsec)
--------------------------
+--------------------------------
 
 One of the earliest efforts to integrate security into the Internet
 sits at the IP layer. Support for IPsec, as the architecture is
@@ -386,7 +386,7 @@ implement an entire virtual private network. Hosts communicating over
 a VPN need not even be aware that it exists.
 
 7.4 Web Authentication (WebAuthn) and Passkeys
------------------------------------------------
+----------------------------------------------------------------
 
 While public key cryptography has been well understood for decades,
 and forms the basis for authentication of web sites using Transport
@@ -529,7 +529,7 @@ replace the ubiquitous password for user authentication.
 
 
 7.5 Wireless Security (802.11i)
----------------------------------
+--------------------------------------------
 
 Wireless links are particularly exposed to security threats due to the
 lack of any physical security on the medium. While the convenience of
