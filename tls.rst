@@ -1,5 +1,5 @@
-Chapter 6. Transport Layer Security (TLS, SSL, HTTPS)
-=======================================================
+Chapter 6. Transport Security
+=========================================
 
 To understand the design goals and requirements for the Transport Layer
 Security (TLS) standard and the Secure Socket Layer (SSL) on which TLS

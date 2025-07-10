@@ -1,4 +1,4 @@
-Chapter 4:  Key Predistribution
+Chapter 4.  Key Predistribution
 ===============================
 
 We have seen that ciphers and authentication codes are parameterized

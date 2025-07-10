@@ -1,4 +1,4 @@
-Chapter 3:  Cryptographic Primitives
+Chapter 3.  Cryptographic Primitives
 ======================================
 
 In the first two chapters we have seen that network security is a

@@ -1,4 +1,4 @@
-Chapter 7:  Other Example Systems
+Chapter 7.  System-Specific Security
 ========================================
 
 .. Assuming we keep a substantial set of examples, we should look
@@ -11,18 +11,19 @@ Chapter 7:  Other Example Systems
    since new chapters are system focused.
 
 Having focused on how to use the available cryptographic and
-authentication building blocks to secure the transport layer, we now
-turn our attention to other examples of how Internet systems are
-secured. The examples address specific threats—associated with
-specific use cases—that remain even when TLS is deployed.
+authentication building blocks to secure the transport layer—to the
+benefit of all applications—we now turn our attention to examples of
+how individual subsystems are secured. The examples address specific
+threats—associated with specific use cases—that remain even when TLS
+is deployed.
 
 The systems described in this chapter are at different layers: some
 are are built into applications, some run at the IP layer, and some
-secure network links. But while they address different layer-specific
+secure network links. While they address different layer-specific
 threats, what the examples have in common is that they all leverage
 the same set of security building blocks. Seeing how these building
 blocks can be assembled in different ways to build different solutions
-is main value of this chapter. To this end, the following sections
+is the main value of this chapter. To this end, the following sections
 focus on the use case and corresponding threat, with a high-level
 description of how the system addresses the threat; no new algorithms
 or fundamental capabilities are required.
@@ -529,22 +530,37 @@ sites. Those who have led their development hope that they start to
 replace the ubiquitous password for user authentication.
 
 
-7.5 Wireless Security (802.11i)
+7.5 Wireless Security
 --------------------------------------------
 
 Wireless links are particularly exposed to security threats due to the
 lack of any physical security on the medium. While the convenience of
-802.11 has prompted widespread acceptance of the technology, lack of
-security has been a recurring problem. For example, it is all too easy
-for an employee of a corporation to connect an 802.11 access point to
-the corporate network. Since radio waves pass through most walls, if
-the access point lacks the correct security measures, an attacker can
-now gain access to the corporate network from outside the building.
-Similarly, a computer with a wireless network adaptor inside the
-building could connect to an access point outside the building,
-potentially exposing it to attack, not to mention the rest of the
-corporate network if that same computer has, say, an Ethernet
-connection as well.
+802.11 (Wi-Fi) and the Mobile Cellular Network (5G) has prompted
+widespread acceptance of the technology, concerns about security have
+been a recurring topic. This section looks at how the two dominant
+wireless technologies address the issue.
+
+Note that securing a wireless link can be viewed as an example of
+defense-in-depth introduced in Chapter 2. As long as your transport
+layer connection is secured by TLS and/or your VPN securely tunnels
+over the public Internet using IPsec, the confidentiality of your
+communication is ensured; securing the wireless link is partially
+redundant. However, there is additional communication between the
+wireless device and the wired infrastructure that supports it. This
+segment must also ensure confidentiality and integrity.
+
+7.5.1  Wi-Fi (802.11i)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It has long be understood how easy it is for an employee of a
+corporation to connect an 802.11 access point to the corporate
+network. Since radio waves pass through most walls, if the access
+point lacks the correct security measures, an attacker can now gain
+access to the corporate network from outside the building.  Similarly,
+a computer with a wireless network adaptor inside the building could
+connect to an access point outside the building, potentially exposing
+it to attack, not to mention the rest of the corporate network if that
+same computer has, say, an Ethernet connection as well.
 
 Consequently, there has been considerable work on securing Wi-Fi links.
 The IEEE 802.11i standard provides authentication, message integrity,
@@ -599,45 +615,6 @@ malicious AP. The end result of a successful authentication is a
 Pairwise Master Key shared between the wireless device and the AS, which
 the AS then conveys to the AP.
 
-
-.. sidebar:: Securing Mobile Cellular Networks
-
-   *The other widely used wireless networking technology is the Mobile
-   Cellular Network, today ubiquitously known as 5G. The biggest
-   difference between 5G and Wi-Fi is that the Mobile Network Operator
-   (MNO)—the counterpart of an enterprise network administrator—has
-   more direct control over the devices that are allowed to connect to
-   their network. Specifically, the MNO provides a Subscriber Identity
-   Module (SIM) card that must be present in the mobile device. This
-   SIM contains a small database that includes a globally unique
-   identifier (known as an IMSI, for International Mobile Subscriber
-   Identifier) and a secret key.*
-
-   *When a device first becomes active, it communicates with a nearby
-   base station over an unauthenticated radio channel. The base
-   station forwards the request to a backend server over a secure
-   backhaul connection, and that server (assuming it recognizes the
-   IMSI) initiates an authentication protocol with the device. There
-   are a set of options for authentication and encryption, but AES is
-   commonly used. Note that this authentication exchange is initially
-   in the clear since the base station to device channel is not yet
-   secure. (The 5G specification uses significantly more precise
-   terminology for all its components, but "backend server" conveys
-   the basic idea; it is analogous to the AS used by Wi-Fi.)*
-
-   *Once the device and backend server are satisfied with each other's
-   identity, the server informs the other 5G components of the
-   parameters they will need to service the device (e.g., the IP
-   address assigned to the device and the appropriate QoS
-   parameters). It also instructs the base station to establish an
-   encrypted channel to the device and gives the device the symmetric
-   key it will subsequently use for the encrypted data channel with
-   the base station.  This symmetric key is encrypted using the public
-   key of the device, so only the device can decrypt it. It does this
-   using the secret key on its SIM card. Once complete, the device can
-   use this encrypted channel to send and receive data over the
-   wireless link to the base station.*
-
 One of the main differences between the stronger AS-based mode and the
 weaker personal mode is that the former readily supports a unique key
 per client. This in turn makes it easier to change the set of clients
@@ -669,4 +646,61 @@ confidentiality encryption and serves to expose replay attacks.) The MAC
 is subsequently encrypted along with the plaintext in order to prevent
 birthday attacks, which depend on finding different messages with the
 same authenticator.
+
+7.5.2  Mobile Cellular Network
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The other widely used wireless networking technology is the Mobile
+Cellular Network, today ubiquitously known as 5G. The biggest
+difference between 5G and Wi-Fi is that the Mobile Network Operator
+(MNO)—the counterpart of an enterprise network administrator—has more
+direct control over the devices that are allowed to connect to their
+network. Specifically, the MNO provides a Subscriber Identity Module
+(SIM) that must be present in the mobile device. This SIM contains a
+small database that includes (among several dozen parameters used to
+control the device) two values that play a central role in link
+security: (1) a unique *International Mobile Subscriber Identifier
+(IMSI)* and (2) a secret key.
+
+.. _fig-AMF:
+.. figure:: figures/5G.png
+   :width: 600px
+   :align: center
+
+   Device authentication in the Mobile Cellular Network.
+
+When a device first becomes active, it communicates with a nearby base
+station over an unauthenticated radio channel. The base station, which
+is part of the *Radio Access Network (RAN)*, forwards the request to a
+backend system, known as the *Mobile Core*, over a secure backhaul
+connection. The Mobile Core is essentially an IP router that connects
+the RAN to the rest of the Internet, and among its many sub-components,
+an *Access and Mobility Management Function (AMF)* plays a central
+role in securing the wireless link on behalf of the newly connected device.
+Loosely speaking, the AMF is analogous to the AS used by Wi-Fi. For a
+more precise description of the Mobile Cellular Network, we recommend
+a companion book.
+
+.. admonition:: Further Reading
+
+   L. Peterson, O. Sunay, and B. Davie. `Private 5G: A Systems
+      Approach. <https://5g.systemsapproach.org>`__.
+
+Assuming the AMF recognizes the IMSI, it initiates an authentication
+protocol with the device. There are a set of options for
+authentication and encryption, but AES is commonly used. Note that
+this authentication exchange is initially in the clear since the base
+station to device channel is not yet secure.
+
+Once the device and AMF are satisfied with each other's identity, the
+AMF informs the other sub-components of the Mobile Core and RAN of the
+parameters they will need to service the device (e.g., the IP address
+assigned to the device and the appropriate QoS parameters). It also
+instructs the base station to establish an encrypted channel to the
+device and send the device the symmetric key it will subsequently use
+for the encrypted data channel with the base station.  This symmetric
+key is encrypted using the public key of the device, so only the
+device can decrypt it. It does this using the secret key on its SIM
+card. Once complete, the device can use this encrypted channel to send
+and receive data over the wireless link to the base station.
 

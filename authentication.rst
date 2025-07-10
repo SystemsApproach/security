@@ -1,4 +1,4 @@
-Chapter 5:  Authentication Protocols
+Chapter 5.  Authentication Protocols
 =====================================
 
 So far we described how to encrypt messages, build message

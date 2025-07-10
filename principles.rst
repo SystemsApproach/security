@@ -369,7 +369,7 @@ but an architecture has to be implemented by an engineering team and
 run on a day-to-day basis by an operations team. Mistakes in the
 implementation or operational practices render the best intentions
 impotent. To this end, software companies typically establish a set of
-best practices for the the entire software lifecycle, from design to
+best practices for the entire software lifecycle, from design to
 coding, deployment, and operation.
 
 These practices start by establishing the security metrics that the

@@ -1,5 +1,5 @@
-Chapter 8. Securing Network Infrastructure
-==========================================
+Chapter 8.  Infrastructure Security
+==============================================
 .. Brad notes
    I really enjoyed the CCR paper with anonymous authors on collateral
    damage of China’s censorship (IIRC, causing DNS lookup failures in
