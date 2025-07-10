@@ -1,4 +1,4 @@
-Chapter 9:  Other Examples
+Chapter 7:  Other Example Systems
 ============================
 
 .. Assuming we keep a substantial set of examples, we should look
@@ -11,11 +11,10 @@ Chapter 9:  Other Examples
    since new chapters are system focused.
 
 Having focused on how to use the available cryptographic and
-authentication building blocks to secure the transport and network
-layers, we now turn our attention to other examples of how Internet
-systems are secured. The examples address specific threats—associated
-with specific use cases—that remain even when mechanism like TLS and
-DNSSEC are deployed.
+authentication building blocks to secure the transport layer, we now
+turn our attention to other examples of how Internet systems are
+secured. The examples address specific threats—associated with
+specific use cases—that remain even when TLS is deployed.
 
 The systems described in this chapter are at different layers: some
 are are built into applications, some run at the IP layer, and some
@@ -38,7 +37,7 @@ algorithm; if one of your cryptographic algorithms turns out to be
 flawed, it would be great if your entire security architecture didn’t
 need an immediate redesign.
 
-9.1 Pretty Good Privacy (PGP)
+7.1 Pretty Good Privacy (PGP)
 -------------------------------
 
 Pretty Good Privacy (PGP) is an approach to providing authentication,
@@ -116,7 +115,7 @@ the application works can you make the right choices about which attacks
 to defend against (like forged email) versus which to ignore (like
 delayed or replayed email).
 
-9.2 Secure Shell (SSH)
+7.2 Secure Shell (SSH)
 ------------------------
 
 The Secure Shell (SSH) protocol provides a remote login service,
@@ -254,15 +253,16 @@ the server, SSH first decrypts the contents and then “forwards” the
 data to the actual port at which the server is listening.
 
 Port forwarding effectively creates a secure tunnel that provides
-confidentiality and authentication. (In practice, it sometimes also
-gets you through a corporate firewall, which often leave port 22
-open.)  It is possible to provide a kind of virtual private network
-(VPN) using SSH tunnels in this way, but unlike the VPN mechanism
-described in the next section, SSH tunnels to a single remote machine
-rather than to a remote network. The latter gives you access to *any*
-machine on the local network.
+confidentiality and authentication. It is possible to provide a kind
+of virtual private network (VPN) using SSH tunnels in this way, but
+unlike the VPN mechanism described in the next section, SSH tunnels to
+a single remote machine rather than to a remote network. The latter
+gives you access to *any* machine on the local network. In practice,
+it is also the case that corporate firewalls often block port 22 (SSH's
+well-known port) limiting the situations in which SSH works as a
+VPN-like tunnel.
 
-9.3 IP Security (IPsec)
+7.3 IP Security (IPsec)
 -------------------------
 
 One of the earliest efforts to integrate security into the Internet
@@ -271,7 +271,7 @@ called, is optional in IPv4 but mandatory in IPv6. Indeed, better
 security was one of the stated goals of IPv6, although it turned out
 that the central ideas could also be retrofitted into IPv4. It's also
 noteworthy that while the original intent was for IPsec to be part
-securing the network infrastructure (as discussed in the previous
+securing the network infrastructure (as discussed in the next
 chapter), today IPsec is most commonly used to implement secure
 tunnels running on top of the public Internet. These tunnels are often
 part of a Virtual Private Network (VPN), for example, connecting a
@@ -385,7 +385,7 @@ introduction to this section, a network of such tunnels can be used to
 implement an entire virtual private network. Hosts communicating over
 a VPN need not even be aware that it exists.
 
-9.4 Web Authentication (WebAuthn) and Passkeys
+7.4 Web Authentication (WebAuthn) and Passkeys
 -----------------------------------------------
 
 While public key cryptography has been well understood for decades,
@@ -528,7 +528,7 @@ sites. Those who have led their development hope that they start to
 replace the ubiquitous password for user authentication.
 
 
-9.5 Wireless Security (802.11i)
+7.5 Wireless Security (802.11i)
 ---------------------------------
 
 Wireless links are particularly exposed to security threats due to the
@@ -556,44 +556,6 @@ For backward compatibility, 802.11i includes definitions of
 first-generation security algorithms—including Wired Equivalent
 Privacy (WEP)—that are now known to have major security flaws. We will
 focus here on 802.11i’s newer, stronger algorithms.
-
-.. sidebar:: Securing Mobile Cellular Networks
-
-   *The other widely used wireless networking technology is the Mobile
-   Cellular Network, today ubiquitously known as 5G. The biggest
-   difference between 5G and Wi-Fi is that the Mobile Network Operator
-   (MNO)—the counterpart of an enterprise network administrator—has
-   more direct control over the devices that are allowed to connect to
-   their network. Specifically, the MNO provides a Subscriber Identity
-   Module (SIM) card that must be present in the mobile device. This
-   SIM hosts a small database that includes a globally unique
-   identifier (known as an IMSI, for International Mobile Subscriber
-   Identifier) and a secret key.*
-
-   *When a device first becomes active, it communicates with a nearby
-   base station over an unauthenticated radio channel. The base
-   station forwards the request to a backend server over a secure
-   backhaul connection, and that server (assuming it recognizes the
-   IMSI) initiates an authentication protocol with the device. There
-   are a set of options for authentication and encryption, but AES is
-   commonly used. Note that this authentication exchange is initially
-   in the clear since the base station to device channel is not yet
-   secure. (The 5G specification uses significantly more precise
-   terminology for all its components, but "backend server" conveys
-   the basic idea; it is analogous to the AS used by Wi-Fi.)*
-
-   *Once the device and backend server are satisfied with each other's
-   identity, the server informs the other 5G components of the
-   parameters they will need to service the device (e.g., the IP
-   address assigned to the device and the appropriate QoS
-   parameters). It also instructs the base station to establish an
-   encrypted channel to the device and gives the device the symmetric
-   key it will subsequently use for the encrypted data channel with
-   the base station.  This symmetric key is encrypted using the public
-   key of the device, so only the device can decrypt it. It does this
-   using the secret key on its SIM card. Once complete, the device can
-   use this encrypted channel to send and receive data over the
-   wireless link to the base station.*
 
 802.11i authentication supports two modes. In either mode, the end
 result of successful authentication is a shared Pairwise Master Key.
@@ -635,6 +597,45 @@ to prevent an adversary from fooling our wireless devices with a bogus,
 malicious AP. The end result of a successful authentication is a
 Pairwise Master Key shared between the wireless device and the AS, which
 the AS then conveys to the AP.
+
+
+.. sidebar:: Securing Mobile Cellular Networks
+
+   *The other widely used wireless networking technology is the Mobile
+   Cellular Network, today ubiquitously known as 5G. The biggest
+   difference between 5G and Wi-Fi is that the Mobile Network Operator
+   (MNO)—the counterpart of an enterprise network administrator—has
+   more direct control over the devices that are allowed to connect to
+   their network. Specifically, the MNO provides a Subscriber Identity
+   Module (SIM) card that must be present in the mobile device. This
+   SIM contains a small database that includes a globally unique
+   identifier (known as an IMSI, for International Mobile Subscriber
+   Identifier) and a secret key.*
+
+   *When a device first becomes active, it communicates with a nearby
+   base station over an unauthenticated radio channel. The base
+   station forwards the request to a backend server over a secure
+   backhaul connection, and that server (assuming it recognizes the
+   IMSI) initiates an authentication protocol with the device. There
+   are a set of options for authentication and encryption, but AES is
+   commonly used. Note that this authentication exchange is initially
+   in the clear since the base station to device channel is not yet
+   secure. (The 5G specification uses significantly more precise
+   terminology for all its components, but "backend server" conveys
+   the basic idea; it is analogous to the AS used by Wi-Fi.)*
+
+   *Once the device and backend server are satisfied with each other's
+   identity, the server informs the other 5G components of the
+   parameters they will need to service the device (e.g., the IP
+   address assigned to the device and the appropriate QoS
+   parameters). It also instructs the base station to establish an
+   encrypted channel to the device and gives the device the symmetric
+   key it will subsequently use for the encrypted data channel with
+   the base station.  This symmetric key is encrypted using the public
+   key of the device, so only the device can decrypt it. It does this
+   using the secret key on its SIM card. Once complete, the device can
+   use this encrypted channel to send and receive data over the
+   wireless link to the base station.*
 
 One of the main differences between the stronger AS-based mode and the
 weaker personal mode is that the former readily supports a unique key
