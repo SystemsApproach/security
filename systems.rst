@@ -52,8 +52,8 @@ large part because most users elect to trust their email provider (or
 rather, are not concerned about their email being used for marketing
 purposes). In contrast, PGP is an option for users that put a premium
 on privacy and being certain about who they are exchanging messages
-with. The availability of easy-to-use client software is now making
-that option more viable.
+with. The availability of easy-to-use client software has made
+that option more viable over time.
 
 PGP’s confidentiality and receiver authentication depend on the receiver
 of a message having a public key that is known to the sender. To
@@ -130,9 +130,8 @@ confidentiality. Telnet provides none of these capabilities. Note that
 that use it; you need to figure out which from the context.
 
 To better appreciate the importance of SSH in today’s Internet,
-consider two scenarios where it is used. Telecommuters often subscribe
-to ISPs that offer high-speed Internet access at home, and they use
-these ISPs (plus some chain of other ISPs) to reach machines operated
+consider two scenarios where it is used. Telecommuters depend on some
+chain of Internet service providers to reach machines operated
 by their employer. This means that when a telecommuter logs into a
 machine inside their employer’s data center, both the passwords and all
 the data sent or received potentially passes through any number of
@@ -154,7 +153,7 @@ case for tools that support Cloud DevOps, with GitHub, Docker,
 Ansible, and Jenkins being popular examples that use SSH's remote
 execution feature.
 
-The latest version of SSH, Version 2, consists of three protocols:\ [#]_
+The latest stable version of SSH, Version 2, consists of three protocols:\ [#]_
 
 -  SSH-TRANS, a transport layer protocol
 
@@ -165,10 +164,11 @@ The latest version of SSH, Version 2, consists of three protocols:\ [#]_
 We focus on the first two, which are involved in remote login. We
 briefly discuss the purpose of SSH-CONN at the end of the section.
 
-.. [#] Version 3 of SSH (SSH3) is also being defined, but it is
-   currently an experimental effort optimized for web-based use
-   cases. For example, SSH3 runs on top of QUIC (which is UDP-based)
-   instead of TCP. SSH2 remains the widely adopted standard.
+.. [#] Version 3 of SSH (SSH3) has also been proposed, but it is
+   currently an experimental effort that changes the
+   underlying protocols used by SSH. For example, SSH3 runs on top of
+   QUIC (which is UDP-based) instead of TCP. SSH2 remains the widely
+   adopted standard.
 
 SSH-TRANS provides an encrypted channel between the client and server
 machines. It runs on top of a TCP connection. Any time a user uses an
@@ -202,19 +202,19 @@ client machine, and thus never take the “first time” risk.
 
 Once the SSH-TRANS channel exists, the next step is for the user to
 actually log into the machine, or more specifically, authenticate
-himself or herself to the server. SSH allows three different mechanisms
+the user to the server. SSH allows three different mechanisms
 for doing this. First, since the two machines are communicating over a
-secure channel, it is OK for the user to simply send his or her password
+secure channel, it is OK for the user to simply send their password
 to the server. This is not a safe thing to do when using Telnet since
-the password would be sent in the clear, but in the case of SSH the
+the password would be sent in the clear, but in the case of SSH, the
 password is encrypted in the SSH-TRANS channel. The second mechanism
 uses public-key encryption. This requires that the user has already
-placed his or her public key on the server. The third mechanism, called
+placed their public key on the server. The third mechanism, called
 *host-based authentication*, basically says that any user claiming to be
 so-and-so from a certain set of trusted hosts is automatically believed
 to be that same user on the server. Host-based authentication requires
-that the client *host* authenticate itself to the server when they first
-connect; standard SSH-TRANS only authenticates the server by default.
+that the client *host* authenticate itself to the server when the client first
+connects; standard SSH-TRANS only authenticates the server by default.
 
 The main thing you should take away from this discussion is that SSH
 is a fairly straightforward application of the protocols and
@@ -227,11 +227,10 @@ can be used to create public/private key pairs. These keys are then
 stored in various files in directory in the user’s home directory. For
 example, file ``~/.ssh/known_hosts`` records the keys for all the
 hosts the user has logged into, file ``~/.ssh/authorized_keys``
-contains the public keys needed to authenticate the user when he or
-she logs into this machine (i.e., they are used on the server side),
-and file ``~/.ssh/id_rsa`` contains the private keys needed to
-authenticate the user on remote machines (i.e., they are used on the
-client side).
+contains the public keys needed to authenticate the user when logging
+into this machine (i.e., they are used on the server side), and file
+``~/.ssh/id_rsa`` contains the private keys needed to authenticate the
+user on remote machines (i.e., they are used on the client side).
 
 .. _fig-ssh-tunnel:
 .. figure:: figures/f08-14-9780123850591.png
@@ -270,7 +269,7 @@ sits at the IP layer. Support for IPsec, as the architecture is
 called, is optional in IPv4 but mandatory in IPv6. Indeed, better
 security was one of the stated goals of IPv6, although it turned out
 that the central ideas could also be retrofitted into IPv4. It's also
-noteworthy that while the original intent was for IPsec to be part
+noteworthy that while the original intent was for IPsec to be part of
 securing the network infrastructure (as discussed in the next
 chapter), today IPsec is most commonly used to implement secure
 tunnels running on top of the public Internet. These tunnels are often
@@ -400,7 +399,9 @@ password. Perhaps another factor such as a one-time code sent to your
 phone will also be used. Encryption (using TLS) prevents your password
 from being seen by eavesdroppers when it is sent to the bank's site,
 but currently there is little deployment of public key cryptography
-for the authentication of users.
+for the authentication of users. SSH, as noted above, supports the use
+of public keys for user authentication, but it's hardly in mainstream
+use by consumers on the Internet.
 
 Password-based authentication had proven enormously problematic, with
 passwords frequently being compromised by a variety of attacks. If a
