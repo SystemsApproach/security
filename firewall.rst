@@ -1,4 +1,4 @@
-Chapter 7. Firewalls
+Chapter 9. Firewalls
 ====================
 
 Whereas much of this book has focused on the uses of cryptography to
@@ -11,7 +11,7 @@ help you if your machine has unpatched vulnerabilities. So other
 approaches are often used to keep out various forms of potentially
 harmful traffic. Firewalls are one of the most common ways to do this.
 
-7.1 Basic Principles of Firewalls
+9.1 Basic Principles of Firewalls
 -----------------------------------
 
 The historical meaning of a firewall is a barrier to prevent the
@@ -210,7 +210,7 @@ an HTTP request), this is referred to as *deep packet inspection*
 start encrypting packets end-to-end, as with TLS. We return to this
 issue below.
 
-6.2 Strengths and Weaknesses of Firewalls
+9.2 Strengths and Weaknesses of Firewalls
 -----------------------------------------
 
 At best, a firewall protects a network from undesired access from the
@@ -285,7 +285,7 @@ enterprise or a data center that has no need to pass through such a
 choke point. These limitations have led to the development of
 *distributed firewalls*, which we discuss in the following section.
 
-6.3 Distributed Firewalls
+9.3 Distributed Firewalls
 -------------------------
 
 A conventional firewall is implemented as a *choke point:* the network
