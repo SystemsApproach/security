@@ -24,9 +24,9 @@ The Authors
    key-distro.rst
    authentication.rst
    tls.rst
-   firewall.rst
-   infra.rst
    systems.rst
+   infra.rst
+   firewall.rst
    README.rst
    authors.rst
 
