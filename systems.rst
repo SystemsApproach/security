@@ -1,4 +1,4 @@
-Chapter 7.  System-Specific Security
+Chapter 7.  Subsystem Security
 ========================================
 
 .. Assuming we keep a substantial set of examples, we should look
@@ -541,7 +541,7 @@ been a recurring topic. This section looks at how the two dominant
 wireless technologies address the issue.
 
 Note that securing a wireless link can be viewed as an example of
-defense-in-depth introduced in Chapter 2. As long as your transport
+defense in depth introduced in Chapter 2. As long as your transport
 layer connection is secured by TLS and/or your VPN securely tunnels
 over the public Internet using IPsec, the confidentiality of your
 communication is ensured; securing the wireless link is partially
@@ -552,7 +552,7 @@ segment must also ensure confidentiality and integrity.
 7.5.1  Wi-Fi (802.11i)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It has long be understood how easy it is for an employee of a
+It has long been understood how easy it is for an employee of a
 corporation to connect an 802.11 access point to the corporate
 network. Since radio waves pass through most walls, if the access
 point lacks the correct security measures, an attacker can now gain

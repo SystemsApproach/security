@@ -206,9 +206,18 @@ information specific to that protocol, such as URLs in the case of HTTP,
 to decide whether to discard a message. When firewalls are able to
 inspect payloads that are inside the TCP header (for example, to parse
 an HTTP request), this is referred to as *deep packet inspection*
-(DPI). Interestingly, there is a problem with any sort of DPI once you
-start encrypting packets end-to-end, as with TLS. We return to this
-issue below.
+(DPI). Of course, DPI can be a challenge if end-to-end encryption is used.
+
+A particular type of firewall that can interpret application traffic
+is the *Web Application Firewall*. Such firewalls are often placed
+directly in front of servers delivering web applications (or are
+implemented as a module within the server). They inspect the
+application traffic and apply filtering rules to identify and block
+specific attacks that target known vulnerabilities, such as SQL
+injection. When TLS is in use (as it invariably is in the modern web),
+web application firewalls terminate the HTTPS connection so that the
+application payload can be inspected. The open source ModSecurity
+project is a widely-used example of a web application firewall.
 
 9.2 Strengths and Weaknesses of Firewalls
 -----------------------------------------
@@ -284,50 +293,6 @@ effectiveness, since there can be plenty of traffic within an
 enterprise or a data center that has no need to pass through such a
 choke point. These limitations have led to the development of
 *distributed firewalls*, which we discuss in the following section.
-
-
-.. sidebar:: Other Security Appliances
-
-         *Firewalls are often placed inside a larger category of*
-         security appliances—*devices placed at some strategic point
-         in the network to perform a security function. Other example
-         appliances include* intrusion detection systems *(IDS) and*
-         intrusion prevention systems *(IPS). These systems try to
-         look for anomalous activity, such as an unusually large
-         amount of traffic targeting a given host or port number, for
-         example, and generate alarms for network managers or perhaps
-         even take direct action to limit a possible attack.*
-
-         *A good example of an IPS is Snort, an open source project
-         first published in 1999, having started life as an IDS, and
-         now owned by Cisco. In its original incarnation, Snort
-         provided a lightweight, rule-based packet filtering and
-         capture tool based on Berkeley Packet Filters. The idea is
-         that attacks, such as DoS attacks or worms, have a
-         recognizable signature, and that the IDS can be programmed
-         with a rule to recognize the attack traffic. An IPS does the
-         additional step of blocking the attack, which sounds easy
-         enough but does raise the issue of false positives.*
-
-         *For an IDS/IPS that uses packet signatures to be effective,
-         the set of potential attacks need to have been spotted in the wild
-         and analyzed so that suitable rules can be formulated. Sharing rules
-         among a community of users helps to speed up this process,
-         and commercial IDS/IPS systems typically come with a
-         subscription to a frequently-updated rules database.*
-
-         *Another approach to using signatures is to look for*
-         anomalies—*patterns in the behavior of traffic that somehow
-         stand out from "normal" and can be categorized as a potential
-         attack. Clearly this approach is attractive in that novel
-         attacks can be detected before they make it into a rule
-         database. The hard part is achieving high detection
-         accuracy. Anomaly detection typically relies on machine
-         learning algorithms to classify traffic as "normal" or
-         "anomalous". Because both signature-based and anomaly-based
-         detection have their respective strengths and weaknesses, it
-         is common to find both approaches used in modern IDS/IPS systems.*
-
 
 9.3 Distributed Firewalls
 -------------------------
@@ -455,3 +420,53 @@ we recommend our companion book on software-defined networks.
    L. Peterson, C. Cascone, B. O’Connor, T. Vachuska,
       and B. Davie. `Software-Defined Networks: A Systems
       Approach. <https://sdn.systemsapproach.org>`__.
+
+
+
+
+9.4 Security Appliances
+------------------------------
+
+Firewalls are often placed inside a larger category of *security
+appliances*—devices placed at some strategic point in the network to
+perform a security function. Other example appliances include*
+intrusion detection systems* (IDS) and *intrusion prevention systems*
+(IPS). These systems try to look for anomalous activity, such as an
+unusually large amount of traffic targeting a given host or port
+number, for example, and generate alarms for network managers or
+perhaps even take direct action to limit a possible attack.*
+
+A good example of an IPS is Snort, an open source project first
+published in 1999, having started life as an IDS, and now owned by
+Cisco. In its original incarnation, Snort provided a lightweight,
+rule-based packet filtering and capture tool based on Berkeley Packet
+Filters. The idea is that attacks, such as DoS attacks or worms, have
+a recognizable signature, and that the IDS can be programmed with a
+rule to recognize the attack traffic, and raise alerts when this
+happens. An IPS takes the additional step of blocking the attack,
+which sounds easy enough but raises the cost of false positives.
+
+For an IDS/IPS that uses packet signatures to be effective, the set of
+potential attacks need to have been spotted in the wild and analyzed
+so that suitable rules can be formulated. Sharing rules among a
+community of users helps to speed up this process, and commercial
+IDS/IPS systems typically come with a subscription to a
+frequently-updated rules database.
+
+Another approach to using signatures is to look for
+*anomalies*—patterns in the behavior of traffic that somehow stand out
+from "normal" and can be categorized as a potential attack. Clearly
+this approach is attractive in that novel attacks can be detected
+before they make it into a rule database. The hard part is achieving
+high detection accuracy. Anomaly detection typically relies on machine
+learning algorithms to classify traffic as "normal" or
+"anomalous". Because both signature-based and anomaly-based detection
+have their respective strengths and weaknesses, it is common to find
+both approaches used in modern IDS/IPS systems.
+
+The proliferation of security appliances brings us back to one the
+security principles discussed in Chapter 2: defense in depth. For
+example, if we had a perfect firewall, we might not require an IDS or
+IPS. However, knowing that firewalls will never block all forms of
+malicious traffic leads to the conclusion that an IDS/IPS is worth
+having as a second line of defense. 
