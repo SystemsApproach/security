@@ -19,7 +19,7 @@ a challenge that we tackle in the next chapter.
 Once we have a set of cryptographic algorithms and a way to distribute
 keys, we are in a position to build protocols that enable secure
 communication between participants. Later chapters describes several
-such security protocols, culminating in a description of complete
+such security protocols, culminating in the description of complete
 systems that use these protocols.
 
 3.1 Principles of Ciphers
@@ -46,13 +46,14 @@ its corresponding decryption function is called a *cipher*.
    Secret-key encryption and decryption.
 
 As we noted in the previous chapter, the principle of open design has
-been proposed for security technologies since at
-least 1975. Cryptography has a much longer history than that, however,
+been proposed for security technologies since at least 1975.
+Cryptography has a much longer history than that, however,
 going back thousands of years. One of the leading cryptographers of
 the 19th century, Auguste Kerckhoffs, stated in 1883 that
 cryptographic system designs themselves should not be secret, but
 should be parameterized by an easily changeable *key*; only the key
-should need to be secret. This also follows the principle from Chapter 2 of minimizing secrets.
+should need to be secret. This also follows the principle from Chapter
+2 of minimizing secrets.
 
 One reason for open design is that, if you were to depend on the
 cipher being kept secret, then you would have to retire the cipher
@@ -66,8 +67,9 @@ algorithms, while implemented in software, are the result of lengthy
 processes of development, testing, analysis and standardization; all
 of this makes the algorithms expensive to replace.
 
-Because cryptography algorithms are expensive to replace, they are
-typically treated as plugable modules in the end-to-end security
+Because cryptography algorithms are expensive to replace, but are
+occasionally found to be vulnerable after years of use, they are
+typically treated as pluggable modules in the end-to-end security
 solutions described in the following chapters.  In many cases, the
 algorithm is a selectable parameter of those solutions, which means
 the overall system does not become obsolete just because one of its
@@ -621,15 +623,15 @@ by XORing the key with a string and using that as the first block fed
 to the hash). The two passes of the keyed-hash function are important
 to the proof of security for this HMAC construction.
 
-.. let's delete this incorrect pic for now
-  .. _fig-macAndHmac:
-  .. figure:: figures/f08-05-modified.png
+.. let's delete this incorrect pic for now; unclear if a new picture
+   adds much
+   .. _fig-macAndHmac:
+   .. figure:: figures/f08-05-modified.png
    :width: 300px
    :align: center
 
    Computing a hashed message authentication code (HMAC).
 
-.. this appears to be out of date, see https://en.wikipedia.org/wiki/HMAC#Design_principles
 
 
 Up to this point, we have been assuming that the message wasn’t

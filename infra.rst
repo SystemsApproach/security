@@ -102,12 +102,12 @@ more difficult to address.
 .. _reading_threat:
 .. admonition::  Further Reading
 
-   Geoff Huston. `A Survey on Securing Inter-Domain Routing Part 1 –
+   G. Huston. `A Survey on Securing Inter-Domain Routing Part 1 –
    BGP: Design, Threats and Security Requirements
    <https://labs.apnic.net/index.php/2021/08/03/a-survey-on-securing-inter-domain-routing-part-1-bgp-design-threats-and-security-requirements/>`__.
    APNIC Blog, August 2021.
 
-   Peterson, L. and Davie, B. `Computer Networks: A Systems Approach. Interdomain
+   L. Peterson and B. Davie. `Computer Networks: A Systems Approach. Interdomain
    Routing <https://book.systemsapproach.org/scaling/global.html#interdomain-routing-bgp>`__.
 
 
@@ -164,7 +164,7 @@ certain prefix, how do we know that they really have this path?
 .. _reading_BGPTLS:
 .. admonition::  Further Reading
 
-   Thomas Wirtgen, Nicolas Rybowski, Cristel Pelsser, Olivier
+   T. Wirtgen, N. Rybowski, C. Pelsser, O.
    Bonaventure. `The Multiple Benefits of Secure Transport for
    BGP <https://conferences.sigcomm.org/co-next/2024/files/papers/p186.pdf/>`__.
    ACM CONEXT, December 2024.
@@ -259,11 +259,11 @@ describe three different uses of the RPKI in the following sections.
 
 .. admonition::  Further Reading
 
-   Sharon Goldberg. `Why Is It Taking So Long to Secure Internet
+   S. Goldberg. `Why Is It Taking So Long to Secure Internet
    Routing? <https://dl.acm.org/doi/pdf/10.1145/2668152.2668966/>`__
    ACM Queue, August 2014.
 
-   Cecilia Testart and David Clark. `A Data-Driven Approach to
+   C. Testart and D. Clark. `A Data-Driven Approach to
    Understanding the State of Internet Routing Security
    <https://faculty.cc.gatech.edu/~ctestart8/publications/RoutingSecTPRC.pdf>`__. TPRC
    48, February 2021.
@@ -526,7 +526,7 @@ in the following section.
 .. _reading_bgpsec:
 .. admonition::  Further Reading
 
-   Robert Lychev, Sharon Goldberg and Michael Schapira. `BGP security
+   R. Lychev, S. Goldberg and M. Schapira. `BGP security
    in partial deployment: is the juice worth the squeeze? <https://dl.acm.org/doi/10.1145/2534169.2486010>`__ ACM
    SIGCOMM, August 2013.
 
@@ -604,7 +604,7 @@ quite good incremental deployment properties, another advantage over BGPsec.
 .. _reading_aspa:
 .. admonition::  Further Reading
 
-   Alexander Azimov et al. `BGP AS_PATH Verification Based on
+   A, Azimov et al. `BGP AS_PATH Verification Based on
    Autonomous System Provider Authorization (ASPA) Objects <https://datatracker.ietf.org/doc/draft-ietf-sidrops-aspa-verification/>`__. Internet
    draft, work in progress.
 
@@ -748,11 +748,11 @@ effects in and beyond China.
 .. _reading_dns:
 .. admonition:: Further Reading
 
-   Peterson, L. and Davie, B. `Computer Networks: A Systems
+   L. Peterson and B. Davie. `Computer Networks: A Systems
    Approach. Name Service (DNS)
    <https://book.systemsapproach.org/applications/infrastructure.html#name-service-dns>`__.
 
-   Derek Atkins and Ron Austein. `Threat Analysis of the Domain Name
+   D. Atkins and R. Austein. `Threat Analysis of the Domain Name
    System (DNS) <https://www.rfc-editor.org/info/rfc3833/>`__. RFC 3833,
    August 2004.
 
@@ -864,7 +864,7 @@ recently.
 .. _reading_dnstime:
 .. admonition:: Further Reading
 
-   Geoff Huston. `Calling Time on DNSSEC?
+   G. Huston. `Calling Time on DNSSEC?
    <https://labs.apnic.net/index.php/2024/05/27/calling-time-on-dnssec/>`__
    APNIC Blog, May 2024.
 
@@ -942,15 +942,15 @@ for the target function.
 .. _reading_doh:
 .. admonition:: Further Reading
 
-   Hu, Z., et al. `Specification for DNS over Transport Layer
+   Z. Hu, et al. `Specification for DNS over Transport Layer
    Security (TLS) <https://www.rfc-editor.org/info/rfc7858>`__. RFC 7858, May 2016.
 
-   Hoffman, P. and P. McManus. `DNS Queries over HTTPS (DoH)
+   P. Hoffman and P. McManus. `DNS Queries over HTTPS (DoH)
    <https://www.rfc-editor.org/info/rfc8484>`__. RFC 8484,
    October 2018.
 
-   Schmitt, Paul and Edmundson, Anne and Mankin, Allison and Feamster,
-   Nick. `Oblivious DNS: Practical Privacy for DNS Queries
+   P. Schmitt, A. Edmundson, A. Mankin, and N. Feamster. `Oblivious
+   DNS: Practical Privacy for DNS Queries
    <https://doi.org/10.1145/3340301.3341128>`__. Proc. 2019 Applied
    Networking Research Workshop, 2019.
 

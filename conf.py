@@ -39,8 +39,8 @@ release = version
 # -- Project information -----------------------------------------------------
 
 project = u'Network Security: A Systems Approach'
-copyright = u'2024, Systems Approach LLC (Publisher)'
-author = u'The Author List'
+copyright = u'2025, Systems Approach LLC (Publisher)'
+author = u'Larry L. Peterson and Bruce S. Davie'
 
 # -- General configuration ---------------------------------------------------
 
@@ -185,7 +185,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'book.tex', u'Network Security: A Systems Approach',
-     u'The Author List ', 'manual', True),
+     u'Larry L. Peterson and Bruce S. Davie', 'manual', True),
 ]
 
 latex_toplevel_sectioning = 'chapter'

@@ -8,7 +8,7 @@
 Network Security: A Systems Approach
 ===========================================
 
-The Authors
+Peterson and Davie
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 |

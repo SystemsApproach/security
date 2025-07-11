@@ -9,7 +9,7 @@ introductory textbook, along with several new books focused on
 emerging topics in network and cloud systems, are available as open
 source at https://systemsapproach.org.
 
-Larry spent most of his career in academia, first at the Unviersity of
+Larry spent most of his career in academia, first at the University of
 Arizona and later at Princeton University, where he was the
 Robert E. Kahn Professor of Computer Science. While at Princeton he
 directed the PlanetLab Consortium, building a global testbed for

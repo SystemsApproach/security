@@ -86,7 +86,7 @@ written soon afterwards.
 
 .. admonition:: Further Reading
 
-  Donn Seeley. `A Tour of the
+  D. Seeley. `A Tour of the
   Worm <http://www.cs.unc.edu/~jeffay/courses/nidsS05/attacks/seely-RTMworm-89.html>`__.
 
 What we present in this book is a systems perspective on the

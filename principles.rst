@@ -170,7 +170,8 @@ authentication, was not put in place correctly.
 2.3.2 Principle of Least Privilege
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The principle of least privilege has a long history in computer
-science, having been proposed by Saltzer and Schroeder in 1975. The
+science, having been proposed by Saltzer and Schroeder in 1975 (see
+the Further Reading). The
 principle states:
 
   "Every program and every user of the system should operate using the
@@ -282,6 +283,16 @@ application.\ [#]_
    illustrating that security is only one of many system requirements
    taken into consideration.
 
+In an OS setting, the principle of least common mechanism is related to
+the principle of least privilege since the common platform (kernel)
+runs with greater privilege. This is because minimizing the number of
+mechanisms that require elevated kernel privilege also minimizes the
+privilege required across all mechanisms that make up a system. In a
+network setting, the principle is related to the
+end-to-end-argument. That is, it is best to avoid putting functions
+such as encryption into the network when the user is likely to need
+end-to-end encryption anyway.
+
 .. admonition:: Further Reading
 
   G. Popek. `A Principle of Kernel Design
@@ -298,15 +309,6 @@ application.\ [#]_
   Design <https://dl.acm.org/doi/abs/10.1145/357401.357402>`__.  ACM
   Transactions on Computer Systems. November 1984.
 
-In an OS setting, the principle of least common mechanism is related to
-the principle of least privilege since the common platform (kernel)
-runs with greater privilege. This is because minimizing the number of
-mechanisms that require elevated kernel privilege also minimizes the
-privilege required across all mechanisms that make up a system. In a
-network setting, the principle is related to the
-end-to-end-argument. That is, it is best to avoid putting functions
-such as encryption into the network when the user is likely to need
-end-to-end encryption anyway.
 
 2.3.6 Design for Iteration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -408,13 +410,13 @@ principles covered above include several that were drawn from the
 influential paper by Saltzer and Schroeder from 1975. That is the same
 Saltzer whose book (with Kaashoek) we referred to in Chapter 1. The
 fact that many of the principles from the 1975 paper reappear in the
-2009 is probably a sign that Saltzer had some confidence that these
+2009 book is probably a sign that Saltzer had some confidence that these
 principles have stood the test of time. We recommend reading the
 entire paper.
 
 .. admonition:: Further Reading
 
-  Jerome Saltzer and Michael Schroeder. `The Protection of Information
+  J. Saltzer and M. Schroeder. `The Protection of Information
   in Computer Systems
   <http://web.mit.edu/Saltzer/www/publications/protection/index.html>`__. In
   Proceedings of the IEEE, 1975.

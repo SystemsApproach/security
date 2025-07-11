@@ -512,12 +512,12 @@ SIGCOMM 2017.
 
    A. Langley *et al.*
    `The QUIC Transport Protocol: Design and Internet-Scale Deployment
-   <https://research.google/pubs/the-quic-transport-protocol-design-and-internet-scale-deployment/>`__.
-   SIGCOMM 2017.
+   <https://doi.org/10.1145/3098822.3098842>`__.
+   Proc. ACM SIGCOMM, August 2017.
 
-   We also covered the impact of QUIC on congestion control in our book
-   on TCP Congestion Control.
-   `TCP Congestion Control: A Systems Approach <https://tcpcc.systemsapproach.org>`__.
+   L. Peterson, L. Brakmo, and B. Davie, `TCP Congestion Control: A
+   Systems Approach
+   <https://tcpcc.systemsapproach.org/variants.html#http-performance-quic>`__.
 
 
 6.5 A Systems View of TLS
