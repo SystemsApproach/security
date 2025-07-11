@@ -697,7 +697,7 @@ AMF informs the other sub-components of the Mobile Core and RAN of the
 parameters they will need to service the device (e.g., the IP address
 assigned to the device and the appropriate QoS parameters). It also
 instructs the base station to establish an encrypted channel to the
-device and send the device the symmetric key it will subsequently use
+device and sends the device the symmetric key it will subsequently use
 for the encrypted data channel with the base station.  This symmetric
 key is encrypted using the public key of the device, so only the
 device can decrypt it. It does this using the secret key on its SIM
