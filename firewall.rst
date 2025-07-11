@@ -429,12 +429,12 @@ we recommend our companion book on software-defined networks.
 
 Firewalls are often placed inside a larger category of *security
 appliances*—devices placed at some strategic point in the network to
-perform a security function. Other example appliances include*
-intrusion detection systems* (IDS) and *intrusion prevention systems*
+perform a security function. Other example appliances include
+*intrusion detection systems* (IDS) and *intrusion prevention systems*
 (IPS). These systems try to look for anomalous activity, such as an
 unusually large amount of traffic targeting a given host or port
 number, for example, and generate alarms for network managers or
-perhaps even take direct action to limit a possible attack.*
+perhaps even take direct action to limit a possible attack.
 
 A good example of an IPS is Snort, an open source project first
 published in 1999, having started life as an IDS, and now owned by
@@ -445,6 +445,12 @@ a recognizable signature, and that the IDS can be programmed with a
 rule to recognize the attack traffic, and raise alerts when this
 happens. An IPS takes the additional step of blocking the attack,
 which sounds easy enough but raises the cost of false positives.
+
+Like firewalls, IDS and IPS need to see all the traffic traversing a
+network if they are to detect attacks, and so strategic placement is
+important. That leads to the same concerns about east-west traffic
+that we discussed above, and thus there are also distributed versions
+of these systems.
 
 For an IDS/IPS that uses packet signatures to be effective, the set of
 potential attacks need to have been spotted in the wild and analyzed
