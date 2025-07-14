@@ -475,4 +475,4 @@ security principles discussed in Chapter 2: defense in depth. For
 example, if we had a perfect firewall, we might not require an IDS or
 IPS. However, knowing that firewalls will never block all forms of
 malicious traffic leads to the conclusion that an IDS/IPS is worth
-having as a second line of defense. 
+having as a second line of defense.
