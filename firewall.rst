@@ -485,7 +485,7 @@ IPS. However, knowing that firewalls will never block all forms of
 malicious traffic leads to the conclusion that an IDS/IPS is worth
 having as a second line of defense.
 
-9.4.2 DoS Prevention
+9.4.2 DoS Mitigation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes unwanted traffic is simply trying to consume resources,
