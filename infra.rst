@@ -25,8 +25,8 @@ between parties as their traffic traverses the Internet. But the
 Internet itself consists of infrastructure, such as routers, that must
 also be defended against attacks. Two areas of particular concern are
 the interdomain routing system and the domain name system (DNS). Both
-systems routinely come under attack. There are efforts under way to
-make them more resistant to attacks as we discuss in the following
+systems routinely come under attack. There are efforts underway to
+make them more resistant to attacks, as we discuss in the following
 sections.
 
 
@@ -35,11 +35,11 @@ sections.
 
 In most respects, a router is just a special-purpose computer with
 some high-speed interfaces and specialized software to perform tasks
-such as route computation and advertisement. So they need to be
+such as route computation and advertisement. So routers need to be
 protected like end-systems, e.g., with strong passwords and
 multi-factor authentication, using access control lists and firewalls,
 etc.  That is only a starting point, however, because the actual
-routing protocols themselves represent an opportunity for attack. BGP,
+routing protocols themselves introduce opportunities for attack. BGP,
 the Border Gateway Protocol, is vulnerable to a wide range of
 attacks, and is the only routing protocol that is expected to cross the
 boundaries of a single administrative domain, so we focus our
@@ -52,7 +52,7 @@ the problem solved by TLS: how do we know that we're talking to the
 web site we wanted to connect to? But there are multiple levels to
 this problem when it comes to inter-domain routing.  When you have a
 secure, encrypted connection to your bank, you probably trust them to
-show you accurate information about your account (mostly-banks do make
+show you accurate information about your account (mostly—banks do make
 mistakes on occasions) and the secure connection protects it from
 modification by an attacker. A secure, encrypted connection to the
 website of the New York Times, however, doesn't mean you should
@@ -122,13 +122,13 @@ algorithm). It also lacks dynamic key management and the ability to update the
 cryptographic algorithm, so it is now deprecated in favor of a more
 general TCP authentication option which is described in RFC 5925.
 
-It might seem somewhat counter-intuitive that BGP does not currently run
+It might seem somewhat counterintuitive that BGP does not currently run
 over TLS, given the maturity and widespread adoption of that
 technology today. The explanation for this comes down to a combination
 of factors including history, inertia, and the different operational
 model of running BGP versus connecting to a remote website. For
 example, BGP sessions often run between directly connected routers at
-a peering point or internet exchange points (IXPs) which allows for a
+a peering point or Internet exchange points (IXPs) which allows for a
 simple TTL-based method to prevent spoofing. Privacy of BGP updates is
 considerably less important than authenticity. And as we shall see,
 there is a lot more to establishing the authenticity of a BGP
@@ -182,9 +182,9 @@ use the path if asked to do so? The short answer to both questions is that we
 don't, but there has been a multi-decade quest to build mechanisms that
 enable greater confidence in the correctness of such
 announcements. This quest, and the slowness of its progress, was well
-documented by Sharon Goldberg in 2014, and the progress continues
-today. A more recent study by Testart and Clark from 2021 backs up the
-claim that progress has been slow.
+documented by Sharon Goldberg in 2014. While progress continues
+today, a more recent study by Testart and Clark from 2021 indicated
+that progress had remained slow.
 
 Let's start with a simple and well-studied example. In 2008, ISPs in
 Pakistan were ordered by the government to block access to YouTube for
@@ -195,7 +195,7 @@ so that it could then redirect traffic that would try to follow that
 path. The problem was that not only was this path not a viable way to
 reach YouTube, it was also a *more specific* path, that is, it was for
 a longer prefix than the true path to YouTube that was being
-advertised by other ASs. This turned into a problem well beyond the
+advertised by other ASes. This turned into a problem well beyond the
 boundaries of Pakistan when the ISP advertised the route upstream to a
 larger ISP.  The upstream ISP now saw the more specific route as a
 distinct piece of routing information from the true, less specific
@@ -203,7 +203,7 @@ route, and so it re-advertised this (false) path to its peers. Repeated
 application of this decision to accept the more specific path and
 re-advertise it caused much of the Internet to view the small ISP in
 Pakistan as a true path to YouTube. Within minutes a large percentage
-of the Internet was sending YouTube traffic to Pakistan, causing a
+of the Internet was sending YouTube request traffic to Pakistan, causing a
 global outage for YouTube. Resolution was achieved by manual
 intervention at multiple ISPs to stop the global advertisement of the
 false path.
@@ -216,8 +216,8 @@ upstream from Pakistan Telecom  should not have accepted the
 advertisement that said "I have a route to YouTube". How would it know
 not to accept this? After all, BGP needs to be dynamic, so a newly
 advertised prefix is sometimes going to be correct. One solution to
-this problem is the use of Internet Routing Registries, which serve as
-databases mapping address prefixes to the ASs that are authorized to
+this problem is the use of Internet Routing Registries (IRRs), which serve as
+databases mapping address prefixes to the ASes that are authorized to
 advertise them. In the prior example, since YouTube is not a customer
 of Pakistan Telecom, the IRR would show that the YouTube prefix should
 not be advertised by this AS. The responsibility to filter out the
@@ -225,7 +225,7 @@ false announcement falls on the *upstream* ISP, who would need to
 periodically query one or more IRRs in order to maintain an up-to-date
 set of filters to apply to its downstream peers.
 
-There are numerous issues with the IRR approach, including the fact
+There are numerous issues with the IRR approach, including
 that this sort of filtering gets much more difficult the closer you
 get to the "core" of the Internet. It's one thing to filter prefixes
 from an ISP that serves a modest number of customers in a single
@@ -272,7 +272,7 @@ describe three different uses of the RPKI in the following sections.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The first use of RPKI is to allow an AS to prove that it is authorized
-to originate routing advertisements to specific address prefixes. A
+to originate routing advertisements for specific address prefixes. A
 Route Origin Authorization (ROA) contains a certificate,
 an AS number, and a set of prefixes that the AS is authorized to
 advertise. The ROA is cryptographically signed by an entity that is
@@ -281,7 +281,7 @@ which this address prefix has been allocated.
 
 Address allocation is a hierarchical process. Because Regional
 Internet Registries (RIRs) are at the top of the hierarchy for address
-allocation, they are a logical place to place the root of trust, known
+allocation, they are a logical place for the root of trust, known
 as a trust anchor, for the RPKI. There are five RIRs globally and each
 has a root certificate in the RPKI.
 
@@ -361,7 +361,7 @@ timescale, and certificates can be issued at the same time. Thus it is
 feasible to fetch the entire contents of the RPKI repository to build up a
 complete picture of the chains of certificates that have been
 issued. With this information, a router running BGP can determine *in advance* which
-ASs could originate routing advertisements for which prefixes and use
+ASes could originate routing advertisements for which prefixes and use
 this to configure filtering rules that specify which advertisements they are
 willing to accept. There is a well-established set of software tools
 to automate this process for popular operating systems and commercial
@@ -422,7 +422,7 @@ the RPKI repositories just like other objects in the RPKI.
 Route origin validation only tackles part of the problem with BGP
 security. Even if the originating AS can be shown to be valid, what do
 we know about the rest of the path? For example, if a malicious ISP
-has a valid path to a certain prefix that traverses five ASs, but
+has a valid path to a certain prefix that traverses five ASes, but
 chooses to falsely advertise that it can reach that prefix in two AS
 hops, it is likely to attract traffic destined for that
 prefix. Whatever the motive for such a step may be (e.g., to increase
@@ -449,7 +449,7 @@ message.
 
 The harder part of the problem is validating that the *contents* of
 the message are correct from the perspective of BGP. Since a BGP
-announcement is an ordered list of ASs, each of which has added
+announcement is an ordered list of ASes, each of which has added
 itself into the path to the destination, we need to validate that
 every AS in the path has correctly announced a route to the
 destination when it added itself into the path.
@@ -463,7 +463,7 @@ With the RPKI in place, every AS participating in BGPsec can be assumed
 to have a well-known public key and matching private key.
 
 Now consider the process of constructing a path to a particular
-prefix. The path consists of a set of ASs. For example, AS1, the origin AS, signs
+prefix. The path consists of a set of ASes. For example, AS1, the origin AS, signs
 an announcement that says it is the origin for the prefix, using its
 private key. Furthermore, it includes the number of the target AS,
 AS2, to which it is sending the announcement, in the set of fields
@@ -485,9 +485,9 @@ the correct operation of BGPsec. Suppose that, for example, AS3 tries
 to lie about the path it has to AS1, claiming that the path <AS3,AS1>
 is valid (skipping over AS2). It can't construct a valid message to
 make this claim with the information that it received from
-AS2, because of the fact that AS2 is the target given by AS1. An
+AS2, because AS2 is the target given by AS1. An
 attempt to create a signed path <AS3,AS1> could be detected as
-invalid, because the signed statement from AS1 includes the fact that
+invalid, because the signed statement from AS1 indicates that
 its target was AS2, not AS3.
 
 Thus, when a valid signed announcement is received, the receiver is
@@ -536,34 +536,34 @@ in the following section.
 At the time of writing, there is an effort underway at the IETF to
 standardize an approach to path validation known as ASPA (AS Provider
 Authorization). The idea is to use a new set of objects in the RPKI to
-capture the relationships among ASs, and then use that information to
+capture the relationships among ASes, and then use that information to
 check the validity of BGP advertisements as they are received.
 
 ASPA shares an attractive property with ROV: no cryptographic
 operations are added to BGP itself. Just as ROV builds a database (in
 the RPKI) of who is allowed to originate an advertisement, ASPA builds
-a database showing which ASs provide transit to other ASs. This,
+a database showing which ASes provide transit to other ASes. This,
 too, uses the RPKI, but with different types of certificates.
 
 An important ingredient in ASPA is the insight that the relationships
-between ASs can be placed into a small set of categories. First, if there is
-no BGP connection between a pair of ASs, they have no relationship—and
-hence we should never see this pair of ASs next to each other in an
-advertised path. For any pair of ASs that do interconnect, the
+between ASes can be placed into a small set of categories. First, if there is
+no BGP connection between a pair of ASes, they have no relationship—and
+hence we should never see this pair of ASes next to each other in an
+advertised path. For any pair of ASes that do interconnect, the
 relationship can normally be classified as customer-to-provider, or
 peer-to-peer.  A customer depends on a provider to deliver traffic to
 and from their AS, and that means that it is expected that the
 provider's AS number will appear in routing advertisements to reach
-the customer AS. Customer ASs, on the other hand, only deliver
-traffic to their provider ASs if it originates in the customer AS itself or
+the customer AS. Customer ASes, on the other hand, only deliver
+traffic to their provider ASes if it originates in the customer AS itself or
 comes from the customer's customers.
 
-The relationship between customers and providers is normally capture
+The relationship between customers and providers is normally captured
 visually as "valley-free" routing. Routing advertisements flow "up" from customers
 to providers, then (optionally) across between peers, then down from
 providers to customers, as depicted in :numref:`Figure %s
-<fig-valleyfree>`. In this figure, customer ASs are depicted below
-their provider AS, while the two ASs at the top have a peer-to-peer
+<fig-valleyfree>`. In this figure, customer ASes are depicted below
+their provider AS, while the two ASes at the top have a peer-to-peer
 relationship. Valley-free routes have the property that they never
 start to go down (towards customers) and then head up again towards
 providers. The appearance of a valley is a strong indication of a
@@ -577,7 +577,7 @@ relationships gives us the ability to detect such anomalies.
 
    Valley-free topology of Autonomous Systems
 
-Suppose that two ASs, X and Y, publish a list of their providers
+Suppose that two ASes, X and Y, publish a list of their providers
 using ASPA objects in the RPKI. Let's say that there is an ASPA object
 asserting that AS X is a provider for AS Y, as well as an ASPA object
 asserting the AS Y is *not* among the providers for AS X. If a router
@@ -594,11 +594,11 @@ power a BGP speaker gains to detect paths that are invalid.
 
 Notably, ASPA catches some routing problems (such as accidental
 leakage of routes) that are not caught by BGPsec. This is because
-BGPsec shows that ASs are connected to each other but does not capture
+BGPsec shows that ASes are connected to each other but does not capture
 the customer-provider relationships.
 
 Interestingly, ASPA starts to provide some benefit to those using it
-as soon as there are two ASs taking part. In other words, it has
+as soon as there are two ASes taking part. In other words, it has
 quite good incremental deployment properties, another advantage over BGPsec.
 
 .. _reading_aspa:
@@ -641,7 +641,7 @@ quite good incremental deployment properties, another advantage over BGPsec.
 
    *The second countermeasure is to filter malicious traffic as early
    (close to the source) as possible.  If a DoS attack comes from a
-   single source, then it is easy to "block" traffic from from that
+   single source, then it is easy to "block" traffic from that
    source at an ingress to a network you control. This is why DoS
    attacks are typically distributed.  Dropping (or rate limiting)
    attack packets at the boundary router (or firewall) for an
@@ -730,7 +730,7 @@ Even with no visibility of the client traffic, the attacker can force
 the resolver to make queries to example.com by issuing queries of its
 own, and then send the flood of responses to impersonate the
 authoritative server. If successful, this leaves the fake data in the
-cache until its TTL expires. Other clients of the resolved will now
+cache until its TTL expires. Other clients of the resolver will now
 get the bad result from the cache. There are many variations of this type of
 attack, broadly cataloged in RFC 3833, which analyzes the threats
 faced by DNS.
@@ -890,22 +890,22 @@ queries as requests within that encrypted channel. The details of
 how to encode the requests and responses are spelled out in the RFCs
 and we need not dwell on them here.
 
-It's worth noting that in this model, we no longer have an assurance
-that they DNS information being provided by the resolver is correct at
-the same level that we did with DNSSEC. What we can be sure of is the
-identity of the resolver we are connected to, since that is provided
-by its TLS certificate, and the fact that the query sent and response
-issued by the resolver have not been modified or observed by an
-intermediary, since they are both encrypted and authenticated. But if
-the resolver itself is giving bad information, perhaps because the
-information provided to it from upstream in the DNS hierarchy has been
-corrupted, the client will be none the wiser. So while the need to
-deploy DNSSEC all the way along the hierarchy is something of an
-impediment to deployment, it does provide a level of security that
-isn't provided by simply securing the client-to-resolver channel.
+It's worth noting that, in contrast to DNSSEC, DoH and DoT provide no assurance
+that the DNS information being provided by the
+resolver is correct. We can be sure of the identity of the
+resolver we are connected to, since that is provided by its TLS
+certificate. And we know that the query sent and response issued by the
+resolver have not been modified or observed by an intermediary, since
+they are both encrypted and authenticated. But if the resolver itself
+is giving bad information, perhaps because the information provided to
+it from upstream in the DNS hierarchy has been corrupted, the client
+will be none the wiser. So while the need to deploy DNSSEC all the way
+along the hierarchy is something of an impediment to deployment, it
+does provide a level of security that isn't provided by simply
+securing the client-to-resolver channel.
 
 Another notable security risk that is not addressed by any of the
-approaches discussed to this point, is the privacy of the client
+approaches discussed to this point is the privacy of the client
 making the queries. The resolver has access to all the client requests
 in unencrypted form, which would seem to be a requirement for those
 requests to be served. However, there have been efforts to improve the
