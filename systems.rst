@@ -32,7 +32,7 @@ It is also noteworthy that in addition to taking advantage of existing
 building blocks, the example systems are highly configurable. The idea
 of making a security system algorithm independent is a good one,
 because you never know when your preferred cryptographic algorithm
-might be proved to be insufficiently strong for your purposes. Note
+might be proved to be insufficient for your purposes. Note
 the analogy to being able to change keys without changing the
 algorithm; if one of your cryptographic algorithms turns out to be
 flawed, it would be great if your entire security architecture didn’t
@@ -259,7 +259,7 @@ unlike the VPN mechanism described in the next section, SSH tunnels to
 a single remote machine rather than to a remote network. The latter
 gives you access to *any* machine on the local network. In practice,
 it is also the case that corporate firewalls often block port 22 (SSH's
-well-known port) limiting the situations in which SSH works as a
+well-known port), limiting the situations in which SSH works as a
 VPN-like tunnel.
 
 7.3 IP Security (IPsec)
@@ -396,8 +396,8 @@ end-users to authenticate themselves with public key cryptography, but
 if you need to authenticate yourself to, say, your bank, it's
 overwhelmingly the case today that you will use some combination of
 user name (maybe an account number or an email address) and a
-password. Perhaps another factor such as a one-time code sent to your
-phone will also be used. Encryption (using TLS) prevents your password
+password. Perhaps another factor, such as a one-time code sent to your
+phone, will also be used. Encryption (using TLS) prevents your password
 from being seen by eavesdroppers when it is sent to the bank's site,
 but currently there is little deployment of public key cryptography
 for the authentication of users. SSH, as noted above, supports the use
@@ -424,7 +424,8 @@ reliance on passwords and to drive adoption of public key cryptography
 for end-user authentication. The most visible recent development has
 been the appearance of *passkeys*, which, as the name suggests, are a
 form of user authentication that replaces passwords with public
-key-based authentication.
+key-based authentication. The challenge is to automate key management
+on behalf of the user.
 
 .. can add a figure here
 
@@ -509,7 +510,7 @@ might be biometric, or even a hardware token.
 
 The downside of hardware tokens is that the private key is stored only
 in one place. If the hardware token is lost, there is no way to
-recover the private key, so some other authentication method will be
+recover the private key, so some other authentication method is
 needed as a backup. Also, since most hardware tokens lack biometric
 authentication, it is possible that a private key could be obtained
 and used by an attacker if he can gain access to the physical key.
@@ -545,9 +546,9 @@ defense in depth introduced in Chapter 2. As long as your transport
 layer connection is secured by TLS and/or your VPN securely tunnels
 over the public Internet using IPsec, the confidentiality of your
 communication is ensured; securing the wireless link is partially
-redundant. However, there is additional communication between the
-wireless device and the wired infrastructure that supports it. This
-segment must also ensure confidentiality and integrity.
+redundant. Not all users are that careful, of course, but there are
+also control packets exchanged between the wireless device and the
+wired infrastructure, and that communication must be secured.
 
 7.5.1  Wi-Fi (802.11i)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
