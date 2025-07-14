@@ -363,7 +363,7 @@ complete picture of the chains of certificates that have been
 issued. With this information, a router running BGP can determine *in advance* which
 ASes could originate routing advertisements for which prefixes and use
 this to configure filtering rules that specify which advertisements they are
-willing to accept. There is a well established set of software tools
+willing to accept. There is a well-established set of software tools
 to automate this process for popular operating systems and commercial
 routing platforms. Notably, the routers running BGP do not perform
 cryptographic operations in real time when processing route
@@ -487,7 +487,7 @@ is valid (skipping over AS2). It can't construct a valid message to
 make this claim with the information that it received from
 AS2, because AS2 is the target given by AS1. An
 attempt to create a signed path <AS3,AS1> could be detected as
-invalid, because the signed statement from AS1 includes that
+invalid, because the signed statement from AS1 indicates that
 its target was AS2, not AS3.
 
 Thus, when a valid signed announcement is received, the receiver is
@@ -631,7 +631,7 @@ quite good incremental deployment properties, another advantage over BGPsec.
    used to absorb flash crowds of legitimate traffic: a* Content
    Distribution Network (CDN). *The idea is to replicate content
    (whether it's a movie or a critical piece of infrastructure
-   metadata) across many widely distributed servers. As long as the
+   metadata) across many widely-distributed servers. As long as the
    aggregate capacity of these servers is greater than the aggregate
    capacity of the botnet, content remains available. This notion of*
    aggregate *capacity generalizes beyond servers responding to GET
@@ -890,19 +890,19 @@ queries as requests within that encrypted channel. The details of
 how to encode the requests and responses are spelled out in the RFCs
 and we need not dwell on them here.
 
-It's worth noting that in this model, we no longer have an assurance
-to the same extent that we did with DNSSEC that the DNS information
-being provided by the resolver is correct. What we can be sure of is
-the identity of the resolver we are connected to, since that is
-provided by its TLS certificate, and that the query sent and
-response issued by the resolver have not been modified or observed by
-an intermediary, since they are both encrypted and authenticated. But
-if the resolver itself is giving bad information, perhaps because the
-information provided to it from upstream in the DNS hierarchy has been
-corrupted, the client will be none the wiser. So while the need to
-deploy DNSSEC all the way along the hierarchy is something of an
-impediment to deployment, it does provide a level of security that
-isn't provided by simply securing the client-to-resolver channel.
+It's worth noting that, in contrast to DNSSEC, DoH and DoT provide no assurance
+that the DNS information being provided by the
+resolver is correct. We can be sure of the identity of the
+resolver we are connected to, since that is provided by its TLS
+certificate. And we know that the query sent and response issued by the
+resolver have not been modified or observed by an intermediary, since
+they are both encrypted and authenticated. But if the resolver itself
+is giving bad information, perhaps because the information provided to
+it from upstream in the DNS hierarchy has been corrupted, the client
+will be none the wiser. So while the need to deploy DNSSEC all the way
+along the hierarchy is something of an impediment to deployment, it
+does provide a level of security that isn't provided by simply
+securing the client-to-resolver channel.
 
 Another notable security risk that is not addressed by any of the
 approaches discussed to this point is the privacy of the client
