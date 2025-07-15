@@ -6,7 +6,7 @@ security is a never-ending challenge. As security is a negative goal, we can nev
 be sure that we have foreseen and prevented every possible
 threat. Nevertheless, there are a number of general principles that
 have been developed over the decades that we can apply to improve the
-overall security of our networks and systems. We will discuss these in
+overall security of our networks and systems. We discuss these in
 this chapter and see them in action in subsequent chapters.
 
 In order to take a systematic approach to security it helps to have a
@@ -49,7 +49,7 @@ adversary in transit.
 The preceding requirements also suggest that we must have a concept of
 *identity*. That is, we need a system by which the entities involved
 in communication, often called *principals*, can be securely
-identified. As we will discuss later, this problem is harder to solve
+identified. As we discuss later, this problem is harder to solve
 than it might first appear. How can we know that a website we are
 communicating with actually represents the business with whom we wish
 to communicate? Or how does a banking system know that the person
@@ -123,9 +123,9 @@ so on.
 Given how long people have been trying to build secure computing
 systems, including networked systems, there has been plenty of
 time to develop some principles that improve the chances that the
-system remains secure. We will outline some of the most well-known
+system remains secure. We outline some of the most well-known
 principles here and the following chapters contain examples of how
-those principles have been applied in practice.
+those principles are applied in practice.
 
 2.3.1 Defense in Depth
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -189,7 +189,7 @@ resources needed to do their jobs.
 Interestingly, Saltzer and Schroeder explicitly mention "firewalls" in
 the section of their paper on least privilege, using the analogy from
 the physical world (a wall to prevent the spread of fire) before the
-concept of network firewalls had been invented. As we will discuss
+concept of network firewalls had been invented. As we discuss
 later, it turns out that the widespread use of network firewalls for
 most of their history *failed* to follow the principle of least
 privilege, in that it is common to find large "zones" of a network
@@ -385,7 +385,7 @@ them. Once a system is deployed and operational, the emphasis is on
 proactively monitoring the system for anomalous behavior and
 establishing an incident response plan to deal with suspected attacks.
 Continuously collecting data about a running system is commonplace,
-and using AI/ML to respond to detect (and potentially respond to)
+and using AI/ML to detect (and potentially respond to)
 attacks is becoming increasingly common.
 
 The details of these procedures is beyond the scope of this book,

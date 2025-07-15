@@ -272,7 +272,7 @@ to transmit messages over a fiber link between two machines in a
 locked datacenter, you might trust that channel is secure, and so take
 no additional steps.  Every system makes trust assumptions, even if it
 as simple as trusting the computer you just bought from a reputable
-vendor does not forward your data to a adversary. The key is
+vendor does not forward your data to an adversary. The key is
 to be as explicit as possible about those assumptions, because they
 may change over time.
 
