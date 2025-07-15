@@ -419,8 +419,7 @@ we recommend our companion book on software-defined networks.
 
    L. Peterson, C. Cascone, B. O’Connor, T. Vachuska,
       and B. Davie. `Software-Defined Networks: A Systems
-      Approach. <https://sdn.systemsapproach.org>`__.
-
+      Approach <https://sdn.systemsapproach.org>`__.
 
 
 
@@ -430,19 +429,21 @@ we recommend our companion book on software-defined networks.
 Firewalls are often placed inside a larger category of *security
 appliances*—devices placed at some strategic point in the network to
 perform a security function. Such appliances generally watch for and
-respond to unwanted traffic, where the first challenge is how to
+respond to unwanted traffic, where the main challenge is how to
 distinguish between good and bad traffic. This section looks at two
 examples.
 
-9.4.1 Intrusion Detection
+9.4.1 Intrusion Detection and Prevention
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A common example of security appliances includes the use *intrusion
-detection systems* (IDS) or *intrusion prevention systems* (IPS).
-These systems look for anomalous activity, such as an unusually large
-amount of traffic targeting a given host or port number (e.g., to probe
-for a vulnerability), and generate alarms for network managers or
-perhaps even take direct action to limit the damage.
+A common example of a security appliance is an *intrusion detection
+system* (IDS), or its sibling *intrusion prevention system* (IPS).
+These systems look for anomalous activity, such as an unusually
+large amount of traffic targeting a particular port number, which
+often signals a malicious attempt to probe for a vulnerability. When
+identified, the appliance either generates an alarm for network
+managers, or in some cases, is able to take immediate action to limit
+the damage.
 
 A good example of an IPS is Snort, an open source project first
 published in 1999, having started life as an IDS, and now owned by
@@ -450,9 +451,13 @@ Cisco. In its original incarnation, Snort provided a lightweight,
 rule-based packet filtering and capture tool based on Berkeley Packet
 Filters. The idea is that attacks, such as worms, have a recognizable
 signature, and that the IDS can be programmed with a rule to recognize
-the attack traffic, and raise alerts when this happens. An IPS takes
-the additional step of blocking the attack, which sounds easy enough
-but raises the cost of false positives.
+the attack traffic, and raise alerts when this happens. As an IPS,
+Snort now takes the additional step of blocking the attack.
+
+.. admonition:: Further Reading
+
+   `Snort: Open Source Intrusion Prevention System (IPS)
+   <https://snort.org/>`__.
 
 Like firewalls, IDS and IPS need to see all the traffic traversing a
 network if they are to detect attacks, and so strategic placement is
@@ -465,7 +470,30 @@ potential attacks need to have been spotted in the wild and analyzed
 so that suitable rules can be formulated. Sharing rules among a
 community of users helps to speed up this process, and commercial
 IDS/IPS systems typically come with a subscription to a
-frequently-updated rules database.
+frequently-updated rules database. (See the Snort website referenced
+above for an example set of community rules.)
+
+.. sidebar::  Identifying Unwanted Traffic
+
+  *Our overview of security appliances could lead to the conclusion
+  that decisions about whether traffic is legitimate or malicious is
+  clear cut.  It often is not, and there can be real consequences in
+  both directions.  For example, an overly aggressive IPS rule-set or
+  anomoly detection heuristic could raise false positives, restricting
+  legimate traffic and negatively impacting revenue. Too conservative,
+  and malilcous traffic could crowd out legitimate traffic.*
+
+  *It is also the case that that "unwanted" is in the eye of the
+  beholder.  Network probes that are sometimes used in research, with
+  the ultimate goal of improving the Internet in some way, are often
+  flagged as malicious. Even a single unexpected UDP packet can
+  trigger a cease-and-desist letter. In other situations,
+  administrators want to ensure that a human (and not an automated
+  crawler) is sending requests to their websites. There are "opt-out"
+  conventions (e.g., adding a ``robots.txt`` file), but they depend on
+  the good will of other actors. Some website administrators are now
+  using Anibus software to ensure that a human, and not an AI bot
+  trying to scrape their content, is at other end of every HTTP request.*
 
 Another approach to using signatures is to look for
 *anomalies*—patterns in the behavior of traffic that somehow stand out
@@ -502,35 +530,41 @@ weakest link), we also need ways to mitigate the impact of
 *Distributed DoS (DDoS)* attacks.
 
 Keeping in mind that DDoS traffic typically looks legitimate (there's
-just too much of it) the DDoS challenge is addressed by two general
-countermeasures. The first is to absorb potential attacks with even
-greater resources than the adversary is able to muster. For content,
-this is done using the same mechanism as is used to absorb flash
-crowds of legitimate traffic: a *Content Distribution Network (CDN).*
-The idea is to replicate content (whether it's a movie or a critical
-piece of infrastructure metadata) across many widely-distributed
-servers. As long as the aggregate capacity of these servers is greater
-than the aggregate capacity of the botnet, content remains
-available. This notion of *aggregate* capacity generalizes beyond
-servers responding to GET requests to a web server. A network is
-itself a distributed collection of forwarding and transmission
-resources, engineered to distribute those resources in a way that
-avoids vulnerable bottlenecks.
+just too much of it), the DDoS challenge is addressed by two general
+countermeasures. Note that the best we can hope for is to mitigate the
+impact of such attacks; there is no cure-all. This is easy to
+understand at an intuitive level: an appliance defending against DoS
+attacks is itself a kind of resource that can be DoS'ed.
+
+The first countermeasure is to absorb potential attacks with even
+greater resources than the adversary is able to muster. For web
+content, this is done using the same mechanism as is used to absorb
+flash crowds of legitimate traffic: a *Content Distribution Network
+(CDN).* The idea is to replicate content (whether it's a movie or a
+critical piece of infrastructure metadata) across many
+widely-distributed servers. As long as the aggregate capacity of these
+servers is greater than the aggregate capacity of the botnet, content
+remains available. This notion of *aggregate* capacity generalizes
+beyond web servers responding to GET requests. A network is itself a
+distributed collection of forwarding and transmission resources,
+engineered to distribute those resources in a way that avoids
+vulnerable bottlenecks.
 
 The second countermeasure is to filter malicious traffic as early
-(close to the source) as possible. This is similar to what an IDS
-would do, except the traffic typically looks legitimate (except in
-volume). If a DoS attack comes from a single source, then it is easy
-to "block" traffic from that source at an ingress to a network you
-control. This is why DoS attacks are typically distributed.  Dropping
-(or rate limiting) attack packets at the boundary router (or firewall)
-for an enterprise is better than allowing those packets to flood the
-local network and reach a victim server, but the more widely
-distributed the periphery of your network, the earlier you can filter
-malicious packets. And drawing on the first countermeasure, the more
-widely distributed your network resources are, the greater your
-aggregate filtering capacity. Global overlay networks, as provided by
-companies like Cloudflare and Fastly, offer a combination of content
-distribution and distributed packet filtering.  These are commercial
-products, with many proprietary details, but the general principles
-outlined here explain the underlying strategy.
+(close to the source) as possible. This is similar to what an IPS
+would do, except the traffic often looks legitimate. If a DoS attack
+comes from a single source, then it is easy to "block" traffic from
+that source at an ingress to a network you control. This is why DoS
+attacks are typically distributed.  Dropping (or rate limiting) attack
+packets at the boundary router (or firewall) for an enterprise is
+better than allowing those packets to flood the local network and
+reach a victim server(s), but the more widely distributed the periphery
+of your network, the earlier you can filter malicious packets. And
+drawing on the first countermeasure, the more widely distributed your
+network resources are, the greater your aggregate filtering capacity.
+Global overlay networks, as provided by companies like Cloudflare and
+Fastly, offer a combination of content distribution and distributed
+packet filtering.  These are commercial products, with many
+proprietary details, but the general principles outlined here explain
+their underlying strategy.
+
