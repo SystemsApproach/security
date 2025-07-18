@@ -18,6 +18,7 @@ Peterson and Davie
    :caption: Table of Contents
    :glob:
 
+   preface.rst
    intro.rst
    principles.rst
    crypto.rst
