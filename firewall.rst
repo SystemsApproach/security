@@ -492,7 +492,8 @@ above for an example set of community rules.)
   crawler) is sending requests to their websites. There are "opt-out"
   conventions (e.g., adding a ``robots.txt`` file), but they depend on
   the good will of other actors. Some website administrators are now
-  using Anibus software to ensure that a human, and not an AI bot
+  using Anubis, an open source web application firewall, to ensure that
+  a human, and not an AI bot
   trying to scrape their content, is at other end of every HTTP request.*
 
 Another approach to using signatures is to look for
