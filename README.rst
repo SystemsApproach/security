@@ -1,6 +1,19 @@
 About The Book
 ===============
 
+.. image:: figures/Written-By-Humans-Not-By-AI-Badge-black.png
+  :align: left
+  :scale: 50%
+  :alt: written by humans not by AI button
+  :target: https://notbyai.fyi
+
+.. image:: https://github.com/SystemsApproach/security/actions/workflows/publish-docs.yaml/badge.svg
+  :align: left
+  :alt: deployment status button
+  :target: https://github.com/SystemsApproach/security/actions/
+
+|
+
 Source for *Network Security: A Systems Approach* is available
 on GitHub under
 terms of the `Creative Commons (CC BY-NC-ND 4.0)
@@ -40,12 +53,12 @@ This book is part of the `Systems Approach Series
 <https://www.systemsapproach.org>`__, with an online version published at
 `https://security.systemsapproach.org <https://security.systemsapproach.org>`__.
 
+
 To track progress and receive notices about new versions, you can follow
 the project on
-`Facebook <https://www.facebook.com/Computer-Networks-A-Systems-Approach-110933578952503/>`__
-and `Mastodon <https://discuss.systems/@SystemsAppr>`__. To read a running
-commentary on how the Internet is evolving, follow the `Systems Approach
-on Substack <https://systemsapproach.substack.com>`__.
+`Mastodon <https://discuss.systems/@SystemsAppr>`__. To read a running
+commentary on how the Internet is evolving, and for updates on our writing projects, you can sign up for the
+`Systems Approach newsletter <https://systemsapproach.org/newsletter/>`__.
 
 Build the Book
 --------------
