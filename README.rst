@@ -7,7 +7,7 @@ About The Book
   :alt: written by humans not by AI button
   :target: https://notbyai.fyi
 
-.. image:: https://github.com/SystemsApproach/security/actions/workflows/publish-docs.yaml/badge.svg
+.. image:: https://github.com/SystemsApproach/security/actions/workflows/publish-docs.yml/badge.svg
   :align: left
   :alt: deployment status button
   :target: https://github.com/SystemsApproach/security/actions/
