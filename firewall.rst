@@ -450,9 +450,10 @@ published in 1999, having started life as an IDS, and now owned by
 Cisco. In its original incarnation, Snort provided a lightweight,
 rule-based packet filtering and capture tool based on Berkeley Packet
 Filters. The idea is that attacks, such as worms, have a recognizable
-signature, and that the IDS can be programmed with a rule to recognize
-the attack traffic, and raise alerts when this happens. As an IPS,
-Snort now takes the additional step of blocking the attack.
+signature (a particular combination of header fields), and that the
+IDS can be programmed with a rule to recognize the attack traffic, and
+raise alerts when this happens. As an IPS, Snort now takes the
+additional step of blocking the attack.
 
 .. admonition:: Further Reading
 
@@ -490,7 +491,7 @@ above for an example set of community rules.)
   trigger a cease-and-desist letter. In other situations,
   administrators want to ensure that a human (and not an automated
   crawler) is sending requests to their websites. There are "opt-out"
-  conventions (e.g., adding a ``robots.txt`` file), but they depend on
+  conventions (e.g., adding a robots.txt file), but they depend on
   the good will of other actors. Some website administrators are now
   using Anubis, an open source web application firewall, to ensure that
   a human, and not an AI bot
@@ -544,12 +545,13 @@ flash crowds of legitimate traffic: a *Content Distribution Network
 (CDN).* The idea is to replicate content (whether it's a movie or a
 critical piece of infrastructure metadata) across many
 widely-distributed servers. As long as the aggregate capacity of these
-servers is greater than the aggregate capacity of the botnet, content
-remains available. This notion of *aggregate* capacity generalizes
-beyond web servers responding to GET requests. A network is itself a
-distributed collection of forwarding and transmission resources,
-engineered to distribute those resources in a way that avoids
-vulnerable bottlenecks.
+servers is greater than the aggregate capacity of the botnet—and the
+CDN does a good job spreading requests across the available
+servers—content remains available. This notion of *aggregate* capacity
+generalizes beyond web servers responding to GET requests. A network
+is itself a distributed collection of forwarding and transmission
+resources, engineered to distribute those resources in a way that
+avoids vulnerable bottlenecks.
 
 The second countermeasure is to filter malicious traffic as early
 (close to the source) as possible. This is similar to what an IPS
