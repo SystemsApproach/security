@@ -2,12 +2,12 @@ Preface
 ========
 
 The field of network security is roughly as old as networking
-itself. Conventional wisdom is that the original Internet was built
-without security features and we have been dealing with the effects of
-those design decisions ever since. And it is not that the Internet's
-designers, implementers and architects were unaware of security
-concerns; many of them were directly involved in developing security
-technologies in early operating systems. But building a
+itself. Conventional wisdom tells us that the original Internet was
+built without security features and we have been dealing with the
+effects of those design decisions ever since. It is not that the
+Internet's designers, implementers and architects were unaware of
+security concerns; many of them were directly involved in developing
+security technologies in early operating systems. But building a
 high-performance network that could scale to global proportions and
 accommodate the heterogeneous set of technologies that existed (and
 those still to come) presented more than enough challenges. To quote
@@ -29,48 +29,50 @@ the first edition of *Computer Networks: A Systems Approach*
 in 1995. There is an adage in security circles that no-one should
 write their own cryptography code because it is so hard to get right,
 and something similar might be said about trying to write a security
-book. It is very easy to make mistakes, especially if you are not
-deeply immersed in the security world and the "look for every possible
+book. It is easy to make mistakes, especially if you are not deeply
+immersed in the security world and the "look for every possible
 weakness" mentality. We've had to make a few corrections over the
-years to our security section in the big textbook.
+years to our security section in the big textbook. It is our
+perspective on security as viewed in the broader networking context
+that we have endeavored to bring to the topic.
 
 So why did we decide to write the current book? First, we saw an
 opportunity to write about security in a way that would make sense to
-a networking person. Also, we saw an opportunity to take more of a
-systems approach to the topic. While we always try to
-take a system-level view in everything we write, it's easy with
-security to get bogged down in the details of individual components
-such as cryptographic algorithms without really tackling the systems
-issues. Cryptography is cool and interesting (in our view at least) but
-it isn't really the main thing to focus on if you are building secure
-systems. So while we do explain the basics of cryptography here, it's
-not the focus. We're aiming to explain how a system that comprises
-many moving parts, both in the network and the end-system, can be made
-secure.
+a networking person. Also, we wanted to take more of a systems
+approach to the topic. While we always try to take a system-level view
+in everything we write, it's easy with security to get bogged down in
+the details of individual components such as cryptographic algorithms
+without really tackling the systems issues. Cryptography is cool and
+interesting (in our view at least) but it isn't really the main thing
+to focus on if you are building secure systems. So while we do explain
+the basics of cryptography here, it's not the focus. We're aiming to
+explain how a system that comprises many moving parts, both in the
+network and the end-system, can be made secure.
 
 This question of focus caused us to examine how much we wanted to say
 about end-system security. There are entire books to be written on
-operating system security, processor architecture bugs such as spectre
-and meltdown, and preventing malware on end-systems. We made a
-conscious decision to draw a line around the network and focus there,
-recognizing that, just as TCP is an important network protocol that
-runs in end-systems, protocols like HTTPS and TLS need to be covered
-in a book on network security. In fact TLS provides an excellent case
-study in the system-level issues that come into play when you try to
-secure traffic that flows between end-systems over the Internet, and
-we devote an entire chapter to it.
+operating system security, processor architecture bugs such as Spectre
+and Meltdown, and mitigating or preventing malware such as viruses on
+end-systems. We made a conscious decision to draw a line around the
+network and focus there, recognizing that, just as TCP is an important
+network protocol that runs in end-systems, protocols like HTTPS and
+TLS need to be covered in a book on network security. In fact TLS
+provides an excellent case study in the system-level issues that come
+into play when you try to secure traffic that flows between
+end-systems over the Internet, and we devote an entire chapter to it.
 
 With the never-ending set of threats and vulnerabilities that need to
 be dealt with, it is all too easy to start thinking of security as
 just a collection of point solutions to the problems that have been
 identified so far. But in fact there is a well-established set of
 principles that have been identified and written down by pioneers in
-the field, such as the principle of least privilege, defense in depth,
-and so on. We have dedicated a chapter to exploring some of the most
-widely accepted principles, and then we see them applied repeatedly
-throughout the book. Perimeter firewalls, for example, can be a part of a defense
-in depth strategy, while *distributed* firewalls have been proposed
-as a way to apply least privilege to datacenter networks.
+the field. The principle of least privilege and defense in depth are
+two noteworthy examples. We have dedicated a chapter to exploring some
+of the most widely accepted principles, and then we see them applied
+repeatedly throughout the book. Perimeter firewalls, for example, can
+be a part of a defense in depth strategy, while distributed firewalls
+have been proposed as a way to apply least privilege to datacenter
+networks.
 
 Inevitably there are security technologies and types of attack that we
 have not covered in this book. What we have tried to do is to give the
@@ -85,10 +87,22 @@ continues to evolve.
 
 
 
+
+
+
+
+
+
+
+
+
 Acknowledgements
 ----------------
 
-Brad Karp
-Cecilia Testart
-Motonori Shindo
-Nick Feamster
+Thanks to all the people who provided feedback on our book at various
+stages in its development, particulary the following people:
+
+- Brad Karp
+- Cecilia Testart
+- Motonori Shindo
+- Nick Feamster
