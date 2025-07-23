@@ -28,7 +28,7 @@ If you make use of this work, the attribution should include the
 following information:
 
 | *Title: Network Security: A Systems Approach*
-| *Authors: The Author List*
+| *Authors: Larry Peterson and Bruce Davie*
 | *Source:* https://github.com/SystemsApproach/security
 | *License:* \ `CC BY-NC-ND 4.0 <https://creativecommons.org/licenses/by-nc-nd/4.0>`__
 
