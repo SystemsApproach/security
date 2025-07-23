@@ -11,6 +11,20 @@ help you if your machine has unpatched vulnerabilities. So other
 approaches are often used to keep out various forms of potentially
 harmful traffic. Firewalls are one of the most common ways to do this.
 
+To provide a little more context for this chapter, it is helpful to
+understand that writing software that is not vulnerable to being
+hacked is an important part of the overall security landscape. It is
+also a broad topic, starting with questions about the programming
+language you use (e.g., memory-safe languages like Rust are less
+susceptible than, say, C). Such topics are outside the scope of this
+book, where we instead take a network-centric view, and ask: *"What can
+we do in the network to either minimize opportunities for malware to
+exploit vulnerable software, or to mitigate the impact of such an
+exploit succeeding."* Firewalls, and more generally *security
+appliances*, are part of the answer. They are devices placed at
+strategic points throughout the network that identify and respond to
+malicious traffic.
+
 9.1 Basic Principles of Firewalls
 -----------------------------------
 
@@ -426,12 +440,11 @@ we recommend our companion book on software-defined networks.
 9.4 Security Appliances
 ------------------------------
 
-Firewalls are often placed inside a larger category of *security
-appliances*—devices placed at some strategic point in the network to
-perform a security function. Such appliances generally watch for and
-respond to unwanted traffic, where the main challenge is how to
-distinguish between good and bad traffic. This section looks at two
-examples.
+As introduced at the beginning of this chapter, *security appliances*
+are a generalization of firewalls. Such appliances are placed
+throughout the network, watching for and responding to unwanted
+traffic. The main challenge they face is how to distinguish between
+good and bad traffic. This section looks at two examples.
 
 9.4.1 Intrusion Detection and Prevention
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
