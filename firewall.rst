@@ -16,14 +16,22 @@ understand that writing software that is not vulnerable to being
 hacked is an important part of the overall security landscape. It is
 also a broad topic, starting with questions about the programming
 language you use (e.g., memory-safe languages like Rust are less
-susceptible than, say, C). Such topics are outside the scope of this
-book, where we instead take a network-centric view, and ask: *"What can
-we do in the network to either minimize opportunities for malware to
-exploit vulnerable software, or to mitigate the impact of such an
-exploit succeeding."* Firewalls, and more generally *security
-appliances*, are part of the answer. They are devices placed at
-strategic points throughout the network that identify and respond to
-malicious traffic.
+susceptible than, say, C), and also including a variety of OS problems
+(e.g., how to efficiently enforce isolation between processes). Such
+topics are outside the scope of this book, where we instead take a
+network-centric view, and ask: *"What can we do in the network to
+either minimize opportunities for malware to exploit vulnerable
+software, or to mitigate the impact when such exploits succeed."*
+Firewalls, and more generally *security appliances*, are part of the
+answer. They are devices placed at strategic points throughout the
+network that identify and respond to malicious traffic.
+
+The other big-picture takeaway is that firewalls and other security
+appliances illustrate the principle of defense in depth introduced in
+Chapter 2. It would be ideal for all the software we run to be
+bullet-proof, but for those times it isn't—e.g., when a new bug is
+discovered—we need a second line of defense. Network appliances play
+that role.
 
 9.1 Basic Principles of Firewalls
 -----------------------------------
@@ -521,12 +529,12 @@ learning algorithms to classify traffic as "normal" or
 have their respective strengths and weaknesses, it is common to find
 both approaches used in modern IDS/IPS systems.
 
-The proliferation of security appliances brings us back to one the
-security principles discussed in Chapter 2: defense in depth. For
-example, if we had a perfect firewall, we might not require an IDS or
-IPS. However, knowing that firewalls will never block all forms of
-malicious traffic leads to the conclusion that an IDS/IPS is worth
-having as a second line of defense.
+The proliferation of security appliances again highlights the
+principle of defense in depth. For example, if we had a perfect
+firewall, we might not require an IDS or IPS. However, knowing that
+firewalls will never block all forms of malicious traffic leads to the
+conclusion that an IDS/IPS is worth having as a second line of
+defense.
 
 9.4.2 DoS Mitigation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
