@@ -713,6 +713,47 @@ effects in and beyond China.
    <https://dl.acm.org/doi/10.1145/2317307.2317311>`__. Computer
    Communications Review, July 2012.
 
+.. sidebar:: DNS Amplification Attacks
+
+   *There is a class of denial-of-service (DoS) attack that leverages
+   the properties of DNS to attack other systems, rather than being an
+   attack on DNS itself. Recall that DNS is UDP-based. A name server
+   sends a response back to the IP address from which a query was
+   sent, and since there is no TCP connection to establish, it is
+   relatively easy to use a fake source address in a query. In this
+   case, the name server can be tricked into sending traffic to some
+   unsuspecting host. And it is not hard to see how this can be turned
+   into a* distributed *denial-of-service attack: many hosts (e.g., a
+   set of hosts in a botnet) can make coordinated requests to a set
+   of name servers, with all the requests using the same spoofed
+   source address. Not only does this lead to a lot of traffic heading
+   to the target address, but the name servers can be make to perform
+   a traffic* amplification *function, because the response to a DNS
+   query can be much larger than the query that triggered it. In
+   particular, the DNS query type "ANY" causes all records for a
+   domain to be returned, which can be a lot of data returned for a
+   simple query. The handling of such queries has recently been
+   clarified in an RFC to reduce the impact of ANY queries, but that
+   is not a complete solution to DNS amplification attacks.*
+
+   *Three main steps can be taken to reduce these attacks. The first
+   is to avoid the deployment of "open" resolvers, i.e., resolvers
+   which will accept queries from anywhere. For example, the resolver
+   for an enterprise should be configured such that only clients
+   within that enterprise can send queries to it; it should not accept
+   queries from the broader Internet.*
+
+   *The second step is source address validation. Source address
+   filtering is a tool that can be applied at the boundaries of
+   autonomous systems to reject traffic with spoofed source
+   addresses. It may not be 100% effective but it will reduce the
+   effectiveness of large scale attacks.*
+
+   *Finally, there are ways to deal with DoS attacks such as the use
+   of content distribution networks and black-holing of DoS
+   traffic. We discuss these further in Chapter 9.*
+
+   
 
 
 8.2.1 DNS Security Extensions (DNSSEC)
