@@ -753,9 +753,6 @@ effects in and beyond China.
    of content distribution networks and black-holing of DoS
    traffic. We discuss these further in Chapter 9.*
 
-   
-
-
 8.2.1 DNS Security Extensions (DNSSEC)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
