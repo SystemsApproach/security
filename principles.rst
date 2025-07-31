@@ -57,9 +57,9 @@ business with whom we wish to communicate? Or how does a banking
 system know that the person behind a particular request is actually
 the account holder?
 
-Message integrity not means being concerned that an adversary might
+Message integrity means not only being concerned that an adversary might
 modify our data in transit, but we also need to be concerned about
-*replay attacks* in which data is captured and then retransmitted at
+*replay attacks*, in which data is captured and then retransmitted at
 some later time. For example, we would want to protect against an
 attack in which an item added to a shopping cart was repeatedly added
 again by an attacker. Thus it is a common requirement to have some
