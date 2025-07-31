@@ -16,16 +16,16 @@ principles that can be applied to help us meet them.
 2.1 Security Requirements
 ----------------------------
 
-The first requirement that comes to mind when thinking about sending
-data across a shared network is likely to be *confidentiality*. As
-noted in Chapter 1, there are many ways that an adversary might gain
-access to data in transit through a network. Confidentiality is the
-ability to prevent data from being read by anyone other than its
-intended recipient. This, for example, is what is required to prevent
-your credit card details being exposed when you enter then on a
-website.
+The first major requirement that comes to mind when thinking about
+sending data across a shared network is likely to be
+*confidentiality*. As noted in Chapter 1, there are many ways that an
+adversary might gain access to data in transit through a
+network. Confidentiality is the ability to prevent data from being
+read by anyone other than its intended recipient. This, for example,
+is what is required to prevent your credit card details being exposed
+when you enter then on a website.
 
-Related to the confidentiality of data is *traffic
+Closely related to the confidentiality of data is *traffic
 confidentiality*. This is the idea that we don't want an adversary to
 be able to determine where or to whom we are sending traffic, or in
 what quantity. This presents some distinct challenges from data
@@ -34,50 +34,53 @@ but they generally must look at packet headers, which contain
 destination information, to determine where to
 send traffic.
 
-An equally important requirement in many cases is
-*authentication*. This is the ability to verify that an item of data
-was sent by the entity that claimed to have sent it. In the example of
-e-commerce, this is what allows us to know we are connected to, say,
-the website of the vendor we wish to patronize and not handing over
-our credit card to some impostor.
+The second major requirement is *integrity*, which means having
+confidence that the information we're receiving is trustworthy, and
+for example, has not been modified by some adversary while in
+transit. Assuring integrity is multi-faceted, involving far more than
+"in transit" adversaries.
 
-Closely related to authentication is *integrity*. It is important not only that
-we know who we are talking to, but that we can verify
-that the data sent across our connection has not been modified by some
-adversary in transit.
+For example, we need to be able to verify that an item of data was
+sent by the entity that claimed to have sent it. This is called
+*authentication*, and in the example of e-commerce, this is what
+allows us to know we are connected to, say, the website of the vendor
+we wish to patronize and not handing over our credit card to some
+impostor.
 
-The preceding requirements also suggest that we must have a concept of
-*identity*. That is, we need a system by which the entities involved
-in communication, often called *principals*, can be securely
-identified. As we discuss later, this problem is harder to solve
-than it might first appear. How can we know that a website we are
-communicating with actually represents the business with whom we wish
-to communicate? Or how does a banking system know that the person
-behind a particular request is actually the account holder?
+To authenticate a party we're communicating with, in turn, suggests
+that we must have a concept of *identity*. That is, we need a system
+by which the entities involved in communication, often called
+*principals*, can be securely identified. As we discuss later, this
+problem is harder to solve than it might first appear. How can we know
+that a website we are communicating with actually represents the
+business with whom we wish to communicate? Or how does a banking
+system know that the person behind a particular request is actually
+the account holder?
 
-Just as we are concerned that an adversary might access our data in
-transit to eavesdrop on or modify it, we also need to be concerned
-about *replay attacks* in which data is captured and then
-retransmitted at some later time. For example, we would want to
-protect against an attack in which an item added to a shopping cart
-was repeatedly added again by an attacker. Thus it is a common
-requirement to have some form of *replay prevention*.
+Message integrity means not only being concerned that an adversary might
+modify our data in transit, but we also need to be concerned about
+*replay attacks*, in which data is captured and then retransmitted at
+some later time. For example, we would want to protect against an
+attack in which an item added to a shopping cart was repeatedly added
+again by an attacker. Thus it is a common requirement to have some
+form of *replay prevention*.
 
-A common requirement in computer system security is *access control*:
-the ability to limit who has access to a system and what operations
-they may perform on it. This applies not only to end systems but to
-network devices such as routers and infrastructure components such
-as name servers.
+Another related requirement in computer system security is *access
+control*, the ability to limit who has access to a system and what
+operations they may perform on it. This applies not only to end
+systems but to network devices such as routers and infrastructure
+components such as name servers.
 
-Finally, it is important that networks and the systems attached to
-them can be protected against *denial-of-service* (DoS) attacks. The
-Morris Worm was an early example of an unintentional DoS attack: as
-the worm spread to more and more computers, and reinfected computers
-on which it was already present, the resources consumed by the worm
-rendered those computers unable to function. Networks provide a means
-by which data can be amplified by replication, allowing large volumes
-of traffic to be sent to the target of a DoS attack; thus it has
-become necessary to develop means to mitigate such attacks.
+The final major requirement is *availability*, which is usually taken
+to mean that networks and the systems attached to them must be
+protected against *denial-of-service* (DoS) attacks. The Morris Worm
+was an early example of an unintentional DoS attack: as the worm
+spread to more and more computers, and reinfected computers on which
+it was already present, the resources consumed by the worm rendered
+those computers unable to function. Networks provide a means by which
+data can be amplified by replication, allowing large volumes of
+traffic to be sent to the target of a DoS attack; thus it has become
+necessary to develop means to mitigate such attacks.
 
 2.2 Broader System Requirements
 -------------------------------------
