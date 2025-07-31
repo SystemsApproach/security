@@ -592,7 +592,7 @@ quite good incremental deployment properties, another advantage over BGPsec.
    draft, work in progress.
 
 
-8.2 Domain Name System (DNS)
+8.2 DNS and Naming Security
 ------------------------------
 
 The Domain Name System (DNS) is, like BGP, another critical component of the
