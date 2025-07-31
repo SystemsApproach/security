@@ -1,4 +1,4 @@
-Chapter 4.  Key Predistribution
+Chapter 4.  Key Distribution
 ===============================
 
 We have seen that ciphers and authentication codes are parameterized
@@ -32,13 +32,19 @@ session keys and predistributed keys:
    bulk traffic for confidentiality.
 
 This chapter explains how predistributed keys are distributed, and then
-explains how session keys are subsequently established. We
-henceforth use “Alice” and “Bob” to designate participants, as is common
-in the cryptography literature. Bear in mind that although we tend to
-refer to participants in anthropomorphic terms, we are more frequently
-concerned with the communication between software or hardware entities
-such as clients and servers that often have no direct relationship with
-any particular person.
+explains how session keys are subsequently established. Note that
+session keys are a particular example of a shared secret, and in some cases
+there is a need for more than just a simple session key. In such cases we
+use the more general terminology of "shared secret establishment"
+rather than "session key distribution". The basic principles are the
+same.
+
+We henceforth use “Alice” and “Bob” to designate participants, as is
+common in the cryptography literature. Bear in mind that although we
+tend to refer to participants in anthropomorphic terms, we are more
+frequently concerned with the communication between software or
+hardware entities such as clients and servers that often have no
+direct relationship with any particular person.
 
 4.1 Predistribution of Public Keys
 ------------------------------------
@@ -280,7 +286,7 @@ certificate when it is issued. Thus, we can limit the length of time
 that a revoked certificate needs to stay on a CRL. As soon as its
 original expiration date is passed, it can be removed from the CRL.
 
-4.2 Predistribution of Secret Keys
+4.2 Distribution of Secret Keys
 ------------------------------------
 
 Secret key ciphers present a bootstrapping problem: how do you
