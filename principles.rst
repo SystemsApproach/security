@@ -34,15 +34,15 @@ but they generally must look at packet headers, which contain
 destination information, to determine where to
 send traffic.
 
-The second major requirement is *integrity*, which about having
+The second major requirement is *integrity*, which is about having
 confidence that the information we're receiving is trustworthy, and
 for example, has not been modified by some adversary while in
-transit. Assuring integrity is multi-faceted, involving far more than
-"in transit" adversaries.
+transit. Assuring integrity is multi-faceted, involving more than
+just "in transit" adversaries.
 
 For example, we need to be able to verify that an item of data was
 sent by the entity that claimed to have sent it. This means we need to
-*authenticate* the sender, and in the example of e-commerce, this is
+*authenticate* the sender. In the example of e-commerce, this is
 what allows us to know we are connected to, say, the website of the
 vendor we wish to patronize and not handing over our credit card to
 some impostor.
@@ -60,9 +60,9 @@ account holder?
 Integrity also requires messages be *original* and *timely*, which is
 threatened by the possibility data is captured and then retransmitted
 at some later time. This is known as a *replay attack*, where for
-example, we want to protect against an item being repeatedly added to
-a shopping cart by an attacker. Thus, it is a common requirement to
-have some form of *replay prevention*.
+example, we want to protect against an attacker repeatedly adding an
+item to a shopping cart. Thus, it is a common requirement to have some
+form of *replay prevention*.
 
 The final major requirement is *availability*, which is primarily
 concerned with protecting networks and the systems attached to them
