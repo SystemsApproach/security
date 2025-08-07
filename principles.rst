@@ -47,15 +47,14 @@ what allows us to know we are connected to, say, the website of the
 vendor we wish to patronize and not handing over our credit card to
 some impostor.
 
-To authenticate a party we're communicating with, in turn, implies
-that we must have a concept of *identity*. That is, we need a system
-by which the entities involved in communication, often called
-*principals*, can be securely identified.  As we discuss later, this
-problem is harder to solve than it might first appear. How can we know
-that a website with a particular URL actually represents the business
-with whom we wish to communicate? Or how does a banking system know
-that the person behind a particular HTTP request is actually the
-account holder?
+Authentication implies that we must have a concept of *identity*. That
+is, we need a system by which communicating entities, often called
+*principals*, can securely identify each other.  This problem is
+harder to solve than it might first appear. How can we know that a
+website with a particular URL actually represents the business with
+whom we wish to communicate? Or how does a banking system know that
+the person behind a particular HTTP request is actually the account
+holder?
 
 Integrity also requires messages be *original* and *timely*, which is
 threatened by the possibility data is captured and then retransmitted
@@ -64,26 +63,28 @@ example, we want to protect against an attacker repeatedly adding an
 item to a shopping cart. Thus, it is a common requirement to have some
 form of *replay prevention*.
 
-The final major requirement is *availability*, which is primarily
-concerned with protecting networks and the systems attached to them
-against *denial-of-service* (DoS) attacks. The Morris Worm was an
-early example of an unintentional DoS attack: as the worm spread to
-more and more computers, and reinfected computers on which it was
-already present, the resources consumed by the worm rendered those
-computers unable to function. Networks provide a means by which data
-can be amplified by replication, allowing large volumes of traffic to
-be sent to the target of a DoS attack; thus it has become necessary to
-develop means to mitigate such attacks.
+The final major requirement is *availability*, which is simply the
+ability to access all the data we have the right to access. System
+failures, either benign or caused by malicious actors, restrict
+availability. Another common common threat to availability is
+*denial-of-service* (DoS) attacks. The Morris Worm was an early
+example of an unintentional DoS attack: as the worm spread to more and
+more computers, and reinfected computers on which it was already
+present, the resources consumed by the worm rendered those computers
+unable. Networks provide a means by which data can be amplified by
+replication, allowing large volumes of traffic to be sent to the
+target of a DoS attack; thus it has become necessary to develop means
+to mitigate such attacks.
 
 As a consequence of these three main requirements—confidentiality,
-integrity, and availability—additional requirements are placed on our
-underlying systems. For example, computer systems must provide *access
-control*, which is the ability to limit who has access to a system and
-what operations they may perform on it. Once we can securely identify
-principals, we must also limit which ones can, for example, read or
-write messages. This clearly applies to end systems (our laptops and
-the web servers we communicate with), but also to network devices such
-as routers and infrastructure components such as name servers.
+integrity, and availability—additional requirements are placed on the
+underlying systems. Foremost among these the need for a mechanism to
+enforce *access control*, a system component that limits who has
+access to data and what operations they may perform on it. Once we can
+securely identify principals, we must then control what objects they
+can read or write. Access control is clearly a mechanism included in
+end systems, such as laptops and web servers, but it also applies to
+network infrastructure, such as routers and name servers.
 
 
 2.2 Broader System Requirements
