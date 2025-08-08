@@ -470,11 +470,11 @@ The term "zero trust" was coined by the analyst firm Forrester in
 2009, and continues to be widely used in the industry today. The
 central idea behind zero trust is that, by default, every device and
 user should be untrusted. Each user and device then needs to
-authenticate itself to a precise set of services. There is no blanket
-"trust this device to access anything" policy. Zero trust stands in
-contrast to the old "perimeter security" model in which there is the
-idea of a trusted region within a perimeter defined by firewalls and
-an untrusted region outside the perimeter.
+authenticate itself to gain access to a precise set of services. There
+is no blanket "trust this device to access anything" policy. Zero
+trust stands in contrast to the old "perimeter security" model in
+which there is the idea of a trusted region within a perimeter
+protected by firewalls and an untrusted region outside the perimeter.
 
 Zero trust is sufficiently well accepted that NIST has written a
 specification (see Further Reading below) which provides this helpful
