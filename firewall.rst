@@ -636,7 +636,7 @@ above for an example set of community rules.)
   clear cut.  It often is not, and there can be real consequences in
   both directions.  For example, an overly aggressive IPS rule-set or
   anomaly detection heuristic could raise false positives, restricting
-  legate traffic and negatively impacting revenue. Too conservative,
+  legitimate traffic and negatively impacting revenue. Too conservative,
   and malicious traffic could crowd out legitimate traffic.*
 
   *It is also the case that that "unwanted" is in the eye of the
