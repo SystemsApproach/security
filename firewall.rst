@@ -434,6 +434,13 @@ SDN controller can also take account of such events as the migration
 of a VM from one location to another, or the addition of a new VM that
 requires additional firewall rules to be installed.
 
+The approach described above is often referred to as
+*micro-segmentation*. By contrast to traditional firewall approaches
+in which large network segments offer unfettered access among all
+devices on the segment, micro-segmentation creates small and precisely
+defined virtual networks that connect only those systems that need to
+be able to communicate to deliver a particular service or function.
+
 For further details on network virtualization and distributed services
 we recommend our companion book on software-defined networks.
 
@@ -443,9 +450,135 @@ we recommend our companion book on software-defined networks.
       and B. Davie. `Software-Defined Networks: A Systems
       Approach <https://sdn.systemsapproach.org>`__.
 
+9.4 Zero Trust Security
+-------------------------
+
+As we noted above, traditional firewalls suffer from a fundamental
+weakness: they attempt to divide the network into "trusted" and
+"untrusted" zones. If an attacker manages to find a way to get access
+within the trusted zone, perhaps by compromising a legitimate piece of
+software running on the trusted side of the firewall, they now have a
+large set of machines on which to launch further attacks without
+interference. This state of affairs runs counter to some of the
+security principles we outlined in Chapter 2, notably the principle of
+least privilege. A machine on the trusted side of a firewall often has
+access to a lot more resources—other machines and data—than is necessary to do
+its job. One of the main approaches to improve this state of affairs
+is known as "zero trust security".
+
+The term "zero trust" was coined by the analyst firm Forrester in
+2009, and continues to be widely used in the industry today. The
+central idea behind zero trust is that, by default, every device and
+user should be untrusted. Each user and device then needs to
+authenticate itself to gain access to a precise set of services. There
+is no blanket "trust this device to access anything" policy. Zero
+trust stands in contrast to the old "perimeter security" model in
+which there is the idea of a trusted region within a perimeter
+protected by firewalls and an untrusted region outside the perimeter.
+
+Zero trust is sufficiently well accepted that NIST has written a
+specification (see Further Reading below) which provides this helpful
+definition:
+
+   *“Zero trust…became the term used to describe various cybersecurity
+   solutions that moved security away from implied trust based on network
+   location and instead focused on evaluating trust on a per-transaction
+   basis.”*
+
+The classic example of trust based on location would be sitting in an
+office connected to some corporate network. Such a network would, in
+the past, have allowed anyone connected to it to access to a wide set of
+servers and data, with the trust being assumed because the user had
+managed to get admitted to the building.
+
+There is more to zero trust that just getting away from location-based
+access.  As a motivating example, consider a traditional VPN server
+providing remote access to a corporate network. Once a remote user is
+authenticated to the server, they are given access to a broad set of
+"inside the perimeter" resources (machines, data, etc.)  within the
+enterprise. In effect, the user and their device are now treated as
+"trusted" to access many different systems. Such an approach has been
+the cause of many published breaches of sensitive data. An infamous
+example involved a heating and cooling system contractor's VPN
+credentials being used to access a retailer's database of customer
+credit card data. By contrast, a zero trust approach would entail a
+precisely defined policy that authenticates the user and their device
+to only the systems that are needed for them to do their job.
+
+Micro-segmentation, described above, was one of the early technologies
+created to help in the implementation of zero trust. Rather than
+allowing all machines in a large network segment communicate freely,
+as was the case previously, micro-segmentation allows precisely
+defined policies to limit communication among a set of devices to just
+what is needed to deliver their intended function. For example, the
+systems related to heating and cooling don't need access to
+the systems where customer credit card details are stored.
+
+The VPN example above provides motivation for a different approach to
+handling users and devices outside of the confines of a traditional
+office and outside the perimeter defenses. A well-known and
+comprehensive approach to rethinking the perimeter defense and VPN
+model is Google's Beyond Corp, described in a 2014 paper in the further reading
+section below. It is both an approach used to implement zero trust at
+Google for employees accessing corporate resources and a service that
+enterprises can implement themselves.
+
+The starting position for BeyondCorp is that the perimeter model no
+longer makes sense in a world of global connectivity, remote workers,
+and ubiquitous mobile devices. The name suggests moving "beyond corporate"—that
+is, moving away from the idea that there is a trusted corporate
+network inside a perimeter and than any user or device inside that
+perimeter should have access to everything on the corporate
+network. Instead, users and devices have to be authenticated and
+authorized to receive fine-grained access to specific resources, no
+matter what their location is.
+
+A central aspect of BeyondCorp is that only "managed devices" get to
+access protected resources. These managed devices are all issued with
+their own certificates so that they can be authenticated. Before
+connecting to any service within the enterprise, the device connects
+to a proxy that can perform authentication. After a
+device has been authenticated, then the user also has to authenticate
+themselves using two-factor authentication, and the user's access
+privileges are looked up in a database. Thus, for example, engineers
+may have access rights to engineering systems such as code
+repositories, but not to finance or HR systems. Only after all these
+checks—device, user authentication, and user authorization—have passed
+does the connection get established between the client and the
+server. Device checks may include not only verifying the certificate on a
+device but also checking that its operating system is up to date or
+that it has relevant antivirus software installed.
+
+There are quite a few subtleties to BeyondCorp (and there are
+publications describing its deployment) but the core principal of zero
+trust that it embodies is this: location inside a perimeter (or
+building) is not a reason for a device or user to be trusted to access
+a broad set of resources. Nor should a VPN tunnel grant access to a
+all the resources within the perimeter. Only after the device and the
+user have been authenticated and authorization has been checked can
+the user access a specific resource. So another way to say
+“zero trust” might be “narrow and specific trust after authentication
+and authorization” although it's less memorable.
 
 
-9.4 Security Appliances
+
+
+.. admonition:: Further Reading
+
+   S. Rose, O. Borchert, S. Mitchell, S. Connelly. `Zero Trust
+      Architecture
+      <https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-207.pdf>`__. NIST, 2020.
+
+   C. Cunningham. `A Look Back At Zero Trust: Never Trust, Always
+      Verify
+      <https://www.forrester.com/blogs/a-look-back-at-zero-trust-never-trust-always-verify/>`__. Forrester, 2020.
+
+   R. Ward and B. Beyer. `BeyondCorp: A New Approach to Enterprise
+      Security
+      <https://www.usenix.org/system/files/login/articles/login_dec14_02_ward.pdf>`__.
+      ;login:, Usenix, 2014.
+
+9.5 Security Appliances
 ------------------------------
 
 As introduced at the beginning of this chapter, *security appliances*
@@ -454,7 +587,7 @@ throughout the network, watching for and responding to unwanted
 traffic. The main challenge they face is how to distinguish between
 good and bad traffic. This section looks at two examples.
 
-9.4.1 Intrusion Detection and Prevention
+9.5.1 Intrusion Detection and Prevention
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A common example of a security appliance is an *intrusion detection
@@ -502,9 +635,9 @@ above for an example set of community rules.)
   that decisions about whether traffic is legitimate or malicious is
   clear cut.  It often is not, and there can be real consequences in
   both directions.  For example, an overly aggressive IPS rule-set or
-  anomoly detection heuristic could raise false positives, restricting
-  legimate traffic and negatively impacting revenue. Too conservative,
-  and malilcous traffic could crowd out legitimate traffic.*
+  anomaly detection heuristic could raise false positives, restricting
+  legate traffic and negatively impacting revenue. Too conservative,
+  and malicious traffic could crowd out legitimate traffic.*
 
   *It is also the case that that "unwanted" is in the eye of the
   beholder.  Network probes that are sometimes used in research, with
@@ -537,7 +670,7 @@ firewalls will never block all forms of malicious traffic leads to the
 conclusion that an IDS/IPS is worth having as a second line of
 defense.
 
-9.4.2 DoS Mitigation
+9.5.2 DoS Mitigation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes unwanted traffic is simply trying to consume resources,
@@ -558,7 +691,7 @@ just too much of it), the DDoS challenge is addressed by two general
 countermeasures. Note that the best we can hope for is to mitigate the
 impact of such attacks; there is no cure-all. This is easy to
 understand at an intuitive level: an appliance defending against DoS
-attacks is itself a kind of resource that can be DoS'ed.
+attacks is itself a kind of resource that can be DoSed.
 
 The first countermeasure is to absorb potential attacks with even
 greater resources than the adversary is able to muster. For web
