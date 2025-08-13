@@ -6,9 +6,6 @@ Chapter 7.  Subsystem Security
    general role open source plays in helping secure the Internet --
    lots of eyes on the code).
 
-.. Key parts of this chapter moving out to standalone chapters.
-   It's likely also the case that these are "Other" Example Systems,
-   since new chapters are system focused.
 
 Having focused on how to use the available cryptographic and
 authentication building blocks to secure the transport layer—to the
@@ -275,7 +272,8 @@ securing the network infrastructure (as discussed in the next
 chapter), today IPsec is most commonly used to implement secure
 tunnels running on top of the public Internet. These tunnels are often
 part of a Virtual Private Network (VPN), for example, connecting a
-remote user to their "home" enterprise network.
+remote user to their "home" enterprise network. We turn our attention
+to VPNs in the next section.
 
 IPsec is really a framework (as opposed to a single protocol or
 system) for providing a broad set of security services. It provides
@@ -380,12 +378,89 @@ that traverses this virtual link and ensuring that no spurious data is
 received at the far end of the tunnel. Furthermore, tunnels can
 provide traffic confidentiality, since multiplexing multiple flows
 through a single tunnel obscures information about how much traffic is
-flowing between particular endpoints. And as mentioned in the
-introduction to this section, a network of such tunnels can be used to
-implement an entire virtual private network. Hosts communicating over
-a VPN need not even be aware that it exists.
+flowing between particular endpoints. As noted above, a network of
+such tunnels can be used to implement an entire virtual private
+network. But there is more to VPNs than just tunneling mechanisms, as
+we discuss below.
 
-7.4 Web Authentication (WebAuthn) and Passkeys
+7.4 Virtual Private Networks (VPNs)
+------------------------------------
+
+A virtual private network (VPN) can be built using a wide variety of
+different technolgies, but any VPN requires that we establish
+connectivity among a set of endpoints. The connections must
+offer some level of privacy to the principals communicating between
+those endpoints. Furthermore, to qualify as a *virtual* private
+network, a VPN creates the illusion of being dedicated to a group of
+users, even though the underlying infrastucture is shared more
+widely. In practice, this means that a VPN is almost always built as
+some sort of overlay on shared infrastructure.
+
+The type of VPN that we will focus on here uses
+tunneling technologies such as IPsec or SSL to provide private
+connectivity across the shared infrastructure of the Internet. We have
+already seen how encrypted tunnels can be established, but tunnels are
+just a building block for VPNs. VPN requirements vary among
+different use cases, so we begin our discussion by looking at some of
+the most common uses for VPNs.
+
+*Remote Access VPNs* are commonly used to support remote workers,
+telecommuters, or contractors who need access to corporate
+resources. :numref:`Figure %s <fig-remotevpn>` shows a simple example
+where a remote user tunnels across the Internet to connect to their
+corporate office. 
+
+.. _fig-remotevpn:
+.. figure:: figures/remotevpn.png
+   :width: 600px
+   :align: center
+
+   A remote user connects via a tunnel to a corporate site.
+
+*Site-to-Site VPNs* are generally used to interconnect the sites of an
+enterprise, which could include datacenters, main corporate offices,
+and branch offices. Figure xxy.
+
+.. _fig-sitevpn:
+.. figure:: figures/sitevpn.png
+   :width: 600px
+   :align: center
+
+   A corporate VPN connects a main office, a branch office, and a datacenter.
+
+Viewed at this level of abstraction, there are obvious similarities
+between VPN classes. They are not entirely non-overlapping but they
+help us identify the key requirements. The differences become apparent
+when we look at the types of devices that terminate tunnels and the
+methods used to establish them.
+
+Remote access VPNs usually establish tunnels directly from a client device,
+such as a phone or a laptop, to some sort of VPN gateway or
+concentrator. Some sort of VPN client software performs this task,
+with Wireguard and OpenVPN being two examples of open source,
+multi-platform clients.
+
+OpenVPN leverages TLS to build the encrypted tunnels from client to
+server. While this mostly follows the same protocol as described in
+Chapter 6, the additional step of authenticating the client is almost
+always required in VPN use cases, unlike most Web usages of
+TLS. Client certificates may be used, but this raises the issue of how
+certificates can be reliably distributed to client devices. One option
+is that they are provisioned by a corporate IT deparment as part of
+setting up client devices. OpenVPN also allows for other
+authentication methods including username plus password and optionally
+multi-factor authentication.
+
+
+
+https://www.ndss-symposium.org/ndss2017/ndss-2017-programme/wireguard-next-generation-kernel-network-tunnel/
+
+7.4.1 Mesh VPNs
+~~~~~~~~~~~~~~~
+
+
+
+7.5 Web Authentication (WebAuthn) and Passkeys
 ----------------------------------------------------------------
 
 While public key cryptography has been well understood for decades,
@@ -531,7 +606,7 @@ sites. Those who have led their development hope that they start to
 replace the ubiquitous password for user authentication.
 
 
-7.5 Wireless Security
+7.6 Wireless Security
 --------------------------------------------
 
 Wireless links are particularly exposed to security threats due to the
@@ -550,7 +625,7 @@ redundant. Not all users are that careful, of course, but there are
 also control packets exchanged between the wireless device and the
 wired infrastructure, and that communication must be secured.
 
-7.5.1  Wi-Fi (802.11i)
+7.6.1  Wi-Fi (802.11i)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It has long been understood how easy it is for an employee of a
@@ -648,7 +723,7 @@ is subsequently encrypted along with the plaintext in order to prevent
 birthday attacks, which depend on finding different messages with the
 same authenticator.
 
-7.5.2  Mobile Cellular Network
+7.6.2  Mobile Cellular Network
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The other widely used wireless networking technology is the Mobile
