@@ -725,3 +725,36 @@ filtering.  These are commercial products, with many proprietary
 details, but the general principles outlined here explain their
 underlying strategy.
 
+Finally, note that this brief overview of DoS attacks is heavily
+slanted towards web content, which is to say, attackers are taking
+advantage of the HTTP protocol—significant server resources are
+consumed responding to bogus GET requests. In general, all protocols
+are vulnerable to insidious combinations of packets. For example, IP
+can be attacked with a "Christmas Tree" packet, one that has multiple
+options turned on (i.e., is "lit up like a Christmas tree"), where
+each option requires IP to execute instructions it would not normally
+execute to forward a typical packet. A router with a naive
+implementation of IP would be at risk of not being able to forward
+packets at line speed if it's busy processing the options. For this
+reason, routers typically implement a "fast path" that is able to keep
+pace with line speeds and a "slow path" that processes exceptional
+packets, and most importantly, they are able to quickly determine
+which path each packet should be assigned to. This is a variant of the
+second countermeasure—decide early to protect resources.
+
+Another well-known example is a "SYN Flood" targeting TCP, whereby an
+attacker floods a server with SYN requests without any intent to
+complete the TCP handshake and actually establish a connection.  This
+overloads TCP's connection table, potentially denying connections to
+legitimate clients. These examples is just two of many, forcing
+protocol implementers to program defensively. Addressing this
+challenge ventures outside the scope of this book, but the following
+reference explores the problem in more depth.
+
+.. admonition:: Further Reading
+
+   X. Qie, R. Pang, and L. Peterson. `Defensive Programming: Using an Annotation Toolkit to Build
+   DoS-Resistant Software
+   <https://www.usenix.org/conference/osdi-02/defensive-programming-using-annotation-toolkit-build-dos-resistant-software>`__.
+   Proceedings of the Fifth Symposium on Operating System Design and Implementation
+   (OSDI). Usenix. December 2002.
