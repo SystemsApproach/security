@@ -413,7 +413,7 @@ the most common uses for VPNs.
 telecommuters, or contractors who need access to corporate
 resources. :numref:`Figure %s <fig-remotevpn>` shows a simple example
 where a remote user tunnels across the Internet to connect to their
-corporate office. 
+corporate office.
 
 .. _fig-remotevpn:
 .. figure:: figures/remotevpn.png
@@ -469,7 +469,7 @@ establish. It also uses the idea of pre-shared public keys for mutual
 authentication, similar to the approach used in SSH. Finally, it is
 implemented in the operating system kernel, another contrast to
 OpenVPN that improves performance. For further details we refer you to
-the paper. 
+the paper.
 
 .. admonition:: Further Reading
 
@@ -514,7 +514,7 @@ most of the complexity of VPN management to a service provider, became
 such a successful service offering in the early 2000s. MPLS does not
 protect privacy using encryption, but it does solve the issues of routing
 traffic among large numbers of sites and ensures that the traffic
-belonging to one customer from does not leak to the network of another. 
+belonging to one customer from does not leak to the network of another.
 
 Several approaches to reduce the configuration overhead for VPNs using
 encrypted tunnels have appeared in recent years. With the rise of
