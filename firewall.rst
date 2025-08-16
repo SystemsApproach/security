@@ -738,18 +738,30 @@ implementation of IP would be at risk of not being able to forward
 packets at line speed if it's busy processing the options. For this
 reason, routers typically implement a "fast path" that is able to keep
 pace with line speeds and a "slow path" that processes exceptional
-packets, and most importantly, they are able to quickly determine
-which path each packet should be assigned to. This is a variant of the
-second countermeasure—decide early to protect resources.
+packets, and most importantly, they quickly determine which path each
+packet should be assigned to. This is a variant of the second
+countermeasure—decide early to protect resources.
 
 Another well-known example is a "SYN Flood" targeting TCP, whereby an
 attacker floods a server with SYN requests without any intent to
 complete the TCP handshake and actually establish a connection.  This
 overloads TCP's connection table, potentially denying connections to
-legitimate clients. These examples is just two of many, forcing
-protocol implementers to program defensively. Addressing this
-challenge ventures outside the scope of this book, but the following
-reference explores the problem in more depth.
+legitimate clients. An IDS/IPS can help protect servers since a flood
+of SYN packets is anomalous behavior, but individual servers can also
+limit the impact by encoding connection state in the sequence number
+included in the SYN+ACK they send back to the client—a "SYN cookie" of
+sorts—and then allocate connection state locally only after the client
+goes to the trouble of correctly ACK'ing that packet. This is a
+variant of the first countermeasure in that it forces the attacker to
+use additional resources.
+
+These examples are just two of many illustrating the need to program
+defensively. This is especially true for protocols that are purposely
+designed to process data from remote sources, exposing them to
+attempts to crash, hack, or as in the case of DoS attacks, simply
+consume the system. This topic ventures outside the scope of the book,
+but the following reference explores one approach addressing the
+challenge.
 
 .. admonition:: Further Reading
 
