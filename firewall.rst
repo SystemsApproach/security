@@ -756,12 +756,12 @@ variant of the first countermeasure in that it forces the attacker to
 use additional resources.
 
 These examples are just two of many illustrating the need to program
-defensively. This is especially true for protocols that are purposely
-designed to process data from remote sources, exposing them to
-attempts to crash, hack, or as in the case of DoS attacks, simply
-consume the system. This topic ventures outside the scope of the book,
-but the following reference explores one approach addressing the
-challenge.
+defensively. This is especially true for protocols since they are
+purposely designed to process messages from remote sources, exposing
+them to attempts to crash, hack, or as in the case of DoS attacks,
+simply consume the system. This topic ventures outside the scope of
+the book, but the following reference explores one approach to
+addressing the challenge.
 
 .. admonition:: Further Reading
 

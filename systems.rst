@@ -35,7 +35,7 @@ algorithm; if one of your cryptographic algorithms turns out to be
 flawed, it would be great if your entire security architecture didn’t
 need an immediate redesign.
 
-7.1 Pretty Good Privacy (PGP)
+7.1 Pretty Good Privacy
 ------------------------------------------
 
 Pretty Good Privacy (PGP) is an approach to providing authentication,
@@ -113,7 +113,7 @@ the application works can you make the right choices about which attacks
 to defend against (like forged email) versus which to ignore (like
 delayed or replayed email).
 
-7.2 Secure Shell (SSH)
+7.2 Secure Shell
 ------------------------
 
 The Secure Shell (SSH) protocol provides a remote login service,
@@ -264,7 +264,7 @@ it is also the case that corporate firewalls often block port 22 (SSH's
 well-known port), limiting the situations in which SSH works as a
 VPN-like tunnel.
 
-7.3 IP Security (IPsec)
+7.3 IP Security
 --------------------------------
 
 One of the earliest efforts to integrate security into the Internet
@@ -388,7 +388,7 @@ such tunnels can be used to implement an entire virtual private
 network. But there is more to VPNs than just tunneling mechanisms, as
 we discuss below.
 
-7.4 Virtual Private Networks (VPNs)
+7.4 Virtual Private Networks
 ------------------------------------
 
 A virtual private network (VPN) can be built using a wide variety of
@@ -401,13 +401,12 @@ users, even though the underlying infrastructure is shared more
 widely. In practice, this means that a VPN is almost always built as
 some sort of overlay on shared infrastructure.
 
-The type of VPN that we will focus on here uses
-tunneling technologies such as IPsec or SSL to provide private
-connectivity across the shared infrastructure of the Internet. We have
-already seen how encrypted tunnels can be established, but tunnels are
-just a building block for VPNs. VPN requirements vary among
-different use cases, so we begin our discussion by looking at some of
-the most common uses for VPNs.
+The type of VPN that we focus on here uses tunneling technologies such
+as IPsec or SSL to provide private connectivity across the shared
+infrastructure of the Internet. We have already seen how encrypted
+tunnels can be established, but tunnels are just a building block for
+VPNs. VPN requirements vary among different use cases, so we begin our
+discussion by looking at some of the most common uses for VPNs.
 
 *Remote Access VPNs* are commonly used to support remote workers,
 telecommuters, or contractors who need access to corporate
@@ -455,7 +454,7 @@ TLS. Client certificates may be used, but this raises the issue of how
 certificates can be reliably distributed to client devices. One option
 is that they are provisioned by a corporate IT department as part of
 setting up client devices. OpenVPN also allows for other
-authentication methods including username plus password and optionally
+authentication methods, including username plus password and optionally
 multi-factor authentication.
 
 WireGuard is a more recent implementation of encrypted tunnels that
@@ -463,13 +462,13 @@ aims to address some shortcomings that have emerged over years of
 using IPsec and OpenVPN tunnels. The paper below from NDSS 2017 lays
 out the design philosophy of WireGuard. Compared to OpenVPN, it is
 less complex by virtue of reducing the set of cryptographic algorithms
-that it supports. It establishes "stateless" tunnels that are more like
-IPsec than TLS—that is, there is no transport connection to
+that it supports. It establishes "stateless" tunnels that are more
+like IPsec than TLS—that is, there is no transport connection to
 establish. It also uses the idea of pre-shared public keys for mutual
 authentication, similar to the approach used in SSH. Finally, it is
 implemented in the operating system kernel, another contrast to
-OpenVPN that improves performance. For further details we refer you to
-the paper.
+OpenVPN, so as to improve performance. For further details we refer
+you to the paper.
 
 .. admonition:: Further Reading
 
@@ -485,7 +484,7 @@ administrative controls for managing user accounts and interfaces for
 passing the VPN traffic on to the corporate network. Note that a
 remote access VPN will almost always have to solve the problem of how
 to get traffic through the corporate firewall. We cover firewalls in a
-later chapter, but it is generally the case that VPN traffic will be
+later chapter, but it is generally the case that VPN traffic is
 allowed to traverse the firewall so that the VPN user can access
 corporate resources. The problems of this approach are discussed in
 the firewalls chapter.
@@ -509,12 +508,17 @@ configuring routing protocols to forward traffic across the mesh of
 tunnels becomes significant.
 
 The complexity of configuring and managing a VPN comprised of
-encrypted tunnels is one reason why MPLS VPNs, which outsource
-most of the complexity of VPN management to a service provider, became
-such a successful service offering in the early 2000s. MPLS does not
-protect privacy using encryption, but it does solve the issues of routing
-traffic among large numbers of sites and ensures that the traffic
-belonging to one customer from does not leak to the network of another.
+encrypted tunnels is one reason why MPLS VPNs, which outsource most of
+the complexity of VPN management to a service provider, became such a
+successful service offering in the early 2000s. MPLS does not protect
+privacy using encryption, but it does solve the issues of routing
+traffic among large numbers of sites, and with respect to security,
+ensures that the traffic belonging to one customer does not leak to
+the network of another. Said another way, MPLS isolates users (private
+networks) from each other, but users trust that the service provider
+does not snoop on the traffic they carry. This is a trust assumption
+that typically does not hold for a VPN that traverses the public
+Internet.
 
 Several approaches to reduce the configuration overhead for VPNs using
 encrypted tunnels have appeared in recent years. With the rise of
@@ -618,7 +622,7 @@ to a VPN concentrator with a public IP address, or between a pair of
 edge routers, but it has to be solved if you want to build
 client-to-client tunnels. There are quite a few details to getting
 this to work, especially given that NAT devices don't all behave the
-same way, and there may be firewalls to travese as well. An IETF
+same way, and there may be firewalls to traverse as well. An IETF
 standard called STUN (Session Traversal Utilities for NAT) plays an
 important part, and the centralized control plane helps to resolve
 some of the more difficult corner cases. You can read more about the
@@ -639,7 +643,7 @@ networking, a topic we discuss in chapter 9.
       Tailscale blog, 2020.
 
 
-7.5 Web Authentication (WebAuthn) and Passkeys
+7.5 Web Authentication and Passkeys
 ----------------------------------------------------------------
 
 While public key cryptography has been well understood for decades,
@@ -804,7 +808,7 @@ redundant. Not all users are that careful, of course, but there are
 also control packets exchanged between the wireless device and the
 wired infrastructure, and that communication must be secured.
 
-7.6.1  Wi-Fi (802.11i)
+7.6.1  Wi-Fi
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It has long been understood how easy it is for an employee of a
