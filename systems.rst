@@ -120,7 +120,7 @@ The Secure Shell (SSH) protocol provides a remote login service,
 replacing the less secure Telnet used in the early days of the
 Internet. SSH can also be used to remotely execute commands and
 transfer files. It is most often used to provide strong client/server
-authentication/message integrity—where the SSH client runs on the
+authentication and message integrity—where the SSH client runs on the
 user’s laptop (for example) and the SSH server runs on some remote
 machine that the user wants to log into—but it also supports
 confidentiality. Telnet provides none of these capabilities. Note that
@@ -386,7 +386,7 @@ through a single tunnel obscures information about how much traffic is
 flowing between particular endpoints. As noted above, a network of
 such tunnels can be used to implement an entire virtual private
 network. But there is more to VPNs than just tunneling mechanisms, as
-we discuss below.
+we discuss next.
 
 7.4 Virtual Private Networks
 ------------------------------------
@@ -655,12 +655,13 @@ if you need to authenticate yourself to, say, your bank, it's
 overwhelmingly the case today that you will use some combination of
 user name (maybe an account number or an email address) and a
 password. Perhaps another factor, such as a one-time code sent to your
-phone, will also be used. Encryption (using TLS) prevents your password
-from being seen by eavesdroppers when it is sent to the bank's site,
-but currently there is little deployment of public key cryptography
-for the authentication of users. SSH, as noted above, supports the use
-of public keys for user authentication, but it's hardly in mainstream
-use by consumers on the Internet.
+phone, will also be used. Encryption (using TLS) prevents your
+password from being seen by eavesdroppers when it is sent to the
+bank's site, but currently there is little deployment of public key
+cryptography for the authentication of users. SSH, as noted in a
+previous section, supports the use of public keys for user
+authentication, but it's hardly in mainstream use by consumers on the
+Internet.
 
 Password-based authentication had proven enormously problematic, with
 passwords frequently being compromised by a variety of attacks. If a
