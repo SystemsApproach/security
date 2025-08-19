@@ -466,15 +466,16 @@ access to a lot more resources—other machines and data—than is necessary to 
 its job. One of the main approaches to improve this state of affairs
 is known as "zero trust security".
 
-The term "zero trust" was coined by the analyst firm Forrester in
-2009, and continues to be widely used in the industry today. The
-central idea behind zero trust is that, by default, every device and
-user should be untrusted. Each user and device then needs to
-authenticate itself to gain access to a precise set of services. There
-is no blanket "trust this device to access anything" policy. Zero
-trust stands in contrast to the old "perimeter security" model in
-which there is the idea of a trusted region within a perimeter
-protected by firewalls and an untrusted region outside the perimeter.
+The term "zero trust" has been in use for decades, but started to
+enter widespread use around 2009, helped by the analyst firm
+Forrester. The central idea behind zero trust is that, by default,
+every device and user should be untrusted. Each user and device then
+needs to authenticate itself to gain access to a precise set of
+services. There is no blanket "trust this device to access anything"
+policy. Zero trust stands in contrast to the old "perimeter security"
+model in which there is the idea of a trusted region within a
+perimeter protected by firewalls and an untrusted region outside the
+perimeter.
 
 Zero trust is sufficiently well accepted that NIST has written a
 specification (see Further Reading below) which provides this helpful
@@ -507,18 +508,21 @@ to only the systems that are needed for them to do their job.
 
 Micro-segmentation, described above, was one of the early technologies
 created to help in the implementation of zero trust. Rather than
-allowing all machines in a large network segment communicate freely,
-as was the case previously, micro-segmentation allows precisely
-defined policies to limit communication among a set of devices to just
-what is needed to deliver their intended function. For example, the
-systems related to heating and cooling don't need access to
-the systems where customer credit card details are stored.
+allowing all machines in a large network segment to communicate
+freely, as was the case previously, micro-segmentation allows
+precisely defined policies to limit communication among a set of
+devices to just what is needed to deliver their intended function. For
+example, the systems related to heating and cooling don't need access
+to the systems where customer credit card details are stored. A
+default policy of no access can also be established, with explicit
+configuration then required to create precisely specified allowable
+commuincation patterns between specific devices.
 
 The VPN example above provides motivation for a different approach to
 handling users and devices outside of the confines of a traditional
 office and outside the perimeter defenses. A well-known and
 comprehensive approach to rethinking the perimeter defense and VPN
-model is Google's Beyond Corp, described in a 2014 paper in the further reading
+model is Google's BeyondCorp, described in a 2014 paper in the further reading
 section below. It is both an approach used to implement zero trust at
 Google for employees accessing corporate resources and a service that
 enterprises can implement themselves.
