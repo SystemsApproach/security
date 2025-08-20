@@ -2,9 +2,6 @@ Chapter 1.  Introduction
 =========================
 
 
-.. New effort from Bruce
-
-
 Security has been a focus of system designers for
 as long as we have had time-shared computers. If two users can share a
 computer, then it is necessary to have protections in place to limit
@@ -131,25 +128,26 @@ and can be implemented in both hosts and routers. By 1994 they were
 common enough that applications such as FTP (the file transfer
 protocol) were adapted to work with them.
 
-Also in the early 1990s, the Internet was growing quickly enough to make it clear
-that IP version 4 (IPv4), with 32-bit addresses, would eventually run
-out of address space. The effort to create a new version of IP, known
-as IPng (next generation) before being officially labeled as IPv6, had
-a much larger scope than a simple increase in the address space. There
-was a sense that this was perhaps the last opportunity to
-significantly change the IP layer, and thus the time to address
-perceived shortcomings of the Internet. High on the list of such
-shortcomings to be addressed was security.
+Also in the early 1990s, the Internet was growing quickly enough to
+make it clear that IP version 4 (IPv4), with 32-bit addresses, would
+eventually run out of address space. The effort to create a new
+version of IP, known as IPng (next generation) before being officially
+labeled as IPv6, had a much larger scope than a simple increase in the
+address space. Among those working on IPv6 requirements, some argued
+that this was perhaps the last opportunity to significantly change the
+IP layer, and thus the time to address perceived shortcomings of the
+Internet. High on the list of such shortcomings to be addressed was
+security.
 
 The security features that were proposed for IPv6 included headers to
 support encryption, message integrity and authentication. However, it
 became clear that such features did not require a new version of IP,
 only a way to add optional information to the packet
 header, and so these capabilities also made their way into IPv4. These
-extensions became known collectively as *IPSEC (IP security)* and are
+extensions became known collectively as *IPsec (IP security)* and are
 described in several dozen RFCs. We discuss them in a later chapter.
 
-It is worth noting that, even if IPSEC had
+It is worth noting that, even if IPsec had
 existed in 1988, it would probably have had minimal impact on the
 spread of the Morris Worm. This is because the worm spread among
 hosts that were *supposed* to connect to each other (e.g., to exchange
@@ -297,25 +295,25 @@ adversary. Critical systems ranging from healthcare delivery to the
 power grid are at risk of disruption from various forms of attack.
 
 
-A simple and familiar example of threats and mitigations is the secure use of the web. Suppose
-you are a customer using a credit card to order an item from a website.
-An obvious threat is that an adversary could eavesdrop on your network
-communication, reading your messages to obtain your credit card
-information. How might that eavesdropping be accomplished? It is trivial
-on a broadcast network such as an Ethernet or Wi-Fi, where any node can
-be configured to receive all the message traffic on that network. More
-elaborate approaches include wiretapping or planting spy software on
-any of the chain of nodes involved. The insertion of monitoring
-software might be performed by an operator with physical or
-remote access to a router (e.g., an employee of an Internet service
-provider). A vulnerability in the router's software might be exploited
-by an attacker
-to gain remote access. And in recent years there have been examples of
-"supply chain attacks" in which malicious software is inserted in some
-code, either open source or proprietary, that is subsequently used in
-another vendor's products. In other words, there are a *lot* of ways
-that the data in flight from your browser to the website might end up
-in the hands of an attacker.
+A simple and familiar example of threats and mitigations is the secure
+use of the web. Suppose you are a customer using a credit card to
+order an item from a website.  An obvious threat is that an adversary
+could eavesdrop on your network communication, reading your messages
+to obtain your credit card information. How might that eavesdropping
+be accomplished? It is trivial on a broadcast network such as an
+Ethernet or Wi-Fi, where any node can be configured to receive all the
+message traffic on that network. More elaborate approaches include
+wiretapping or planting spy software on any of the chain of nodes
+involved. The insertion of monitoring software might be performed by
+an operator with physical or remote access to a router (e.g., an
+employee of an Internet service provider). A vulnerability in the
+router's software might be exploited by an attacker to gain remote
+access. And in recent years there have been examples of "supply chain
+attacks" in which malicious software is inserted in some code, either
+open source or proprietary, that is subsequently used in another
+vendor's products. In other words, there are a *lot* of ways that the
+data in flight from your browser to the website might end up in the
+hands of an attacker.
 
 While various steps can be taken to secure the devices along the path
 traveled by your data, it is relatively straightforward today to

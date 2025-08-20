@@ -164,8 +164,8 @@ and multi-factor authentication to protect against compromised user
 credentials. This is just a short list of defensive measures that are
 commonly used, and would not on their own be considered
 sufficient. But the point to note here is the use of many overlapping
-layers of defense to raise the bar high enough to thwart the majority
-of attacks.
+layers of defense, with the aim being that, collectively, they raise
+the bar high enough to thwart the majority of attacks.
 
 The fact that we read about breaches in which attackers succeed in
 gaining access to corporate systems and data on a regular basis might
