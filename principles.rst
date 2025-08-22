@@ -280,14 +280,14 @@ The counter argument is that any mechanism that requires privileged
 access—e.g., accessing an I/O device or modifying a shared data
 structure—must be implemented in a common layer (i.e., the kernel),
 but even then, care should be taken to decompose the mechanism so as
-to minimize the sub-pieces that are common. Library OSs designed during
+to minimize the sub-pieces that are common. Library OSes designed during
 the 1990s took this argument to its logical conclusion, reducing the
 "kernel" to its bare minimum, with most functionality one typically
 expects from an OS running as a library co-located with the
 application.\ [#]_
 
 .. [#] While strictly adhering to the principle of least common
-   mechanism, Library OSs are not widely adopted in practice,
+   mechanism, Library OSes are not widely adopted in practice,
    illustrating that security is only one of many system requirements
    taken into consideration.
 
