@@ -582,20 +582,17 @@ and authorization” although it's less memorable.
       <https://www.usenix.org/system/files/login/articles/login_dec14_02_ward.pdf>`__.
       ;login:, Usenix, 2014.
 
-9.5 Security Appliances
-------------------------------
+9.5. Intrusion Detection and Prevention
+--------------------------------------------
 
 As introduced at the beginning of this chapter, *security appliances*
 are a generalization of firewalls. Such appliances are placed
 throughout the network, watching for and responding to unwanted
 traffic. The main challenge they face is how to distinguish between
-good and bad traffic. This section looks at two examples.
+good and bad traffic. This section looks at two examples: an
+*intrusion detection systems* (IDS), and its sibling *intrusion
+prevention systems* (IPS).
 
-9.5.1 Intrusion Detection and Prevention
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-A common example of a security appliance is an *intrusion detection
-system* (IDS), or its sibling *intrusion prevention system* (IPS).
 These systems look for anomalous activity, such as an unusually
 large amount of traffic targeting a particular port number, which
 often signals a malicious attempt to probe for a vulnerability. When
@@ -625,14 +622,6 @@ important. That leads to the same concerns about east-west traffic
 that we discussed above, and thus there are also distributed versions
 of these systems.
 
-For an IDS/IPS that uses packet signatures to be effective, the set of
-potential attacks need to have been spotted in the wild and analyzed
-so that suitable rules can be formulated. Sharing rules among a
-community of users helps to speed up this process, and commercial
-IDS/IPS systems typically come with a subscription to a
-frequently-updated rules database. (See the Snort website referenced
-above for an example set of community rules.)
-
 .. sidebar::  Identifying Unwanted Traffic
 
   *Our overview of security appliances could lead to the conclusion
@@ -655,6 +644,14 @@ above for an example set of community rules.)
   using Anubis, an open source web application firewall, to ensure that
   a human, and not an AI bot
   trying to scrape their content, is at other end of every HTTP request.*
+
+For an IDS/IPS that uses packet signatures to be effective, the set of
+potential attacks need to have been spotted in the wild and analyzed
+so that suitable rules can be formulated. Sharing rules among a
+community of users helps to speed up this process, and commercial
+IDS/IPS systems typically come with a subscription to a
+frequently-updated rules database. (See the Snort website referenced
+above for an example set of community rules.)
 
 Another approach to using signatures is to look for
 *anomalies*—patterns in the behavior of traffic that somehow stand out

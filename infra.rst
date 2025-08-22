@@ -970,7 +970,7 @@ for the target function.
 
 In much of this book we have focused on attacks against the
 confidentiality or integrity of information, but we also need to
-concern ourselves with availability of both the end systems (such as
+concern ourselves with availability. This is true for both end systems (such as
 web sites) and the infrastructure of the network itself.  Commonly
 known as *Denial of Service (DoS)* attacks, such attacks typically
 involve an adversary trying to overwhelm "good" resources (link
@@ -1007,8 +1007,8 @@ servers—content remains available. This notion of *aggregate* capacity
 generalizes beyond web servers responding to HTTP GET requests. A
 network is itself a distributed collection of forwarding and
 transmission resources, engineered to distribute those resources in a
-way that avoids vulnerable bottlenecks. The DNS, for example, is
-itself a highly distributed system designed to avoid single points of
+way that avoids vulnerable bottlenecks. The DNS illustrates this perfectly:
+it is a highly distributed system designed to avoid single points of
 failure with redundancy at all levels of the hierarchy.
 
 The second countermeasure is to filter malicious traffic as early
@@ -1016,8 +1016,8 @@ The second countermeasure is to filter malicious traffic as early
 source, then it is easy to "block" traffic from that source at an
 ingress to a network you control. This is why DoS attacks are
 typically distributed.  Dropping (or rate limiting) attack packets at
-the boundary router (or firewall) for an enterprise or service
-provider is better than allowing those packets to flood the core of
+the boundary router for a service provider (or at a firewall for an enterprise)
+is better than allowing those packets to flood the core of
 the network and reach a victim server(s), but the more widely
 distributed the periphery of your network, the earlier you can filter
 malicious packets. And drawing on the first countermeasure, the more
@@ -1051,22 +1051,23 @@ Another well-known example is a "SYN Flood" targeting TCP, whereby an
 attacker floods a server with SYN requests without any intent to
 complete the TCP handshake and actually establish a connection.  This
 overloads TCP's connection table, potentially denying connections to
-legitimate clients. An IDS/IPS can help protect servers since a flood
-of SYN packets is anomalous behavior, but individual servers can also
-limit the impact by encoding connection state in the sequence number
-included in the SYN+ACK they send back to the client—a "SYN cookie" of
-sorts—and then allocate connection state locally only after the client
-goes to the trouble of correctly ACK'ing that packet. This is a
-variant of the first countermeasure in that it forces the attacker to
-use additional resources.
+legitimate clients. An Intrusion Detection System (see the next
+chapter) can help protect servers since a flood of SYN packets is
+anomalous behavior, but individual servers can also limit the impact
+by encoding connection state in the sequence number included in the
+SYN+ACK they send back to the client—a "SYN cookie" of sorts—and then
+allocate connection state locally only after the client goes to the
+trouble of correctly ACK'ing that packet. This is a variant of the
+first countermeasure in that it forces the attacker to use additional
+resources.
 
 These examples are just a few of many illustrating the need to program
 defensively. This is especially true for protocols since they are
 purposely designed to process messages from remote sources, exposing
 them to attempts to crash, hack, or as in the case of DoS attacks,
-simply consume the system. This topic ventures outside the scope of
-the book, but the following reference explores one approach to
-addressing the challenge.
+simply consume the system. Defensive programming ventures outside the
+scope of this book, but the referenced OSDI paper is an example of one
+approach.
 
 .. admonition:: Further Reading
 
