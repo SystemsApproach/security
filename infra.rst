@@ -966,7 +966,7 @@ for the target function.
 
 
 8.3 DoS Mitigation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 In much of this book we have focused on attacks against the
 confidentiality or integrity of information, but we also need to
