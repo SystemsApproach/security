@@ -198,7 +198,7 @@ pioneers are interviewed.
   <https://www.washingtonpost.com/sf/business/2015/05/30/net-of-insecurity-part-1/>`__.
   The Washington Post, May 30, 2015.
 
-1.2 Trust and Threats
+1.2 Threats and Trust
 ----------------------
 
 A discussion of security often begins with an analysis of the *threat
@@ -258,28 +258,45 @@ applicable to system security.
   B. Schneier. Beyond Fear: Thinking Sensibly About Security in an
      Uncertain World. Copernicus Books, 2003.
 
-Finally, it is important to recognize that trust and threats are two
-sides of the same coin. A threat is a potential failure scenario that
-you design your system to avoid, and trust is an assumption you make
-about how external actors and internal components you build upon will
+It is also important to recognize that threats and trust are two sides
+of the same coin. A threat is a potential failure scenario that you
+design your system to avoid, and trust is an assumption you make about
+how external actors and internal components you build upon will
 behave. For example, if you plan to transmit messages over Wi-Fi on an
 open campus, you would likely identify an eavesdropper that can
 intercept messages as a threat (and adopt some of the methods
 discussed in this book as a countermeasure). But if you are planning
 to transmit messages over a fiber link between two machines in a
-locked datacenter, you might trust that channel is secure, and so take
-no additional steps.  Every system makes trust assumptions, even if it
-as simple as trusting the computer you just bought from a reputable
-vendor does not forward your data to an adversary. The key is
-to be as explicit as possible about those assumptions, because they
-may change over time.
+locked machine room, you might trust that channel is secure, and so
+take no additional steps. Every system makes trust assumptions. The
+key is to be as explicit as possible about those assumptions, because
+they may change over time.
 
+Taking this thought process a step further, trust assumptions aren't
+always as clear-cut as this strawman suggests. For example, most of us
+implicitly trust that the computer we just bought from a reputable
+vendor does not forward our data to an adversary, but for some use
+cases, the hardware supply chain is a consideration. Buying time on
+virtual machines in a cloud only complicates this decision. Even when
+you trust the hardware, you might or might not trust the firmware or
+the OS (or you might trust it only when certain security enhancements
+are enabled). This illustrates a common design question that every
+system must face: What do you accept to be the *Trusted Computing Base
+(TCB)*; that is, what hardware and software components do you trust?
+
+We revisit this topic in the next chapter, but given that this book
+focuses on network security, a reasonable starting point is to trust
+the hardware/software on the systems you control, and to assume all
+other systems you interact with are untrustworthy. But this definition
+is problematic in a service-based environment like today's Internet,
+where we end up also putting some amount of trust in the network
+providers we connect to, and the cloud services we depend upon. In
+many respects, identifying a TCB that meets our needs is an important
+part of what makes security so challenging.
 
 
 1.3 Threats to Network Security
 -------------------------------
-
-
 
 .. from the original book chapter - somewhat edited to follow the above text
 
