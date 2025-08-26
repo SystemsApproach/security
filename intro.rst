@@ -289,7 +289,7 @@ focuses on network security, a reasonable starting point is to trust
 the hardware/software on the systems you control, and to assume all
 other systems you interact with are untrustworthy. But this definition
 is problematic in a service-based environment like today's Internet,
-where we end up also putting some amount of trust in the network
+where we often end up putting some trust in the network
 providers we connect to, and the cloud services we depend upon. In
 many respects, identifying a TCB that meets our needs is an important
 part of what makes security so challenging.
