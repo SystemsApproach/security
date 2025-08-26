@@ -76,15 +76,48 @@ replication, allowing large volumes of traffic to be sent to the
 target of a DoS attack; thus it has become necessary to develop means
 to mitigate such attacks.
 
+.. sidebar:: Picking Your Battles
+
+   *Chapter 1 talked about trust and threats being two sides of the
+   same coin, but another way of thinking about it that every secure
+   system design starts with two lists: (1) those elements you trust,
+   and so can build upon; and (2) those elements you do not trust, and
+   so must treat as a threat that you defend against. But this is no
+   different than for any system you build: you first identify the
+   building blocks you plan to take as a given, and then you design a
+   solution that fills the "gap" between those building blocks and the
+   requirements you are trying to meet.*
+
+   *One way in which security is unique is that over time you may
+   discover that you need to move items from the first list to the
+   second list, as new threats emerge. To reduce this possibility, it
+   is best to keep the first list as minimal as possible. On the other
+   hand, if you choose to trust nothing, you may end up "boiling the
+   ocean" (i.e., having to solve so many problems that you are unable
+   to make any progress). Every system must pick its battles.*
+
+   *Because of our focus on network security, this book effectively
+   starts with a list of trusted elements that includes commodity
+   servers and L2/L3 switches, and ignores (i.e., declares
+   out-of-scope) all the vulnerabilities those elements face and the
+   countermeasures that go into securing them.*
+
 As a consequence of these three main requirements—confidentiality,
 integrity, and availability—additional requirements are placed on the
-underlying systems. Foremost among these the need for a mechanism to
-enforce *access control*, a system component that limits who has
-access to data and what operations they may perform on it. Once we can
-securely identify principals, we must then control what objects they
-can read or write. Access control is clearly a mechanism included in
-end systems, such as laptops and web servers, but it also applies to
-network infrastructure, such as routers and name servers.
+underlying systems we build upon, which brings us back to the idea of
+a Trusted Computing Base (TCB) introduced in Chapter 1. We generally
+have three inter-related requirements for these platforms, beyond
+their not being malicious (which is implied by our including them in
+our TCB).  The first we have already seen: they must provide a local
+(component-specific) notion of *identity*, giving us a way to support
+multiple principals (users). The second is they must provide
+*isolation*, protecting information belonging to one user from other
+users on the system. The third is they must enforce *access control*,
+limiting which users have access to what data, along with what
+operations they are allowed to perform on it. Providing these
+mechanisms gives us the foundation we need to then meet the
+confidentiality, integrity, and availability requirements as we
+communicate over the Internet.
 
 
 2.2 Broader System Requirements
