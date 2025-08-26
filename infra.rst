@@ -245,7 +245,9 @@ provider with whom they have no relationship.
 A more sophisticated approach relies on the use of cryptographically
 signed statements authorizing a particular AS to advertise paths to a
 particular prefix. This technology behind this is referred to as RPKI:
-Resource Public Key Infrastructure.
+Resource Public Key Infrastructure.  RPKI builds on the concepts of
+cryptographic signatures and certificate hierarchies that we
+introduced in previous chapters.
 
 RPKI provides a means by which entities involved in routing, such as
 the operator of an AS, can make assertions about information that is
@@ -361,13 +363,20 @@ complete picture of the chains of certificates that have been
 issued. With this information, a router running BGP can determine *in advance* which
 ASes could originate routing advertisements for which prefixes and use
 this to configure filtering rules that specify which advertisements they are
-willing to accept. There is a well-established set of software tools
-to automate this process for popular operating systems and commercial
-routing platforms. Notably, the routers running BGP do not perform
-cryptographic operations in real time when processing route
-advertisements; all the cryptographic operations happen in advance
-when setting up the filtering rules based on information from the RPKI
-repository.
+willing to accept. Note the contrast to prior uses of certificates we
+have seen: a router builds a complete picture of the certificate
+hierarchy *a priori* in readiness for subsequent routing decisions,
+rather than checking the validity of certificates as part of
+establishing a session (as happens in TLS, for example).
+
+There is a well-established set of software tools to automate the
+process of leveraging the RPKI for popular operating systems and
+commercial routing platforms. Notably, the routers running BGP do not
+perform cryptographic operations in real time when processing route
+advertisements; all the cryptographic operations happen in advance on
+servers that are external to the routers themselves.  The external
+systems push filtering rules to the routers based on information
+derived from the RPKI repository.
 
 With the RPKI in place it is now possible to perform Route Origin
 Validation (ROV). That is, if a given AS claims to be the originator of a
@@ -629,7 +638,7 @@ requests that can fool the recipients. Because of the way DNS caches
 responses, the impact of such false information can be widespread.
 
 "Cache poisoning"—also sometimes referred to as DNS spoofing—is a
-common from of attack on DNS. If an attacker can either force a
+common form of attack on DNS. If an attacker can either force a
 resolver to make a recursive query to an authoritative name server, or
 predict roughly when such a query is to be made, the attacker can try
 to send a fake response to *that* query.  :numref:`Figures %s
@@ -748,9 +757,10 @@ autonomous systems to reject traffic with spoofed source
 addresses. It may not be 100% effective but it will reduce the
 effectiveness of large scale attacks.
 
-Finally, there are ways to deal with DoS attacks such as the use
-of content distribution networks and black-holing of DoS
-traffic. We discuss these further in Chapter 9.
+Finally, recall that there are general ways to deal with DoS attacks
+such as the use of content distribution networks and black-holing of
+DoS traffic. We discuss the general approaches to DoS mitigation in
+Chapter 7.
 
 8.2.2 DNS Security Extensions (DNSSEC)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -845,9 +855,11 @@ connect you to the web site?
 
 This is not to say that protecting DNS is unimportant,
 however. Interference with DNS is still a vector for censorship and
-surveillance of Internet usage. For this reason there are other
-methods of protecting DNS that have started to gain traction more
-recently, as discussed in the next section.
+surveillance of Internet usage. Subverting DNS to direct a client to a
+site other than the one they intended to reach undermines the
+operation of the Internet. While DNSSEC has struggled to gain
+traction, other methods of protecting DNS have appeared more
+recently and are having some impact, as discussed in the next section.
 
 A final note on DNSSEC is that, by making responses larger, it has the
 potential to worsen amplification attacks. The response to a request

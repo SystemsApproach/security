@@ -100,9 +100,11 @@ Acknowledgements
 ----------------
 
 Thanks to all the people who provided feedback on our book at various
-stages in its development, particulary the following people:
+stages in its development, particularly the following people:
 
 - Brad Karp
 - Cecilia Testart
 - Motonori Shindo
 - Nick Feamster
+- Zack Williams
+- John Kristoff
