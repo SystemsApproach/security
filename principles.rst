@@ -78,8 +78,8 @@ to mitigate such attacks.
 
 .. sidebar:: Picking Your Battles
 
-   *Chapter 1 talked about trust and threats being two sides of the
-   same coin, but another way of thinking about it that every secure
+   *In Chapter 1 we talked about trust and threats being two sides of the
+   same coin, but another way to frame the discussion is that every secure
    system design starts with two lists: (1) those elements you trust,
    and so can build upon; and (2) those elements you do not trust, and
    so must treat as a threat that you defend against. But this is no
@@ -91,7 +91,7 @@ to mitigate such attacks.
    *One way in which security is unique is that over time you may
    discover that you need to move items from the first list to the
    second list, as new threats emerge. To reduce this possibility, it
-   is best to keep the first list as minimal as possible. On the other
+   is best to keep the first list as small as possible. On the other
    hand, if you choose to trust nothing, you may end up "boiling the
    ocean" (i.e., having to solve so many problems that you are unable
    to make any progress). Every system must pick its battles.*
@@ -100,7 +100,11 @@ to mitigate such attacks.
    starts with a list of trusted elements that includes commodity
    servers and L2/L3 switches, and ignores (i.e., declares
    out-of-scope) all the vulnerabilities those elements face and the
-   countermeasures that go into securing them.*
+   countermeasures that go into securing them. Of course, as soon as
+   those elements are located outside our control, e.g., in some
+   remote service provider's network, we have to assume that they
+   are untrustworthy devices capable of snooping on, modifying or
+   diverting traffic.*
 
 As a consequence of these three main requirements—confidentiality,
 integrity, and availability—additional requirements are placed on the
