@@ -266,14 +266,14 @@ behave. For example, if you plan to transmit messages over Wi-Fi on an
 open campus, you would likely identify an eavesdropper that can
 intercept messages as a threat (and adopt some of the methods
 discussed in this book as a countermeasure). But if you are planning
-to transmit messages over a fiber link between two machines in a
+to transmit messages over a fiber link between two servers in a
 locked machine room, you might trust that channel is secure, and so
 take no additional steps. Every system makes trust assumptions. The
 key is to be as explicit as possible about those assumptions, because
 they may change over time.
 
 Taking this thought process a step further, trust assumptions aren't
-always as clear-cut as this strawman suggests. For example, most of us
+always as clear-cut as our strawman suggests. For example, most of us
 implicitly trust that the computer we just bought from a reputable
 vendor does not forward our data to an adversary, but for some use
 cases, the hardware supply chain is a consideration. Buying time on

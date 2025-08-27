@@ -78,15 +78,15 @@ to mitigate such attacks.
 
 .. sidebar:: Picking Your Battles
 
-   *In Chapter 1 we talked about trust and threats being two sides of the
-   same coin, but another way to frame the discussion is that every secure
-   system design starts with two lists: (1) those elements you trust,
-   and so can build upon; and (2) those elements you do not trust, and
-   so must treat as a threat that you defend against. But this is no
-   different than for any system you build: you first identify the
-   building blocks you plan to take as a given, and then you design a
-   solution that fills the "gap" between those building blocks and the
-   requirements you are trying to meet.*
+   *In Chapter 1 we talked about trust and threats being two sides of
+   the same coin, but another way to frame the discussion is that
+   every secure system design starts with two lists: (1) those elements
+   you trust, and so can build upon; and (2) those elements you do not
+   trust, and so must treat as a source of threats that you defend
+   against. But this is no different than for any system you build:
+   you first identify the building blocks you plan to take as a given,
+   and then you design a solution that fills the "gap" between those
+   building blocks and the requirements you are trying to meet.*
 
    *One way in which security is unique is that over time you may
    discover that you need to move items from the first list to the
