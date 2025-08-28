@@ -299,7 +299,7 @@ representations of the CRL to reduce its size, and the development of
 the Online Certification Status Protocol (OCSP) to enable real-time
 checks on a certificate's status. At the time of writing, there are
 some best practices for handling certificate revocation but no
-comprehensive solution. 
+comprehensive solution.
 
 4.2 Distribution of Secret Keys
 ------------------------------------

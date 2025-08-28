@@ -144,14 +144,16 @@ attack.
 It turns out that it is not trivial to create cryptographic ciphers
 that can be broken only by brute force. For example, the original DES
 (data encryption standard) algorithm had a key of only 56 bits; when
-it became clear that 56 bits was too small, triple DES was introduced, using three
-rounds of DES each with its own key. It might seem that this
-increased the key size to 168 bits (:math:`3 \times 56`) but because
-of the 3-round structure of triple DES, the attacker only has to
-search a key space of 112 bits. This depends on something called a
-"meet-in-the-middle attack". The details are not important here but it
-illustrates why cryptographic algorithms need to be designed
-carefully if they are not to contain surprising weaknesses.
+it became clear that 56 bits was too small, triple DES was introduced,
+using three rounds of DES each with its own key. It might seem that
+this increased the key size to 168 bits (:math:`3 \times 56`) but
+because of the 3-round structure of triple DES, an attacker in
+possession of a piece of ciphertext and the matching plaintext only
+has to search a key space of 112 bits. This depends on something
+called a "meet-in-the-middle attack". The details are not important
+here but it illustrates why cryptographic algorithms need to be
+designed carefully and evaluated by experts if they are not to contain
+surprising weaknesses.
 
 Network security tends to focus on the security of data as it
 moves through the network—that is, data that is vulnerable for only a
