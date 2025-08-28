@@ -188,15 +188,21 @@ time. The first time a client connects to a particular server, the SSH
 application warns the user that it has never talked to this machine
 before and asks if the user wants to continue. Although it is a risky
 thing to do, because SSH is effectively not able to authenticate the
-server, users often say “yes” to this question. The SSH application then
-remembers the server’s public key, and the next time the user connects
-to that same machine it compares this saved key with the one the server
+server, users often say “yes” to this question. This is known as
+"Trust on First Use" (TOFU). The SSH application then
+remembers the server’s public key; the next time the user connects
+to that same machine, it compares this saved key with the one the server
 responds with. If they are the same, SSH authenticates the server. If
 they are different, however, the SSH application again warns the user
 that something is amiss, and the user is then given an opportunity to
-abort the connection. Alternatively, the prudent user can learn the
-server’s public key through some out-of-band mechanism, save it on the
-client machine, and thus never take the “first time” risk.
+abort the connection.
+
+As an alternative to trust on first use, the prudent user can learn
+the server’s public key through some out-of-band mechanism, save it on
+the client machine, and thus never take the “first time” risk. As an
+example, there is an option to publish SSH public key fingerprints in
+DNS, which then raises the issue of trusting DNS; we return to this
+topic in Chapter 8.
 
 Once the SSH-TRANS channel exists, the next step is for the user to
 actually log into the machine, or more specifically, authenticate

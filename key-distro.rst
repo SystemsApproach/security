@@ -239,7 +239,7 @@ key-signing parties were once a regular feature of IETF meetings. At a
 key-signing party, an individual can:
 
 -  Collect public keys from others whose identity he knows (often by
-   collecting the fingerprint of the key on a printed card.)
+   collecting the fingerprint of the key—a short hash of the key—on a printed card.)
 
 -  Provide his public key (or its fingerprint) to others, perhaps
    showing some other form of ID.
