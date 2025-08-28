@@ -265,7 +265,7 @@ certificate. Why is this important? Suppose that you suspect that
 someone has discovered your private key. There may be any number of
 certificates in the universe that assert that you are the owner of the
 public key corresponding to that private key. The person who discovered
-your private key thus has everything he needs to impersonate you: valid
+your private key thus has everything required to impersonate you: valid
 certificates and your private key. To solve this problem, it would be
 nice to be able to revoke the certificates that bind your old,
 compromised key to your identity, so that the impersonator will no
@@ -285,6 +285,21 @@ used. For this reason, it is common to attach an expiration date to a
 certificate when it is issued. Thus, we can limit the length of time
 that a revoked certificate needs to stay on a CRL. As soon as its
 original expiration date is passed, it can be removed from the CRL.
+
+In practice, certificate revocation has proven to be challenging. CRLs
+can become very long, so retrieving them becomes costly. The time to
+retrieve a CRL may fall in the critical path for opening a
+connection to a web site, increasing the time to load a
+page substantially. A determined attacker who has compromised a
+private key is motivated to disrupt the distribution of the CRL to
+prolong the amount of time they can use the compromised key. A number
+of proposals have been made to improve the effectiveness of
+certificate revocation, such as using bit vectors or other compact
+representations of the CRL to reduce its size, and the development of
+the Online Certification Status Protocol (OCSP) to enable real-time
+checks on a certificate's status. At the time of writing, there are
+some best practices for handling certificate revocation but no
+comprehensive solution. 
 
 4.2 Distribution of Secret Keys
 ------------------------------------
