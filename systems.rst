@@ -657,14 +657,18 @@ and forms the basis for authentication of web sites using Transport
 Layer Security, its adoption for authentication of end-users has
 generally proven challenging. PGP was an early effort to allow
 end-users to authenticate themselves with public key cryptography, but
-if you need to authenticate yourself to, say, your bank, it's
-overwhelmingly the case today that you will use some combination of
-user name (maybe an account number or an email address) and a
-password. Perhaps another factor, such as a one-time code sent to your
+its deployment remains limited.  If you need to authenticate yourself
+to, say, your bank, it's overwhelmingly the case today that you will
+use some combination of user name (maybe an account number or an email
+address) and a password. Perhaps another factor, such as a one-time
+code generated locally by an app (referred to as a timed one-time
+password or TOTP) or a code sent over the cellular network to your
 phone, will also be used. Encryption (using TLS) prevents your
-password from being seen by eavesdroppers when it is sent to the
-bank's site, but currently there is little deployment of public key
-cryptography for the authentication of users. SSH, as noted in a
+password (and one-time code) from being seen by eavesdroppers when it
+is sent to the bank's site, but there are plenty of weaknesses to this
+form of authentication as we discuss below.  Public key cryptography
+would generally be a better solution for the authentication of users
+but its deployment has been sparse historically. SSH, as noted in a
 previous section, supports the use of public keys for user
 authentication, but it's hardly in mainstream use by consumers on the
 Internet.
@@ -678,11 +682,14 @@ are relatively short or simple, and has become easier over time with
 increased computing power. Because many people re-use passwords across
 multiple sites, if a password is obtained from a breach of one site,
 it can often be used on other sites. And a range of *phishing attacks*
-entail somehow tricking a user into putting his login credentials
-into a fraudulent web site. This might be initiated with an email
-leading the user to input his credentials to a domain name similar
-to the expected one, on a site that mimics the visual style of the
-legitimate web site.
+entail somehow tricking a user into putting his login credentials into
+a fraudulent web site or divulging them over the phone. Phishing
+attacks are often initiated with an email leading the user to input
+his credentials to a domain name similar to the expected one, on a
+site that mimics the visual style of the legitimate web
+site. Multi-factor authentication raises the bar somewhat for the
+attacker, but even one-time codes can often be obtained via phishing
+attacks.
 
 A range of efforts have been under way for many years to reduce the
 reliance on passwords and to drive adoption of public key cryptography
