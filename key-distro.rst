@@ -287,19 +287,28 @@ that a revoked certificate needs to stay on a CRL. As soon as its
 original expiration date is passed, it can be removed from the CRL.
 
 In practice, certificate revocation has proven to be challenging. CRLs
-can become very long, so retrieving them becomes costly. The time to
-retrieve a CRL may fall in the critical path for opening a
-connection to a web site, increasing the time to load a
-page substantially. A determined attacker who has compromised a
-private key is motivated to disrupt the distribution of the CRL to
-prolong the amount of time they can use the compromised key. A number
-of proposals have been made to improve the effectiveness of
-certificate revocation, such as using bit vectors or other compact
-representations of the CRL to reduce its size, and the development of
-the Online Certification Status Protocol (OCSP) to enable real-time
-checks on a certificate's status. At the time of writing, there are
-some best practices for handling certificate revocation but no
-comprehensive solution.
+can become very long now that certificates are in widespread use, so
+retrieving them becomes costly. The time to retrieve a CRL may fall in
+the critical path for opening a connection to a web site,
+substantially increasing the time to load a page. A determined
+attacker who has compromised a private key is motivated to disrupt the
+distribution of the CRL to prolong the amount of time they can use the
+compromised key. A number of proposals have been made to improve the
+effectiveness of certificate revocation, such as using bit vectors or
+other compact representations of the CRL to reduce its size, and the
+development of the Online Certification Status Protocol (OCSP) to
+enable real-time checks on a certificate's status. At the time of
+writing, there are some best practices for handling certificate
+revocation but no comprehensive solution. A good discussion of the
+issues and a potential approach to more effective certificate
+revocation can be found in the blog post below.
+
+.. admonition:: Further Reading
+
+  J. Schank. `CRLite: Fast, private, and comprehensive certificate
+     revocation checking in Firefox
+     <https://hacks.mozilla.org/2025/08/crlite-fast-private-and-comprehensive-certificate-revocation-checking-in-firefox/>`__. Mozilla
+     blog, August 2025.
 
 4.2 Distribution of Secret Keys
 ------------------------------------
