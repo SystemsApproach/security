@@ -759,8 +759,7 @@ effectiveness of large scale attacks.
 
 Finally, recall that there are general ways to deal with DoS attacks
 such as the use of content distribution networks and black-holing of
-DoS traffic. We discuss the general approaches to DoS mitigation in
-Chapter 7.
+DoS traffic. We discuss general approaches to DoS mitigation below.
 
 8.2.2 DNS Security Extensions (DNSSEC)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
