@@ -860,6 +860,16 @@ operation of the Internet. While DNSSEC has struggled to gain
 traction, other methods of protecting DNS have appeared more
 recently and are having some impact, as discussed in the next section.
 
+The challenges of securing DNS illustrate a point we made early in
+the book about the trusted computing base (TCB) and minimizing its size. If
+DNS needs to be trusted in order for systems that depend on the
+Internet to operate securely, then we have chosen a large, distributed system
+component that needs to be made secure. Having largely failed to make
+DNS secure over thirty years, it is a good thing that TLS (and other
+systems using end-to-end encryption) provides secure communications
+over untrusted infrastructure. In other words we have excluded DNS
+from the TCB.
+
 A final note on DNSSEC is that, by making responses larger, it has the
 potential to worsen amplification attacks. The response to a request
 to a DNS server that implements DNSSEC contains both a signature and
