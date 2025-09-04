@@ -231,9 +231,7 @@ which access the network should only have access to the set of
 resources needed to do their jobs. The concept of zero trust, which
 has started to gain popularity as an approach to network security in recent years,
 follows closely the idea of least privilege. We return to this topic
-in a later chapter. 
-
-.. feel like there is more detail to provide here.
+in a later chapter.
 
 Interestingly, Saltzer and Schroeder explicitly mention "firewalls" in
 the section of their paper on least privilege, using the analogy from
