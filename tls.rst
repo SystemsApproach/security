@@ -587,7 +587,7 @@ More detail on Let's Encrypt can be found in the following paper.
 
    J. Aas *et al.*
    `Let's Encrypt: An Automated Certificate Authority to Encrypt the Entire Web
-   <https://dl.acm.org/doi/10.1145/3319535.3363192/>`__.
+   <https://dl.acm.org/doi/10.1145/3319535.3363192>`__.
    SIGSAC 2019.
 
 
