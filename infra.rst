@@ -1078,7 +1078,7 @@ anomalous behavior, but individual servers can also limit the impact
 by encoding connection state in the sequence number included in the
 SYN+ACK they send back to the client—a "SYN cookie" of sorts—and then
 allocate connection state locally only after the client goes to the
-trouble of correctly ACK'ing that packet. This is a variant of the
+trouble of correctly ACKing that packet. This is a variant of the
 first countermeasure in that it forces the attacker to use additional
 resources.
 

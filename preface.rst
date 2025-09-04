@@ -41,7 +41,7 @@ opportunity to write about security in a way that would make sense to
 a networking person. Also, we wanted to take more of a systems
 approach to the topic. While we always try to take a system-level view
 in everything we write, it's easy with security to get bogged down in
-the details of individual components such as cryptographic algorithms
+the details of individual components, such as cryptographic algorithms,
 without really tackling the systems issues. Cryptography is cool and
 interesting (in our view at least) but it isn't really the main thing
 to focus on if you are building secure systems. So while we do explain

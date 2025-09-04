@@ -157,7 +157,7 @@ or we'd simply secure a system by denying access to all users.
 
 For our purposes, the main takeaway is that security is unique in that
 it is not just a requirement *for* a system, but it is often best
-viewed as a system in an of itself, one that must be usable,
+viewed as a system in and of itself, one that must be usable,
 scalable, manageable, evolvable, observable, available, reliable, and
 so on.
 
@@ -174,6 +174,7 @@ those principles are applied in practice.
 
 2.3.1 Defense in Depth
 ~~~~~~~~~~~~~~~~~~~~~~
+
 As we have noted, one of the central challenges in security is that we
 never know if we have done enough. Much as we try to defend against
 all possible attacks, there is no way to be sure that we've thought of
@@ -181,12 +182,12 @@ everything. This is what we mean by saying that security is a negative
 goal: we aim to be sure that a set of things cannot happen, but we can
 never quite be sure that all vulnerabilities have been found and
 mitigated. This leads to the idea of *defense in depth*: layer upon
-layer of defense, so that even if one layer is penetrated, the next
-layer is unlikely to be. Only by getting through all the layers of
-defense will an attacker be able to achieve their goal (of stealing
-our data, for example). The hope is that with enough layers of
-defense, the odds of an attacker penetrating all of them becomes
-vanishingly small.
+layer of defense, so that even if one layer is penetrated, there are
+multiple layers of defense still in place. Only by getting through
+*all* the layers of defense will an attacker be able to achieve their
+goal (of stealing our data, for example). The hope is that with enough
+layers of defense, the odds of an attacker penetrating all of them
+becomes vanishingly small.
 
 As a simple example, a corporation might make use of a VPN (virtual
 private network) to ensure that only authorized users can access
@@ -227,7 +228,10 @@ anything as root on Unix-like systems unless absolutely necessary.
 
 In the context of networking, this principle implies that applications
 which access the network should only have access to the set of
-resources needed to do their jobs.
+resources needed to do their jobs. The concept of zero trust, which
+has started to gain popularity as an approach to network security in recent years,
+follows closely the idea of least privilege. We return to this topic
+in a later chapter. 
 
 .. feel like there is more detail to provide here.
 
@@ -298,7 +302,7 @@ the system, the Internet's default behavior does not provide fail-safe
 defaults. Efforts to revert to a more secure default behavior include
 such old ideas as network firewalls and virtual private networks,
 along with more modern approaches such as microsegmentation and
-zero-trust architectures.  We will discuss these developments in a later chapter.
+zero trust architectures.  We will discuss these developments in a later chapter.
 
 2.3.5 Least Common Mechanism
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

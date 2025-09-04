@@ -203,7 +203,7 @@ pioneers are interviewed.
 
 A discussion of security often begins with an analysis of the *threat
 landscape*. That is, what are the threats that our system is likely to
-be exposed to and which we hope to mitigate. This is one of the great
+be exposed to and which we hope to mitigate? This is one of the great
 challenges in developing a security strategy: how do we know when we
 have identified all the likely threats? Some may be obvious, such as
 eavesdropping on unencrypted traffic sent over a shared medium, but
@@ -281,8 +281,8 @@ virtual machines in a cloud only complicates this decision. Even when
 you trust the hardware, you might or might not trust the firmware or
 the OS (or you might trust it only when certain security enhancements
 are enabled). This illustrates a common design question that every
-system must face: What do you accept to be the *Trusted Computing Base
-(TCB)*; that is, what hardware and software components do you trust?
+system must face: what do you accept to be the *Trusted Computing Base
+(TCB)*? That is, what hardware and software components do you trust?
 
 We revisit this topic in the next chapter, but given that this book
 focuses on network security, a reasonable starting point is to trust
