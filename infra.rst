@@ -367,7 +367,10 @@ willing to accept. Note the contrast to prior uses of certificates we
 have seen: a router builds a complete picture of the certificate
 hierarchy *a priori* in readiness for subsequent routing decisions,
 rather than checking the validity of certificates as part of
-establishing a session (as happens in TLS, for example).
+establishing a session (as happens in TLS, for example). The
+repositories now become an essential part of our routing
+infrastructure and must themselves be secured and protected against
+DoS attacks.
 
 There is a well-established set of software tools to automate the
 process of leveraging the RPKI for popular operating systems and
