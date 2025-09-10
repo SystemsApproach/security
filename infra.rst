@@ -582,7 +582,7 @@ relationships gives us the ability to detect such anomalies.
 
 .. _fig-valleyfree:
 .. figure:: figures/valleyfree.png
-   :width: 400px
+   :width: 300px
    :align: center
 
    Valley-free topology of Autonomous Systems
@@ -834,7 +834,7 @@ resolvers.
 
 .. _fig-dnsviz:
 .. figure:: figures/dnsviz.png
-   :width: 500px
+   :width: 700px
    :align: center
 
    Validation of DNS keys and signatures by DNSviz
