@@ -386,7 +386,7 @@ led to internal firewalls being used rather sparingly.
 
 
 .. _fig-dc-firewall:
-.. figure:: figures/Slide47.png
+.. figure:: figures/single-firewall.png
    :width: 600px
    :align: center
 
@@ -412,7 +412,7 @@ it is relatively simple to scale out the amount of firewalling in this
 way.
 
 .. _fig-dist-firewall:
-.. figure:: figures/Slide48.png
+.. figure:: figures/distributed-firewall.png
    :width: 600px
    :align: center
 

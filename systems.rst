@@ -566,7 +566,7 @@ pushed out to all affected sites.  The idea is illustrated in
 :numref:`Figure %s <fig-sd-wan>`.
 
 .. _fig-sd-wan:
-.. figure:: figures/Slide43.png
+.. figure:: figures/sd-wan.png
     :width: 600px
     :align: center
 

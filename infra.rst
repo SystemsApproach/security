@@ -944,7 +944,7 @@ privacy of client requests using a technique known as *Oblivious
 DNS*.
 
 .. _fig-odns:
-.. figure:: figures/odns.png
+.. figure:: figures/DNS-oblivious.png
    :width: 400px
    :align: center
 
