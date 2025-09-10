@@ -429,12 +429,12 @@ reserved for use in authentication and session key establishment.
    the error-correcting capabilities necessary to solve the
    mathematical problems at sufficient scale, and it is not guaranteed
    that some version of Moore's law will apply to quantum
-   computing. Building quantum computers that are large enough (in
-   number of qubits) and sufficiently fault-tolerant to actually
+   computing. Building quantum computers that have a sufficient number
+   of qubits and are sufficiently fault-tolerant to actually
    present a threat to cryptography remains an engineering
    challenge. That said, the risk is viewed as being sufficiently
    large that steps need to be taken to prepare for the day when
-   quantum computers *can* break most existing algorithms. It is worth
+   quantum computers can break most existing algorithms. It is worth
    considering the possibility that some data that is well protected
    today could be stored for a decade or two and then decrypted by a
    future quantum computer, so even data produced today could be at
@@ -453,7 +453,7 @@ reserved for use in authentication and session key establishment.
    *There is a general, if not universal, sense that at some point
    post-quantum cryptographic algorithms will be needed. While the
    timeframe is uncertain and the exact algorithms to be used may
-   change, the requirement for *crypto-agility*—the ability to swap
+   change, the requirement for crypto-agility—the ability to swap
    out one set of algorithms for another—is now well established.*
 
 3.4 Message Authentication
