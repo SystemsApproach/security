@@ -8,11 +8,13 @@ between parties as their traffic traverses the Internet. But the
 Internet itself consists of infrastructure, such as routers, that must
 also be defended against attacks. Two areas of particular concern are
 the interdomain routing system and the domain name system (DNS). Both
-systems routinely come under attack. There are efforts underway to
-make them more resistant to attacks, as we discuss in the following
-sections.
+systems routinely come under attack. They are also complex distributed
+systems. While distributing the routing and naming functions helps
+make these systems resilient to failure, many opportunities for attack
+exist. In this chapter we discuss some of the ongoing
+efforts to improve their resistance to attacks.
 
-This following discussion builds on some of the concepts introduced in previous
+The following discussion builds on some of the concepts introduced in previous
 chapters. Notably, the concept of public key infrastructure (PKI),
 which we introduced in Chapter 4 and which underpins the operation of TLS,
 plays an important role in securing infrastructure as well. While the
@@ -55,23 +57,27 @@ mistakes on occasions) and the secure connection protects it from
 modification by an attacker. A secure, encrypted connection to the
 website of the New York Times, however, doesn't mean you should
 believe every word published by the New York Times. Similarly, a
-secure connection to a BGP speaker doesn't imply that every route
-advertisement provided by that speaker is reliable. We need to look a
-bit more closely at how BGP works to see where the challenges lie.
+secure connection to a BGP speaker (a router running BGP) doesn't
+imply that every route advertisement provided by that speaker is
+reliable. We need to look a bit more closely at how BGP works to see
+where the challenges lie.
 
 BGP speakers advertise *paths* to reach *prefixes*. When a BGP speaker
 receives a set of path advertisements from its peers, it runs a route
-selection process to determine the "best" path to any prefix, using a
-fairly large and flexible set of criteria to decide what is
-"best". For example, a path to a given prefix that is shorter (as
-measured by the number of autonomous systems it contains) may be
-preferred to one that is longer. However, there are many other
-criteria, notably the business relationship between the peers, which
-are used to determine the ultimate choice of path. When a BGP speaker
-has chosen a path to reach a particular prefix, it may choose to
-re-advertise that path to other BGP speakers, either in the same AS or
-in another AS. For a more full discussion of how BGP works, refer to
-the section on Inter-domain routing in our main textbook.
+selection process to determine its preferred path to any prefix, using
+a large and flexible set of criteria to decide which path to
+select. The business relationships among providers play a central role
+in path selection. While a router might prefer a path to a given
+prefix that is shorter (as measured by the number of autonomous
+systems it contains) to one that is longer, that is not a hard rule
+(unlike intra-domain routing). The business relationships among the
+different service providers and customers play a central role in the
+ultimate choice of path. When a BGP speaker has chosen a path to reach
+a particular prefix, it may choose to re-advertise that path to other
+BGP speakers, either in the same AS or in another AS. Again, this
+depends on customer-provider relationships. For a more full discussion
+of how BGP works, refer to the section on inter-domain routing in our
+main textbook.
 
 A BGP speaker needs to trust that the paths that it is receiving from
 its peers are correct, and this turns out to be a multi-faceted
@@ -104,6 +110,9 @@ more difficult to address.
    BGP: Design, Threats and Security Requirements
    <https://labs.apnic.net/index.php/2021/08/03/a-survey-on-securing-inter-domain-routing-part-1-bgp-design-threats-and-security-requirements/>`__.
    APNIC Blog, August 2021.
+
+   S. Murphy. `BGP Security Vulnerabilities Analysis
+      <https://www.rfc-editor.org/info/rfc4272>`__. RFC 4272, 2006.
 
    L. Peterson and B. Davie. `Computer Networks: A Systems Approach. Interdomain
    Routing <https://book.systemsapproach.org/scaling/global.html#interdomain-routing-bgp>`__.
@@ -175,14 +184,16 @@ certain prefix, how do we know that they really have this path?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 When a BGP speaker announces a path to a particular prefix, how do we
-know that they really have such a path? And do we know that they will
-use the path if asked to do so? The short answer to both questions is that we
-don't, but there has been a multi-decade quest to build mechanisms that
+know that they really have such a path? Do we know that they will
+use the path if asked to do so? Are they even authorized to use the
+path? The short answer to all these questions is that we don't know,
+but there has been a multi-decade quest to build mechanisms that
 enable greater confidence in the correctness of such
 announcements. This quest, and the slowness of its progress, was well
-documented by Sharon Goldberg in 2014. While progress continues
-today, a more recent study by Testart and Clark from 2021 indicated
-that progress had remained slow.
+documented by Sharon Goldberg in 2014. While progress continues today,
+a more recent study by Testart and Clark from 2021 indicated that
+progress had remained slow. There are a number of reasons for the
+lack of progress, as we discuss below.
 
 Let's start with a simple and well-studied example. In 2008, ISPs in
 Pakistan were ordered by the government to block access to YouTube for
@@ -193,7 +204,10 @@ so that it could then redirect traffic that would try to follow that
 path. The problem was that not only was this path not a viable way to
 reach YouTube, it was also a *more specific* path, that is, it was for
 a longer prefix than the true path to YouTube that was being
-advertised by other ASes. This turned into a problem well beyond the
+advertised by other ASes. Since IP forwarding is based on the
+longest matching prefix in the routing table ("longest-prefix match") the
+more specific path overrides the less specific path when packets
+match the longer prefix.  This turned into a problem well beyond the
 boundaries of Pakistan when the ISP advertised the route upstream to a
 larger ISP.  The upstream ISP now saw the more specific route as a
 distinct piece of routing information from the true, less specific
@@ -210,10 +224,10 @@ There are many other forms of attack possible on BGP, but they mostly
 take the form of a route being advertised and then propagated when it
 should not be. There is a relatively simple measure that should have
 prevented the incident described above: the provider AS immediately
-upstream from Pakistan Telecom  should not have accepted the
+upstream from Pakistan Telecom should not have accepted the
 advertisement that said "I have a route to YouTube". How would it know
 not to accept this? After all, BGP needs to be dynamic, so a newly
-advertised prefix is sometimes going to be correct. One solution to
+advertised prefix is often going to be correct. One solution to
 this problem is the use of Internet Routing Registries (IRRs), which serve as
 databases mapping address prefixes to the ASes that are authorized to
 advertise them. In the prior example, since YouTube is not a customer
@@ -234,9 +248,13 @@ incorrect that could be advertised. The set of rules that need to be
 configured on a BGP router for an ISP that carries hundreds of
 thousands of routes can also get very large.
 
+There is also a question of whether all the information provided by an
+IRR can be trusted. We discuss approaches to building trust in the
+information provided by an IRR below.
+
 Furthermore, as noted by in the article "*Why Is It
 Taking So Long to Secure Internet Routing?*", the incentives for
-prefix filtering are somewhat misaligned. The cost of filtering falls
+prefix filtering are not well aligned. The cost of filtering falls
 on the AS that is immediately upstream of the misbehaving ISP, while
 the benefit accrues to some distant entity (YouTube in our example)
 who avoids the impact to their traffic thanks to the work of a
@@ -353,6 +371,16 @@ that we should trust advertisements of this prefix if they originate
 from the stated AS. An ROA may also limit the maximum length of the prefix to
 protect against bogus advertisements of more specific routes to a sub-prefix.
 
+The chain of trust established in the RPKI allows the recipient of an
+ROA to validate that the AS number in the ROA is authorized to
+orginate advertisements for the prefix or prefixes listed in the ROA.
+
+.. _fig-roa:
+.. figure:: figures/ROA-trust.png
+   :width: 600px
+   :align: center
+
+   An ROA has a chain of trust back to the RPKI root
 
 Rather than being passed around in real time like certificates in TLS,
 the RPKI certificates are stored in repositories, which are typically
