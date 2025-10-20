@@ -12,7 +12,7 @@ systems routinely come under attack. They are also complex distributed
 systems. While distributing the routing and naming functions helps
 make these systems resilient to failure, many opportunities for attack
 exist. In this chapter we discuss some of the ongoing
-efforts to improve their resistance to attacks.
+efforts to improve their resistance to attacks. [#]_
 
 The following discussion builds on some of the concepts introduced in previous
 chapters. Notably, the concept of public key infrastructure (PKI),
@@ -29,6 +29,8 @@ of the Internet. Mitigation of such attacks is increasingly handled by
 distributed infrastructure like content distribution networks (CDNs),
 as we discuss in the final section of this chapter.
 
+.. [#] Many thanks to Cecilia Testart for her contributions to this
+       chapter, particularly the BGP and Routing Security sections.
 
 8.1 BGP and Routing Security
 ----------------------------
@@ -294,19 +296,25 @@ to originate routing advertisements for specific address prefixes. A
 Route Origin Authorization (ROA) contains a certificate,
 an AS number, and a set of prefixes that the AS is authorized to
 advertise. The ROA is cryptographically signed by an entity that is
-itself trusted to provide this authorization, generally the AS to
-which this address prefix has been allocated.
+itself trusted to provide this authorization, generally the organization to
+which this address prefix has been allocated. For example, an ISP
+typically is allocated a certain set of prefixes and may originate
+routing advertisements for those prefixes. An ROA allows the ISP to
+assert that it has the authority to make such an announcement, and for
+BGP speakers elsewhere in the Internet to validate that assertion.
 
-Address allocation is a hierarchical process. Because Regional
-Internet Registries (RIRs) are at the top of the hierarchy for address
-allocation, they are a logical place for the root of trust, known
-as a trust anchor, for the RPKI. There are five RIRs globally and each
-has a root certificate in the RPKI.
+Address allocation in the Internet is a hierarchical process.
+Regional Internet Registries (RIRs) are at the top of the hierarchy
+for address allocation. Their position in the hierarchy of
+address allocation makes them a logical place for the RPKI roots of trust,
+known as trust anchors. There are five RIRs globally
+(ARIN, RIPE, APNIC, AFRINIC and LACNIC) and each has a root
+certificate in the RPKI.
 
 Hierarchical address allocation operates in the following manner. An RIR can
 allocate a chunk of address space to an ISP, and the ISP can
-sub-allocate from that chunk to one of its customers. There can be
-multiple layers in this hierarchy. A hierarchy of
+sub-allocate from that chunk to each of its customers. There may be
+additional layers in this hierarchy. A hierarchy of
 certificates can be created to follow this hierarchy of address
 allocation.  The RIRs form trust anchors from which chains of trust
 can be built, much the way a modern browser comes with a set of
@@ -343,12 +351,15 @@ that some address prefix has been allocated to customer *C*, and
 includes the public key of customer C. This certificate is signed by
 ISP *A* using the private key of *A*. So if we can trust *A*, we learn
 two things about *C*: its public key and the set of addresses
-allocated to the holder of that public key.
+allocated to the holder of that public key. Note that we don't learn
+who *C* is (unlike a TLS certificate); we just learn the public key of
+the entity that is authorized to originate routing advertisements for
+some prefix or prefixes.
 
-One level higher in the chain, the Local Internet Registry (LIR) has
+One level higher in the chain, the Regional Internet Registry (RIR) has
 issued a certificate that states ISP *A* has authority to allocate
 addresses out of some prefix. The prefix that *A* has allocated to *C*
-must be a subprefix within the allocation made by the LIR.
+must be a subprefix within the allocation made by the RIR.
 By following the chain back to the root certificate, it is possible to
 establish that *C* is legitimately able to advertise the prefix
 allocated to it by *A*.
@@ -356,24 +367,23 @@ allocated to it by *A*.
 At this point we have created a set of bindings between public keys,
 which are held by entities such as Internet Registries, ISPs, and end
 customers, and IP address prefixes allocated to those entities. The
-next step is to create a Route Origin Authorization (ROA), which
-cryptographically associates a prefix with an AS that is authorized to
-originate routing advertisements for that prefix.
+next step is to create a Route Origin Authorization (ROA), which is a
+cryptographically signed object that associates a prefix with an AS
+that is authorized to originate routing advertisements for that
+prefix.
 
-In our example above, *C* can create an ROA which it signs
+In our example above, *C* creates an ROA which it signs
 with its private key. The ROA contains the AS number of *C* and the
 prefix or prefixes that it wishes to advertise. Anyone who looks at
 the ROA and the resource certificate chain that leads from the root CA to *C*
-can validate that it has been signed with the private key
-belonging to the entity authorized to advertise the prefixes in the
+can validate that it has been signed with the private key belonging to
+C; they can also check that C is authorized to advertise the prefixes contained in the
 ROA. Because the ROA also contains the AS number for *C*, we now know
 that we should trust advertisements of this prefix if they originate
-from the stated AS. An ROA may also limit the maximum length of the prefix to
+from the stated AS. Furthermore, an ROA may limit the maximum length of the prefix to
 protect against bogus advertisements of more specific routes to a sub-prefix.
 
-The chain of trust established in the RPKI allows the recipient of an
-ROA to validate that the AS number in the ROA is authorized to
-orginate advertisements for the prefix or prefixes listed in the ROA.
+
 
 .. _fig-roa:
 .. figure:: figures/ROA-trust.png
@@ -383,16 +393,18 @@ orginate advertisements for the prefix or prefixes listed in the ROA.
    An ROA has a chain of trust back to the RPKI root
 
 Rather than being passed around in real time like certificates in TLS,
-the RPKI certificates are stored in repositories, which are typically
+the RPKI certificates and ROAs are stored in repositories, which are typically
 operated by the RIRs. Address allocations happen at a relatively long
 timescale, and certificates can be issued at the same time. Thus it is
 feasible to fetch the entire contents of the RPKI repository to build up a
-complete picture of the chains of certificates that have been
-issued. With this information, a router running BGP can determine *in advance* which
-ASes could originate routing advertisements for which prefixes and use
-this to configure filtering rules that specify which advertisements they are
-willing to accept. Note the contrast to prior uses of certificates we
-have seen: a router builds a complete picture of the certificate
+complete picture of the chains of certificates and signed ROAs that have been
+issued. With this information, ISPs use validation tools to determine *in advance* which
+ASes could originate routing advertisements for which prefixes. When a
+router that participates in BGP receives a new announcement, it can
+check its validity against the local validation tool.
+
+Note the contrast to prior uses of certificates we
+have seen: a local validator builds a complete picture of the certificate
 hierarchy *a priori* in readiness for subsequent routing decisions,
 rather than checking the validity of certificates as part of
 establishing a session (as happens in TLS, for example). The
@@ -405,9 +417,9 @@ process of leveraging the RPKI for popular operating systems and
 commercial routing platforms. Notably, the routers running BGP do not
 perform cryptographic operations in real time when processing route
 advertisements; all the cryptographic operations happen in advance on
-servers that are external to the routers themselves.  The external
-systems push filtering rules to the routers based on information
-derived from the RPKI repository.
+servers that are external to the routers themselves.  The external validator
+systems answer queries about the validity of BGP advertisements based on information
+they have downloaded from the RPKI repository.
 
 With the RPKI in place it is now possible to perform Route Origin
 Validation (ROV). That is, if a given AS claims to be the originator of a
@@ -417,22 +429,24 @@ origin AS for a subprefix of YouTube, that could immediately be
 detected as false information and discarded by any router receiving
 such an advertisement, not just the neighbors of the offending ISP.
 
+.. need a figure here
+
 While there are many forms of attack or misconfiguration that would
 not be caught by ROV (particularly an AS falsely advertising a path that
-doesn't actually exist to a valid AS) it does prevent a large number of issues,
+doesn't actually exist to a valid originating AS) it does prevent a large number of issues,
 especially those caused by misconfiguration. To more fully combat the
 advertisement of false information in BGP, it is necessary to adopt
 some sort of path validation, as discussed below.
 
 The adoption of RPKI for route origin validation has been moving along
-steadily for several years now. The deployment of ROV is tracked by
+steadily for several years now. The adoption of ROAs is tracked by
 NIST (the National Institute of Standards and Technology in the
 U.S.)—see the Further Reading section. At the time of writing, the
 NIST RPKI monitor indicates that of the one-million-plus routes
-advertised globally in BGP, about 56% carry valid ROA information. Less than 2%
+advertised globally in BGP, about 56% are covered by valid ROAs. Less than 2%
 are detected as invalid (the ROV check fails) while the remaining 42%
 do not contain ROA information.  Looking at the deployment over time
-we can see a steady increase in valid ROV and a corresponding decrease
+we can see a steady increase in valid ROA and a corresponding decrease
 in the "not found" group—the advertisements with no ROA. While 56% is
 a long way from 100%, this level of penetration is a significant
 accomplishment—especially given the historical difficulty of making
@@ -442,7 +456,7 @@ One final point of note about the RPKI is that, just like other forms
 of certificate infrastructure, it relies on Certificate Revocation
 Lists (CRLs) to revoke certificates. This is important for handling
 cases such as the re-allocation of an address prefix from one provider
-to another. The good news is that CRLs can be readily distributed from
+to another. The good news is that CRLs are distributed from
 the RPKI repositories just like other objects in the RPKI.
 
 
@@ -476,14 +490,25 @@ illustrates the overall approach and the challenges with achieving
 widespread deployment.
 
 In contrast to ROV, BGPsec path validation relies on cryptographic
-operations being adopted as part of BGP itself. Leveraging the RPKI,
-BGP speakers (routers) taking part in path validation sign their BGP announcements
-using a private key associated with the AS in which the speaker is
-located. Thus, anyone receiving such an announcement can verify that
-it came from the AS that it claims to represent, and that it has not
-been modified in transit. The RPKI enables the recipient to obtain the
-public key corresponding to the announcing AS and thus validate the
-message.
+operations being adopted as part of BGP itself. Each BGP speaker
+(router) taking part in path validation signs its BGP announcements
+using a private key specific to the router. The public key
+corresponding to such a private key is included in a certificate that
+is published in the RPKI. Such certificates also include the AS number
+or numbers corresponding to the AS in which the router is located.
+
+As with all public key certificates, we need a chain of trust from a
+trusted root to the router certificate. For example, an RIR could
+provide the root of trust, and sign certificates for ISPs, who
+could then act as the certification authorities for their own routers. The
+use of the word "could" in this paragraph reflects the lack of
+real-world deployment of BGPsec.
+
+With a certificate hierarchy in place, anyone receiving such a BGP
+announcement can verify that it came from a router within the AS that it claims to
+represent, and that it has not been modified in transit. The RPKI
+enables the recipient to obtain the public key corresponding to the
+announcing AS and thus validate the message.
 
 The harder part of the problem is validating that the *contents* of
 the message are correct from the perspective of BGP. Since a BGP
@@ -492,25 +517,25 @@ itself into the path to the destination, we need to validate that
 every AS in the path has correctly announced a route to the
 destination when it added itself into the path.
 
-The way this is achieved is to have every AS in the path sign its
+The way this is achieved is to have every router that adds an AS to the path sign its
 announcement. We saw above that the RPKI could be used to create
 bindings between public keys and entities authorized to advertise a
 particular prefix. For path validation, we use the RPKI to create
 bindings between public keys and Autonomous Systems.
-With the RPKI in place, every AS participating in BGPsec can be assumed
+With the RPKI in place, every router participating in BGPsec can be assumed
 to have a well-known public key and matching private key.
 
 Now consider the process of constructing a path to a particular
-prefix. The path consists of a set of ASes. For example, AS1, the origin AS, signs
+prefix. The path consists of a set of ASes. For example, a router in AS1, the origin AS, signs
 an announcement that says it is the origin for the prefix, using its
 private key. Furthermore, it includes the number of the target AS,
 AS2, to which it is sending the announcement, in the set of fields
 covered by the signature. Thus, we end up with a message that says
 "AS1 can reach prefix P and has sent this information to AS2" signed
-by AS1.
+by a router from AS1.
 
 A router in AS2 receives this announcement, and, having validated the
-signature, it can now add itself to the path. AS2 can now issue a
+signature, it can now add itself to the path. The router in AS2 can now issue a
 signed announcement that says "the path <AS2,AS1> leads to prefix P"
 and sign this using its private key. It includes the full signed
 message from AS1 as well as the new path. Again, before signing, it
@@ -555,7 +580,8 @@ validation of BGP messages). The second is a "collective action
 problem": when a single ISP pays the cost of implementing BGPsec, it
 does little if anything to improve the situation for that ISP. Only
 when a critical mass of ISPs are using BGPsec does it start to provide
-significant incremental benefits over ROV. This unfortunate situation
+significant incremental benefits over ROV. Issuing an ROA, by
+contrast, immediately helps the provider who issues it. The situation
 is captured in the paper "BGP Security in Partial Deployment". An
 approach that holds promise to address both these issues is described
 in the following section.
@@ -581,7 +607,8 @@ ASPA shares an attractive property with ROV: no cryptographic
 operations are added to BGP itself. Just as ROV builds a database (in
 the RPKI) of who is allowed to originate an advertisement, ASPA builds
 a database showing which ASes provide transit to other ASes. This,
-too, uses the RPKI, but with different types of certificates.
+too, uses the RPKI, but with different types of certificates, known as
+ASPA records.
 
 An important ingredient in ASPA is the insight that the relationships
 between ASes can be placed into a small set of categories. First, if there is
@@ -617,8 +644,8 @@ relationships gives us the ability to detect such anomalies.
 
 Suppose that two ASes, X and Y, publish a list of their providers
 using ASPA objects in the RPKI. Let's say that there is an ASPA object
-asserting that AS X is a provider for AS Y, as well as an ASPA object
-asserting the AS Y is *not* among the providers for AS X. If a router
+from AS Y that asserts AS X is one of its providers, as well as an ASPA object
+from AS X that does not include AS Y among its providers. If a router
 receives an advertisement in which Y appears to be a provider for X,
 this is clearly wrong and the router drops the advertisement. The
 question of how we can tell that a particular AS is a provider,
@@ -630,14 +657,18 @@ most one lateral path followed by a set of paths going "down" towards
 customers. The more relationships that are placed in the RPKI, the more
 power a BGP speaker gains to detect paths that are invalid.
 
-Notably, ASPA catches some routing problems (such as accidental
-leakage of routes) that are not caught by BGPsec. This is because
-BGPsec shows that ASes are connected to each other but does not capture
-the customer-provider relationships.
+ASPA adds further security to the routing system beyond that offered
+by ROV, because it catches attacks where an AS announces routes where
+the origin AS is correct (i.e., covered by a valid ROA) but the path is not
+legitimate. Such attacks are known as forged-origin prefix hijacks.
 
-Interestingly, ASPA starts to provide some benefit to those using it
-as soon as there are two ASes taking part. In other words, it has
-quite good incremental deployment properties, another advantage over BGPsec.
+Furthermore, ASPA catches some routing problems (such as accidental
+leakage of routes) that are not caught by BGPsec. This is because
+BGPsec shows that ASes are connected to each other but does not
+capture the customer-provider relationships. ASPA also provides
+benefits even if it is only partially deployed on a path, as the above
+example illustrates. In other words, it is amenable to incremental
+deployment.
 
 .. _reading_aspa:
 .. admonition::  Further Reading
