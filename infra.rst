@@ -429,7 +429,27 @@ origin AS for a subprefix of YouTube, that could immediately be
 detected as false information and discarded by any router receiving
 such an advertisement, not just the neighbors of the offending ISP.
 
-.. need a figure here
+
+
+.. _fig-rpki-sys:
+.. figure:: figures/RPKI-system.png
+   :width: 600px
+   :align: center
+
+   Each AS maintains a local cache of the RPKI repository, and BGP
+   speakers query the local cache, allowing them to validate BGP
+   advertisements.
+
+Some of the practical aspects of ROV are shown in :numref:`Figure %s
+<fig-rpki-sys>`. An AS performing route origin validation maintains a
+local cache of the RPKI repository, which is fetched using rsync or
+the RPKI Repository Delta Protocol (RRDP). A BGP speaker in the AS
+retrieves the set of valid ROAs by querying the local cache, using
+another protocol called the RPKI-to-router (RTR) protocol. This
+protocol allows the router to receive periodic updates to the set of
+valid ROAs from the local cache. With this information in hand, the
+router is able to check the validity of the originating AS in BGP
+advertisements that it receives from other ASes.
 
 While there are many forms of attack or misconfiguration that would
 not be caught by ROV (particularly an AS falsely advertising a path that
