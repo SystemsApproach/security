@@ -1,0 +1,11 @@
+    $ sudo ufw default deny incoming
+    Default incoming policy changed to 'deny'
+    (be sure to update your rules accordingly)
+    $ sudo ufw allow to 198.51.100.9 port 25
+    rule added
+    $ sudo ufw status
+    Status: active
+
+    To                         Action      From
+    --                         ------      ----
+    198.51.100.9 25            ALLOW       Anywhere

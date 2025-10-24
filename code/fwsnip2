@@ -1,0 +1,8 @@
+    $ sudo ufw status
+    Status: active
+
+    To                         Action      From
+    --                         ------      ----
+    192.0.2.11 80              DENY        Anywhere
+
+    $

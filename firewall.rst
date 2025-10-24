@@ -125,9 +125,8 @@ may also include the specific value of the layer 4 protocol (TCP, UDP, etc.).
 For example, a firewall might be configured to filter out (not forward)
 all packets that match the following description:
 
-.. code:: c
+.. literalinclude:: code/fwrule1
 
-   (198.51.100.14, 1234, 192.0.2.11, 80, TCP)
 
 This pattern says to discard all TCP packets from port 1234 on host
 198.51.100.14 addressed to port 80 on host 192.0.2.11. (Port 80 is the
@@ -135,9 +134,8 @@ well-known TCP port for HTTP.) Of course, it’s often not practical to
 name every source host whose packets you want to filter, so the patterns
 can include wildcards. For example,
 
-.. code:: c
+.. literalinclude:: code/fwrule2
 
-   (*,  *, 192.0.2.11, 80, TCP)
 
 says to filter out all packets addressed to port 80 on 192.0.2.11,
 regardless of what source host or port sent the packet. Notice that
@@ -150,24 +148,13 @@ Linux has a firewall feature called ``ufw`` (uncomplicated firewall)
 that can apply firewall rules on a host. We can implement the policy
 described above with the following command:
 
-.. code:: c
+.. literalinclude:: code/fwsnip1
 
-    $ sudo ufw deny to 192.0.2.11 port 80
-    rule added
-    $
 
 Then we can check that our rule was applied correctly:
 
-.. code:: c
-
-    $ sudo ufw status
-    Status: active
-
-    To                         Action      From
-    --                         ------      ----
-    192.0.2.11 80              DENY        Anywhere
-
-    $
+.. literalinclude:: code/fwsnip2
+                    
 
 In the preceding discussion, the firewall forwards everything except
 where specifically instructed to filter out certain kinds of packets. A
@@ -177,25 +164,14 @@ of blocking access to port 80 on host 192.0.2.11, the firewall might be
 instructed block everything except access to port 25 (the SMTP mail port) on a
 particular mail server, such as
 
-.. code:: c
 
-   (*,  *, 198.51.100.9, 25)
+.. literalinclude:: code/fwrule3
+
 
 We can specify this behavior with ufw:
 
-.. code::
+.. literalinclude:: code/fwsnip3
 
-    $ sudo ufw default deny incoming
-    Default incoming policy changed to 'deny'
-    (be sure to update your rules accordingly)
-    $ sudo ufw allow to 198.51.100.9 port 25
-    rule added
-    $ sudo ufw status
-    Status: active
-
-    To                         Action      From
-    --                         ------      ----
-    198.51.100.9 25            ALLOW       Anywhere
 
 Experience has shown that firewalls are very frequently configured
 incorrectly, allowing unsafe access, or breaking applications that
