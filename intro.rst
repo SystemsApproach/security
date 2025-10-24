@@ -158,7 +158,7 @@ weaknesses exploited by the Morris worm.
 
 The rise in popularity of the World Wide Web in the 1990s created the
 demand for security features at the transport layer to support
-applications such as e-commerce. This lead to the creation of *SSL
+applications such as e-commerce. This led to the creation of *SSL
 (secure sockets layer)* which was superseded by *TLS (transport layer
 security)*, both of which provided confidentiality and authentication
 at the transport layer. TLS is an important case study for network
