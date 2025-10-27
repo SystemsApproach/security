@@ -146,7 +146,7 @@ between client and server will be encrypted. But we still have to rule
 out the MITM attack.
 
 3. The server now sends one or more certificates. In the simplest
-   case, there is a single certificate signed by a certification
+   case, there is a single certificate signed by a certificate
    authority (CA) that is trusted by the client.
 
 4. The server sends a "certificate verify" message, which proves that
@@ -528,7 +528,7 @@ need to consider how all the parts of a system interact with each
 other to form a coherent whole, rather than just looking at single
 components in isolation. For example, TLS is a system that includes
 both public-key and symmetric-key cryptography, authentication and
-privacy mechanisms, certification authorities, and sub-layers such as
+privacy mechanisms, certificate authorities, and sub-layers such as
 the record protocol and the handshake protocol. But the systems
 approach applies recursively too. As we have already seen, it is
 important to look at how TLS sits within the overall protocol stack,
@@ -552,7 +552,7 @@ another warning is presented. Users can generally choose to override
 these warnings but the overall effect is to reinforce behaviors that
 are more secure and discourage those that are insecure.
 
-Certification authorities are a critical part of this overall
+Certificate authorities are a critical part of this overall
 system. Most users have no way to determine whether any given CA does
 its job properly. As discussed in Chapter 4, the way that CA
 hierarchies work means that a lot of trust is placed at the top-level

@@ -98,14 +98,16 @@ perhaps directly from Alice—as long as they trust Bob and know his
 public key. You can see how starting from a very small number of keys
 (in this case, just Bob’s) you could build up a large set of trusted
 keys over time. Bob in this case is playing the role often referred to
-as a *certification authority* (CA), and much of today’s Internet
-security depends on CAs. VeriSign is one well-known commercial CA.
+as a *certificate authority* (CA), and much of today’s Internet
+security depends on CAs. There are many commercial and non-profit CAs
+in widespread use today. You may also see CA expanded as
+*certification authority*—the two expansions are equivalent. 
 
 One thing to note about the above example is that we have to know two
 things about Bob. First, we need to know his public key so that we can
 verify that certain messages were originated by Bob. But we also have
 to know that Bob is trustworthy enough to make statements about the
-keys of others, which is where certification authorities (rather than
+keys of others, which is where certificate authorities (rather than
 random individuals) come into play.  We return to this topic below.
 
 One of the major standards for certificates is known as X.509. This
@@ -138,7 +140,7 @@ domains.
 There are different ways a PKI could formalize the notion of trust. We
 discuss the two main approaches.
 
-4.1.1 Certification Authorities
+4.1.1 Certificate Authorities
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In the first model, trust is binary; you either trust someone
@@ -152,10 +154,10 @@ In other words, all you need is a chain of certificates, all signed by
 entities you trust, as long as it leads back to an entity whose key you
 already know.
 
-A *certification authority* or *certificate authority* (CA) is an entity
+A *certificate authority* or *certification authority* (CA) is an entity
 claimed (by someone) to be trustworthy for verifying identities and
 issuing public key certificates. There are commercial CAs, governmental
-CAs, and even free CAs. To use a CA, you must know its own key. You can
+CAs, and non-profit CAs. To use a CA, you must know its own key. You can
 learn that CA’s key, however, if you can obtain a chain of CA-signed
 certificates that starts with a CA whose key you already know. Then you
 can believe any certificate signed by that new CA.
@@ -172,7 +174,7 @@ trust for that participant.
    :width: 600px
    :align: center
 
-   Tree-structured certification authority hierarchy.
+   Tree-structured certificate authority hierarchy.
 
 There are some significant issues with building chains of trust. Most
 importantly, even if you are certain that you have the public key of the
@@ -296,7 +298,7 @@ distribution of the CRL to prolong the amount of time they can use the
 compromised key. A number of proposals have been made to improve the
 effectiveness of certificate revocation, such as using bit vectors or
 other compact representations of the CRL to reduce its size, and the
-development of the Online Certification Status Protocol (OCSP) to
+development of the Online Certificate Status Protocol (OCSP) to
 enable real-time checks on a certificate's status. At the time of
 writing, there are some best practices for handling certificate
 revocation but no comprehensive solution. A good discussion of the
