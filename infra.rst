@@ -108,12 +108,12 @@ more difficult to address.
 .. _reading_threat:
 .. admonition::  Further Reading
 
-   G. Huston. `A Survey on Securing Inter-Domain Routing Part 1 –
-   BGP: Design, Threats and Security Requirements
-   <https://labs.apnic.net/index.php/2021/08/03/a-survey-on-securing-inter-domain-routing-part-1-bgp-design-threats-and-security-requirements/>`__.
+   S. Murphy. `BGP Security Vulnerabilitiess
+   Analysis <https://www.rfc-editor.org/info/rfc4272>`__. RFC 4272, January 2006.
+ 
+   G. Huston. `A Survey on Securing Inter-Domain Routing Part 1. 
+   BGP: Design, Threats and Security Requirements <https://labs.apnic.net/index.php/2021/08/03/a-survey-on-securing-inter-domain-routing-part-1-bgp-design-threats-and-security-requirements/>`__.
    APNIC Blog, August 2021.
-
-   S. Murphy. `BGP Security Vulnerabilities Analysis <https://www.rfc-editor.org/info/rfc4272>`__. RFC 4272, 2006.
 
    L. Peterson and B. Davie. `Computer Networks: A Systems Approach. Interdomain
    Routing <https://book.systemsapproach.org/scaling/global.html#interdomain-routing-bgp>`__.

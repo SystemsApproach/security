@@ -308,9 +308,9 @@ revocation can be found in the blog post below.
 .. admonition:: Further Reading
 
   J. Schank. `CRLite: Fast, private, and comprehensive certificate
-     revocation checking in Firefox
-     <https://hacks.mozilla.org/2025/08/crlite-fast-private-and-comprehensive-certificate-revocation-checking-in-firefox/>`__. Mozilla
-     blog, August 2025.
+  revocation checking in Firefox
+  <https://hacks.mozilla.org/2025/08/crlite-fast-private-and-comprehensive-certificate-revocation-checking-in-firefox/>`__. Mozilla
+  blog, August 2025.
 
 4.2 Distribution of Secret Keys
 ------------------------------------

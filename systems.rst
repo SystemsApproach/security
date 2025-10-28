@@ -98,7 +98,7 @@ the need for any prior message exchange (and sidestepping some of the
 complexities described in the earlier chapter). Alice’s digital
 signature suffices to authenticate her. Although there is no proof
 that the message is timely, legitimate email isn’t guaranteed to be
-timely either. There is also no proof that the message is original,
+timely either. There is also no proof that the message is fresh,
 but Bob is an email user and probably a fault-tolerant human who can
 recover from duplicate emails (which, again, are not out of the
 question under normal operation anyway). Alice can be sure that only
@@ -292,7 +292,7 @@ three degrees of freedom. First, it is highly modular, allowing users
 (or more likely, system administrators) to select from a variety of
 cryptographic algorithms and specialized security protocols. Second,
 IPsec allows users to select from a large menu of security properties,
-including access control, integrity, authentication, originality, and
+including access control, integrity, authentication, freshness, and
 confidentiality. Third, IPsec can be used to protect narrow streams
 (e.g., packets belonging to a particular TCP connection being sent
 between a pair of hosts) or wide streams (e.g., all packets flowing
@@ -479,8 +479,8 @@ you to the paper.
 .. admonition:: Further Reading
 
    J. Donenfeld. `WireGuard: Next Generation Kernel Network Tunnel
-      <https://www.ndss-symposium.org/ndss2017/ndss-2017-programme/WireGuard-next-generation-kernel-network-tunnel/>`__.
-      NDSS, 2017.
+   <https://www.ndss-symposium.org/ndss2017/ndss-2017-programme/WireGuard-next-generation-kernel-network-tunnel/>`__.
+   NDSS, 2017.
 
 One of these types of tunnels plus a gateway or concentrator to
 terminate them is pretty much all that is needed to deliver a remote
@@ -646,7 +646,7 @@ networking, a topic we discuss in chapter 9.
 .. admonition:: Further Reading
 
    A. Pennarun. `How Tailscale Works <https://tailscale.com/blog/how-tailscale-works>`__.
-      Tailscale blog, 2020.
+   Tailscale blog, 2020.
 
 
 7.5 Web Authentication and Passkeys
@@ -957,7 +957,7 @@ a companion book.
 .. admonition:: Further Reading
 
    L. Peterson, O. Sunay, and B. Davie. `Private 5G: A Systems
-      Approach. <https://5g.systemsapproach.org>`__.
+   Approach. <https://5g.systemsapproach.org>`__.
 
 Assuming the AMF recognizes the IMSI, it initiates an authentication
 protocol with the device. There are a set of options for
