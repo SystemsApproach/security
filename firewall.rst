@@ -154,7 +154,6 @@ described above with the following command:
 Then we can check that our rule was applied correctly:
 
 .. literalinclude:: code/fwsnip2
-                    
 
 In the preceding discussion, the firewall forwards everything except
 where specifically instructed to filter out certain kinds of packets. A

@@ -101,7 +101,7 @@ keys over time. Bob in this case is playing the role often referred to
 as a *certificate authority* (CA), and much of today’s Internet
 security depends on CAs. There are many commercial and non-profit CAs
 in widespread use today. You may also see CA expanded as
-*certification authority*—the two expansions are equivalent. 
+*certification authority*—the two expansions are equivalent.
 
 One thing to note about the above example is that we have to know two
 things about Bob. First, we need to know his public key so that we can
