@@ -108,12 +108,12 @@ more difficult to address.
 .. _reading_threat:
 .. admonition::  Further Reading
 
-   G. Huston. `A Survey on Securing Inter-Domain Routing Part 1 –
-   BGP: Design, Threats and Security Requirements
-   <https://labs.apnic.net/index.php/2021/08/03/a-survey-on-securing-inter-domain-routing-part-1-bgp-design-threats-and-security-requirements/>`__.
+   S. Murphy. `BGP Security Vulnerabilitiess
+   Analysis <https://www.rfc-editor.org/info/rfc4272>`__. RFC 4272, January 2006.
+ 
+   G. Huston. `A Survey on Securing Inter-Domain Routing Part 1. 
+   BGP: Design, Threats and Security Requirements <https://labs.apnic.net/index.php/2021/08/03/a-survey-on-securing-inter-domain-routing-part-1-bgp-design-threats-and-security-requirements/>`__.
    APNIC Blog, August 2021.
-
-   S. Murphy. `BGP Security Vulnerabilities Analysis <https://www.rfc-editor.org/info/rfc4272>`__. RFC 4272, 2006.
 
    L. Peterson and B. Davie. `Computer Networks: A Systems Approach. Interdomain
    Routing <https://book.systemsapproach.org/scaling/global.html#interdomain-routing-bgp>`__.
@@ -317,7 +317,7 @@ additional layers in this hierarchy. A hierarchy of
 certificates can be created to follow this hierarchy of address
 allocation.  The RIRs form trust anchors from which chains of trust
 can be built, much the way a modern browser comes with a set of
-trusted root certification authorities (CAs) so that the certificates
+trusted root certificate authorities (CAs) so that the certificates
 issued by web sites, which are signed by CAs, can be checked for validity.
 
 A key distinction between RPKI and the certificates that we are
@@ -519,7 +519,7 @@ or numbers corresponding to the AS in which the router is located.
 As with all public key certificates, we need a chain of trust from a
 trusted root to the router certificate. For example, an RIR could
 provide the root of trust, and sign certificates for ISPs, who
-could then act as the certification authorities for their own routers. The
+could then act as the certificate authorities for their own routers. The
 use of the word "could" in this paragraph reflects the lack of
 real-world deployment of BGPsec.
 
@@ -884,7 +884,7 @@ While there are obvious similarities to the chains of trust used for
 TLS, the notable difference here is that the chain of
 certificates that must be followed is precisely defined by the
 hierarchy of the DNS. Whereas a TLS certificate could be issued by a
-range of certification authorities, the certificates for any zone in
+range of certificate authorities, the certificates for any zone in
 DNSSEC must be issued by the parent zone. This has some advantages,
 such as limiting the opportunities for bad behavior by CAs that has
 occasionally occurred with TLS certificates. However, it also

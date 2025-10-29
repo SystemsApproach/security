@@ -154,7 +154,6 @@ described above with the following command:
 Then we can check that our rule was applied correctly:
 
 .. literalinclude:: code/fwsnip2
-                    
 
 In the preceding discussion, the firewall forwards everything except
 where specifically instructed to filter out certain kinds of packets. A
@@ -423,8 +422,8 @@ we recommend our companion book on software-defined networks.
 .. admonition:: Further Reading
 
    L. Peterson, C. Cascone, B. O’Connor, T. Vachuska,
-      and B. Davie. `Software-Defined Networks: A Systems
-      Approach <https://sdn.systemsapproach.org>`__.
+   and B. Davie. `Software-Defined Networks: A Systems
+   Approach <https://sdn.systemsapproach.org>`__.
 
 9.4 Zero Trust Security
 -------------------------
@@ -546,17 +545,13 @@ and authorization” although it's less memorable.
 .. admonition:: Further Reading
 
    S. Rose, O. Borchert, S. Mitchell, S. Connelly. `Zero Trust
-      Architecture
-      <https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-207.pdf>`__. NIST, 2020.
+   Architecture <https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-207.pdf>`__. NIST, 2020.
 
-   C. Cunningham. `A Look Back At Zero Trust: Never Trust, Always
-      Verify
-      <https://www.forrester.com/blogs/a-look-back-at-zero-trust-never-trust-always-verify/>`__. Forrester, 2020.
+   C. Cunningham. `A Look Back At Zero Trust: Never Trust, Always Verify
+   <https://www.forrester.com/blogs/a-look-back-at-zero-trust-never-trust-always-verify/>`__. Forrester, 2020.
 
    R. Ward and B. Beyer. `BeyondCorp: A New Approach to Enterprise
-      Security
-      <https://www.usenix.org/system/files/login/articles/login_dec14_02_ward.pdf>`__.
-      ;login:, Usenix, 2014.
+   Security <https://www.usenix.org/system/files/login/articles/login_dec14_02_ward.pdf>`__. ;login:, Usenix, 2014.
 
 9.5. Intrusion Detection and Prevention
 --------------------------------------------

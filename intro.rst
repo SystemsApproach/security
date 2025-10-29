@@ -158,7 +158,7 @@ weaknesses exploited by the Morris worm.
 
 The rise in popularity of the World Wide Web in the 1990s created the
 demand for security features at the transport layer to support
-applications such as e-commerce. This lead to the creation of *SSL
+applications such as e-commerce. This led to the creation of *SSL
 (secure sockets layer)* which was superseded by *TLS (transport layer
 security)*, both of which provided confidentiality and authentication
 at the transport layer. TLS is an important case study for network
@@ -255,8 +255,8 @@ applicable to system security.
 
 .. admonition:: Further Reading
 
-  B. Schneier. Beyond Fear: Thinking Sensibly About Security in an
-     Uncertain World. Copernicus Books, 2003.
+   B. Schneier. Beyond Fear: Thinking Sensibly About Security in an
+   Uncertain World. Copernicus Books, 2003.
 
 It is also important to recognize that threats and trust are two sides
 of the same coin. A threat is a potential failure scenario that you
@@ -397,8 +397,8 @@ challenge. Security is easiest when the answer is always "no".
 
 .. admonition:: Further Reading
 
-  J. Saltzer and F. Kaashoek. `Principles of Computer System Design: An
-     Introduction. Chapter 11
-     <https://ocw.mit.edu/courses/res-6-004-principles-of-computer-system-design-an-introduction-spring-2009/pages/online-textbook/>`__. Morgan
-     Kaufmann Publishers, 2009.
+   J. Saltzer and F. Kaashoek. `Principles of Computer System Design: An
+   Introduction. Chapter 11
+   <https://ocw.mit.edu/courses/res-6-004-principles-of-computer-system-design-an-introduction-spring-2009/pages/online-textbook/>`__. Morgan
+   Kaufmann Publishers, 2009.
 

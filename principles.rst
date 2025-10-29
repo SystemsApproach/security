@@ -56,7 +56,7 @@ whom we wish to communicate? Or how does a banking system know that
 the person behind a particular HTTP request is actually the account
 holder?
 
-Integrity also requires messages be *original* and *timely*, which is
+Integrity also requires messages be *fresh* and *timely*, which is
 threatened by the possibility data is captured and then retransmitted
 at some later time. This is known as a *replay attack*, where for
 example, we want to protect against an attacker repeatedly adding an

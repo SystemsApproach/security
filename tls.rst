@@ -146,7 +146,7 @@ between client and server will be encrypted. But we still have to rule
 out the MITM attack.
 
 3. The server now sends one or more certificates. In the simplest
-   case, there is a single certificate signed by a certification
+   case, there is a single certificate signed by a certificate
    authority (CA) that is trusted by the client.
 
 4. The server sends a "certificate verify" message, which proves that
@@ -318,10 +318,11 @@ the binding, and if the HMAC calculation succeeds, then the server and
 client now have agreement that they can use a shared secret
 established in the prior session. They use a "resumption master
 secret" that was calculated and stored in the prior session to derive
-a new set of keys for this session. The keys of the new
-session are different from those of the prior session to support
-forward secrecy (i.e., an attacker who learns the key for session N
-doesn't immediately have the keys for session N+1).
+a new set of keys for this session. The keys of the new session are
+different from those of the prior session to support forward secrecy
+(i.e., even if an attacker manages to compromise the key for one
+session, they don't gain the ability to decrypt data from other
+sessions).
 
 When the server sends its "Finished" message, it calculates the HMAC
 over the handshake messages using the agreed-upon new key, and thus
@@ -349,7 +350,7 @@ provided by the socket layer (b) the application must know how to deal
 with replays of data sent as 0-RTT, e.g., by only sending 0-RTT
 data for operations that are idempotent.
 
-The other drawback of 0-RTT data is that it depends on keys that are
+The other drawback of 0-RTT data is that it depends on tickets that are
 derived from secrets used in an earlier transaction. If those secrets
 were somehow compromised, the attacker would have the necessary
 information to compromise the new session. Thus, 0-RTT data lacks
@@ -357,7 +358,7 @@ forward secrecy. For this reason, the option exists to generate a new
 set of keys as part of the session resumption handshake with a new
 Diffie-Hellman exchange. This means that only the data sent in the
 first RTT lacks forward secrecy, and the rest of the session is
-protected by the new, uncompromised keys.
+protected by the new ephemeral keys.
 
 
 All of this work to reduce the setup time of TLS by a single RTT might
@@ -528,7 +529,7 @@ need to consider how all the parts of a system interact with each
 other to form a coherent whole, rather than just looking at single
 components in isolation. For example, TLS is a system that includes
 both public-key and symmetric-key cryptography, authentication and
-privacy mechanisms, certification authorities, and sub-layers such as
+privacy mechanisms, certificate authorities, and sub-layers such as
 the record protocol and the handshake protocol. But the systems
 approach applies recursively too. As we have already seen, it is
 important to look at how TLS sits within the overall protocol stack,
@@ -552,7 +553,7 @@ another warning is presented. Users can generally choose to override
 these warnings but the overall effect is to reinforce behaviors that
 are more secure and discourage those that are insecure.
 
-Certification authorities are a critical part of this overall
+Certificate authorities are a critical part of this overall
 system. Most users have no way to determine whether any given CA does
 its job properly. As discussed in Chapter 4, the way that CA
 hierarchies work means that a lot of trust is placed at the top-level

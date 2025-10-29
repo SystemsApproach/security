@@ -15,15 +15,16 @@ could be replayed, appearing to the website as though you had ordered
 more of the same. Even though it wasn’t the original incarnation of
 the message, its authentication code would still be valid; after all,
 the message was created by you, and it wasn’t modified. Clearly, we
-need a solution that ensures *originality*.
+need a solution that ensures *freshness*.
 
 In a variation of this attack called a *suppress-replay attack*, an
 adversary might merely delay your message (by intercepting and later
 replaying it), so that it is received at a time when it is no longer
 appropriate. For example, an adversary could delay your order to buy
 stock from an auspicious time to a time when you would not have wanted
-to buy. Although this message would in a sense be the original, it
-wouldn’t be timely. So we also need to ensure *timeliness*. Originality
+to buy. Although this message would in a sense be fresh (it hasn't
+been sent before), it
+wouldn’t be timely. So we also need to ensure *timeliness*. Freshness
 and timeliness may be considered aspects of integrity. Ensuring them
 will in most cases require a nontrivial, back-and-forth protocol.
 
@@ -32,7 +33,7 @@ key. A session key is a secret-key cipher key generated on the fly and
 used for just one session. This too involves a nontrivial protocol.
 
 What these two issues have in common is authentication. If a message is
-not original and timely, then from a practical standpoint we want to
+not fresh and timely, then from a practical standpoint we want to
 consider it as not being authentic, i.e., not being from whom it claims to be.
 And, obviously, when you are arranging to share a new session key with
 someone, you want to know you are sharing it with the right person.
@@ -47,15 +48,15 @@ Diffie-Hellman key exchange in its simplest form does not provide
 authentication, but in practical usage it is almost always combined
 with an authentication protocol.
 
-There is a core set of techniques used to ensure originality and
+There is a core set of techniques used to ensure freshness and
 timeliness in authentication protocols. We describe those techniques
 before moving on to particular protocols.
 
-5.1 Originality and Timeliness Techniques
+5.1 Freshness and Timeliness Techniques
 -------------------------------------------
 
 We have seen that authentication codes alone do not enable us to detect
-messages that are not original or timely. One approach is to include a
+messages that are not fresh or timely. One approach is to include a
 timestamp in the message. Obviously the timestamp itself must be
 tamperproof, so it must be covered by the message authentication code. The primary
 drawback to timestamps is that they require distributed clock
