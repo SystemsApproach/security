@@ -5,7 +5,7 @@ We have seen that ciphers and authentication codes are parameterized
 by keys. So the communicating participants need
 to know what keys to use. In the case of a secret-key cipher, how does a
 pair of participants obtain the key they share? In the case of a
-public-key cipher, how does one participants know which public key
+public-key cipher, how does one participant know which public key
 belongs to another chosen participant? To answer these questions, we
 need to first understand that there are two different classes of keys
 to consider: short-lived *session keys* and longer-lived *predistributed keys*.
