@@ -66,7 +66,7 @@ form of *replay prevention*.
 The final major requirement is *availability*, which is simply the
 ability to access all the data we have the right to access. System
 failures, either benign or caused by malicious actors, restrict
-availability. Another common common threat to availability is
+availability. Another common threat to availability is
 *denial-of-service* (DoS) attacks. The Morris Worm was an early
 example of an unintentional DoS attack: as the worm spread to more and
 more computers, and reinfected computers on which it was already
