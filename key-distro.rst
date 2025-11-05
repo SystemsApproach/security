@@ -303,11 +303,11 @@ enable real-time checks on a certificate's status. At the time of
 writing, there are some best practices for handling certificate
 revocation but no comprehensive solution. A good discussion of the
 issues and a potential approach to more effective certificate
-revocation can be found in the blog post below.
+revocation can be found in John Schanck's blog post.
 
 .. admonition:: Further Reading
 
-  J. Schank. `CRLite: Fast, private, and comprehensive certificate
+  J. Schanck. `CRLite: Fast, private, and comprehensive certificate
   revocation checking in Firefox
   <https://hacks.mozilla.org/2025/08/crlite-fast-private-and-comprehensive-certificate-revocation-checking-in-firefox/>`__. Mozilla
   blog, August 2025.
