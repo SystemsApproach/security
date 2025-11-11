@@ -31,4 +31,5 @@ Peterson and Davie
    firewall.rst
    README.rst
    authors.rst
-
+   latest.rst
+..   print.rst

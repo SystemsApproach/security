@@ -104,7 +104,7 @@ stages in its development, particularly the following people:
 
 - Brad Karp
 - Cecilia Testart
-- Motonori Shindo
-- Nick Feamster
 - Zack Williams
 - John Kristoff
+- Motonori Shindo
+- Nick Feamster
