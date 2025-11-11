@@ -18,6 +18,7 @@ Peterson and Davie
    :caption: Table of Contents
    :glob:
 
+   foreword.rst
    preface.rst
    intro.rst
    principles.rst
