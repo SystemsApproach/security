@@ -160,7 +160,7 @@ where specifically instructed to filter out certain kinds of packets. A
 firewall could also filter out everything unless explicitly instructed
 to forward it, or use a mix of the two strategies. For example, instead
 of blocking access to port 80 on host 192.0.2.11, the firewall might be
-instructed block everything except access to port 25 (the SMTP mail port) on a
+instructed to block everything except access to port 25 (the SMTP mail port) on a
 particular mail server, such as
 
 
