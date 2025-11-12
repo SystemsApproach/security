@@ -177,7 +177,7 @@ certain prefix, how do we know that they really have this path?
    BGP <https://conferences.sigcomm.org/co-next/2024/files/papers/p186.pdf/>`__.
    ACM CONEXT, December 2024.
 
-   J. Durand, I. Pepelnjak and G. Dorering. `BGP Operations and
+   J. Durand, I. Pepelnjak and G. Doering. `BGP Operations and
    Security <https://www.rfc-editor.org/info/rfc7454>`__. RFC 7454,
    February 2015.
 
