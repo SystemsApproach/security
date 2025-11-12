@@ -350,15 +350,18 @@ provided by the socket layer (b) the application must know how to deal
 with replays of data sent as 0-RTT, e.g., by only sending 0-RTT
 data for operations that are idempotent.
 
-The other drawback of 0-RTT data is that it depends on tickets that are
-derived from secrets used in an earlier transaction. If those secrets
-were somehow compromised, the attacker would have the necessary
-information to compromise the new session. Thus, 0-RTT data lacks
-forward secrecy. For this reason, the option exists to generate a new
-set of keys as part of the session resumption handshake with a new
-Diffie-Hellman exchange. This means that only the data sent in the
-first RTT lacks forward secrecy, and the rest of the session is
-protected by the new ephemeral keys.
+The other drawback of 0-RTT data is that it depends on a potentially
+long-lived secret. The resumption key used to encrypt 0-RTT data is
+derived from shared key material that was established in an earlier
+session. This material is retained by the server for some period of
+time to allow for future resumptions. If that secret were somehow
+compromised at some point in the future, an attacker who had recorded
+the 0-RTT data would have the necessary information to decrypt
+it. Thus, 0-RTT data lacks forward secrecy. For this reason, the
+option exists to generate a new set of keys as part of the session
+resumption handshake with a new Diffie-Hellman exchange. This means
+that only the data sent in the first RTT lacks forward secrecy, and
+the rest of the session is protected by the new ephemeral keys.
 
 
 All of this work to reduce the setup time of TLS by a single RTT might
