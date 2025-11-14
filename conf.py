@@ -33,7 +33,7 @@ def get_version():
 # "version" is used for html build
 version = get_version()
 # "release" is used for LaTeX build
-release = version
+release = "1.0"
 
 
 # -- Project information -----------------------------------------------------
@@ -58,7 +58,7 @@ extensions = [
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.coverage',
     'sphinx.ext.ifconfig',
-    'sphinx.ext.mathjax',
+    'sphinx.ext.imgmath',
     'sphinx.ext.todo',
     'sphinxcontrib.spelling',
     "sphinx_multiversion",
@@ -207,7 +207,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'Network Security', u'Private 5G',
+    (master_doc, 'Network Security', u'Network Security',
      author, 'The Author List', 'A Systems Approach',
      'Miscellaneous'),
 ]
@@ -215,7 +215,7 @@ texinfo_documents = [
 
 # -- Options for Epub output -------------------------------------------------
 epub_title = project
-epub_description = 'Building Cloud Native 5G Connectivity for Enterprises'
+epub_description = 'A Systems Approach to Network Security'
 epub_cover = ('_static/cover.jpg', '')
 epub_show_urls = 'False'
 epub_use_index = False
@@ -230,7 +230,7 @@ epub_use_index = False
 # epub_uid = ''
 
 # A list of files that should not be packed into the epub file.
-epub_exclude_files = ['search.html','robots.txt']
+epub_exclude_files = ['search.html','robots.txt','print.rst']
 
 
 # -- Extension configuration -------------------------------------------------
