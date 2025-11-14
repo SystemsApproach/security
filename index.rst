@@ -32,4 +32,4 @@ Peterson and Davie
    README.rst
    authors.rst
    latest.rst
-..   print.rst
+   print.rst

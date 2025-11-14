@@ -33,7 +33,7 @@ def get_version():
 # "version" is used for html build
 version = get_version()
 # "release" is used for LaTeX build
-release = "1.0"
+release = version
 
 
 # -- Project information -----------------------------------------------------
@@ -58,7 +58,7 @@ extensions = [
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.coverage',
     'sphinx.ext.ifconfig',
-    'sphinx.ext.imgmath',
+    'sphinx.ext.mathjax',
     'sphinx.ext.todo',
     'sphinxcontrib.spelling',
     "sphinx_multiversion",
