@@ -613,7 +613,7 @@ also worth recalling some of the points from earlier in the book: any
 analysis of security should start by looking at the threats that we
 need to protect against. And there are always going to be trade-offs
 between the costs we are willing to pay and the security we can
-provide. TLS is not a perfect of complete solution but it has
+provide. TLS is not a perfect or complete solution but it has
 certainly done a lot to improve security of communication on the
 Internet.
 
