@@ -607,7 +607,7 @@ HMAC is a function of both the key and the input text. An approach to
 calculating HMACs has been standardized by NIST and takes the
 following form:
 
-HMAC = H((K⊕opad) || H((K⊕ipad) || text))
+HMAC = H( (K⊕opad) || H((K⊕ipad) || text) )
 
 H is the hash function, K is the key, and opad (output pad) and ipad
 (input pad) are well-known strings that are XORed (⊕) with the key. ||
@@ -618,12 +618,13 @@ book. However, this approach has been proved to be secure as long as
 the underlying hash function H has the appropriate
 collision-resistance properties outlined above. Note that the HMAC
 takes a hash function *H* that is not keyed, and turns it into a keyed
-hash by using the key (XORed with another string, *ipad*) as the first
-block to be fed into the hash function. The output of
-the keyed hash is then itself subjected to another keyed hash (again
-by XORing the key with a string and using that as the first block fed
-to the hash). The two passes of the keyed-hash function are important
-to the proof of security for this HMAC construction.
+hash by applying the hashing function *H* twice. First the key (XORed
+with a string, *ipad*) is prepended to the message, which is
+then fed into the hash function. The output of this keyed hash is then
+itself subjected to another keyed hash (again by XORing the key with
+a string, *opad*, and prepending that to the output of the first keyed hash).
+The two passes of the keyed-hash function are important to the proof
+of security for this HMAC construction.
 
 .. let's delete this incorrect pic for now; unclear if a new picture
    adds much
