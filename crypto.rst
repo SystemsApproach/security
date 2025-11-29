@@ -618,24 +618,14 @@ book. However, this approach has been proved to be secure as long as
 the underlying hash function H has the appropriate
 collision-resistance properties outlined above. Note that the HMAC
 takes a hash function *H* that is not keyed, and turns it into a keyed
-hash by applying the hashing function *H* twice. First the key (XORed
+hash by adding the key material to the text input to the hash. The
+hash function *H* is applied twice. First the key (XORed
 with a string, *ipad*) is prepended to the message, which is
 then fed into the hash function. The output of this keyed hash is then
 itself subjected to another keyed hash (again by XORing the key with
 a string, *opad*, and prepending that to the output of the first keyed hash).
 The two passes of the keyed-hash function are important to the proof
 of security for this HMAC construction.
-
-.. let's delete this incorrect pic for now; unclear if a new picture
-   adds much
-   .. _fig-macAndHmac:
-   .. figure:: figures/f08-05-modified.png
-   :width: 300px
-   :align: center
-
-   Computing a hashed message authentication code (HMAC).
-
-
 
 Up to this point, we have been assuming that the message wasn’t
 confidential, so the original message could be transmitted as plaintext.
