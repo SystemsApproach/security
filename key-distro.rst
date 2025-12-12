@@ -486,17 +486,10 @@ instead of each other.
 
    A man-in-the-middle attack.
 
-A variant of Diffie-Hellman sometimes called *fixed Diffie-Hellman*
-supports authentication of one or both participants. It relies on
-certificates that are similar to public key certificates but instead
-certify the Diffie-Hellman public parameters of an entity. For example,
-such a certificate would state that Alice’s Diffie-Hellman parameters
-are *p, g*, and :math:`g^a \bmod p`
-(note that the value of *a* would still be known only to Alice). Such
-a certificate would assure Bob that the other participant in
-Diffie-Hellman is Alice—or else the other participant won’t be able to
-compute the secret key, because she won’t know *a*. If both participants
-have certificates for their Diffie-Hellman parameters, they can
+A simple solution for this is to add signatures to the messages containing 
+Diffie-Hellman parameters. This relies on public keys that can be verified
+through other means, such as Certificate Authorities, or Web of Trust. 
+If both participants have certificates, they can
 authenticate each other. If just one has a certificate, then just that
 one can be authenticated. This is useful in some situations; for
 example, when one participant is a web server and the other is an
@@ -504,23 +497,24 @@ arbitrary client, the client can authenticate the web server and
 establish a secret key for confidentiality before sending a credit card
 number to the web server.
 
-A further variant of Diffie-Hellman, which is used in TLS, is called
-*ephemeral* Diffie-Hellman. Like the fixed variant, it relies on at
-least one participant having a certificate issued by a CA, but in this
-case it certifies that Alice is associated with a given public key
-(e.g., an RSA key). Alice then generates an ephemeral value of *a*
-rather than a fixed one, and uses her private key to sign the Diffie
-Hellman parameters: *p, g*, and :math:`g^a \bmod p`. By providing the
-certificate and the signed value, Alice is able to show Bob that the
-message has really come from her and authenticate the Diffie-Hellman
-parameters, while still keeping *a* secret. Unlike fixed
-Diffie-Hellman, this approach provides *forward secrecy*, meaning that
-even if the long-lived private key of Alice were to be compromised,
-past sessions that had been recorded by an attacker will still be
-secure, since they used ephemeral keys that changed with every
-session. Note that while the word "ephemeral" strictly implies only
-that *a* is a short-lived value, it is widely used in protocol
-specifications to apply to cases where authentication is also
-performed using a public key as we have described it here.  To avoid
-confusion, the original form of Diffie-Hellman that lacks
-authentication is often referred to as "anonymous" mode.
+
+Diffie-Hellman key exchange is used in TLS since version 1.0, and is often
+used in the *ephemeral* variant (DHE). The ephemeral part of this is
+that the initial secret and the resulting common secret are only kept
+in memory during the session. After the session is completed, the
+secrets are not kept, but destroyed. This creates the property of
+*forward secrecy*, as the secret is only known during the session,
+and can not be recovered.
+
+Remember that the secret values are not transmitted during the initial
+exchange of messages. This means that any recorded traffic can later
+not be decoded, because the key for decoding has been destroyed after
+the session, and can not be reconstructed.
+
+Most modern implementations use a different variant of Diffie-Hellman
+based on elliptic curves. This is indicated using 'EC' as prefix, so
+it becomes 'ECDHE' (Elliptic Curve Diffie-Hellman Ephemeral).
+Explaining elliptic curve arithmetics goes beyond the scope of this
+book, but roughly works in the same way and also provides the same
+guarantees as before, but is more efficient and at least as hard 
+to break computationally at the moment.
