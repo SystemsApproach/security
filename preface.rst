@@ -108,4 +108,4 @@ stages in its development, particularly the following people:
 - John Kristoff
 - Motonori Shindo
 - Nick Feamster
-- Jeroen (jeroenh)
+- Jeroen van der Ham-de Vos
