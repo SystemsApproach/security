@@ -486,9 +486,9 @@ instead of each other.
 
    A man-in-the-middle attack.
 
-A simple solution for this is to add signatures to the messages containing 
+A simple solution for this is to add signatures to the messages containing
 Diffie-Hellman parameters. This relies on public keys that can be verified
-through other means, such as Certificate Authorities, or Web of Trust. 
+through other means, such as Certificate Authorities, or Web of Trust.
 If both participants have certificates, they can
 authenticate each other. If just one has a certificate, then just that
 one can be authenticated. This is useful in some situations; for
@@ -516,5 +516,5 @@ based on elliptic curves. This is indicated using 'EC' as prefix, so
 it becomes 'ECDHE' (Elliptic Curve Diffie-Hellman Ephemeral).
 Explaining elliptic curve arithmetics goes beyond the scope of this
 book, but roughly works in the same way and also provides the same
-guarantees as before, but is more efficient and at least as hard 
+guarantees as before, but is more efficient and at least as hard
 to break computationally at the moment.
