@@ -366,9 +366,12 @@ useful to communicate securely without being sure whom you’re
 communicating with, Diffie-Hellman is usually augmented in some way to
 provide authentication. Diffie-Hellman is used in both the
 Internet Key Exchange (IKE) protocol, a part of the IP Security
-(IPsec) architecture, and in Transport Layer Security (TLS).
+(IPsec) architecture, and in Transport Layer Security (TLS). We start
+our discussion with the basic principles underlying Diffie-Hellman and
+work our way through the steps that are required to make it robust
+enough for use in today's systems.
 
-The Diffie-Hellman protocol has two parameters, *p* and *g*, both of
+The original Diffie-Hellman protocol has two parameters, *p* and *g*, both of
 which are public and may be used by all the users in a particular
 system. Parameter *p* must be a prime number. The integers
 :math:`\bmod p` (short for modulo *p*) are :math:`0` through *p-1*,
@@ -468,16 +471,16 @@ Bob is able to compute
 by substituting Alice’s public value for :math:`(2^a \bmod 5)`.
 Both Alice and Bob now agree that the secret key is :math:`1`.
 
-There is the problem of Diffie-Hellman’s lack of authentication. One
-attack that can take advantage of this is the *man-in-the-middle
-attack*. Suppose Mallory is an adversary with the ability to intercept
-messages. Mallory already knows *p* and *g* since they are public, and
-she generates random private values :math:`c` and :math:`d` to use
-with Alice and Bob, respectively. When Alice and Bob send their public
-values to each other, Mallory intercepts them and sends her own public
-values, as in :numref:`Figure %s <fig-manInTheMiddle>`. The result is
-that Alice and Bob each end up unknowingly sharing a key with Mallory
-instead of each other.
+As described above, Diffie-Hellman’s lack of authentication makes it
+vulnerable to various attacks. One such attack is the
+*man-in-the-middle attack*. Suppose Mallory is an adversary with the
+ability to intercept messages. Mallory already knows *p* and *g* since
+they are public, and she generates random private values :math:`c` and
+:math:`d` to use with Alice and Bob, respectively. When Alice and Bob
+send their public values to each other, Mallory intercepts them and
+sends her own public values, as in :numref:`Figure %s
+<fig-manInTheMiddle>`. The result is that Alice and Bob each end up
+unknowingly sharing a key with Mallory instead of each other.
 
 .. _fig-manInTheMIddle:
 .. figure:: figures/f08-12-9780123850591.png
@@ -486,35 +489,35 @@ instead of each other.
 
    A man-in-the-middle attack.
 
-A variant of Diffie-Hellman sometimes called *fixed Diffie-Hellman*
-supports authentication of one or both participants. It relies on
-certificates that are similar to public key certificates but instead
-certify the Diffie-Hellman public parameters of an entity. For example,
-such a certificate would state that Alice’s Diffie-Hellman parameters
-are *p, g*, and :math:`g^a \bmod p`
-(note that the value of *a* would still be known only to Alice). Such
-a certificate would assure Bob that the other participant in
-Diffie-Hellman is Alice—or else the other participant won’t be able to
-compute the secret key, because she won’t know *a*. If both participants
-have certificates for their Diffie-Hellman parameters, they can
-authenticate each other. If just one has a certificate, then just that
-one can be authenticated. This is useful in some situations; for
-example, when one participant is a web server and the other is an
-arbitrary client, the client can authenticate the web server and
-establish a secret key for confidentiality before sending a credit card
-number to the web server.
+It is possible to address the immediate problem of man-in-the-middle
+attacks by authenticating one or both participants. We can do this
+using certificates that are similar to public key certificates but
+instead certify the Diffie-Hellman public parameters of an entity. For
+example, such a certificate would state that Alice’s Diffie-Hellman
+parameters are *p, g*, and :math:`g^a \bmod p` (note that the value of
+*a* would still be known only to Alice). Such a certificate would
+assure Bob that the other participant in Diffie-Hellman is Alice—or
+else the other participant won’t be able to compute the secret key,
+because she won’t know *a*.
 
-A further variant of Diffie-Hellman, which is used in TLS, is called
-*ephemeral* Diffie-Hellman. Like the fixed variant, it relies on at
+The approach we have just described, known as *fixed* Diffie-Hellman,
+is not widely recommended in practice because it lacks *forward
+secrecy*. If the long-lived private key of Alice were to be
+compromised at some point, past sessions that had been recorded by an
+attacker would then be potentially at risk. For this reason, another
+approach known as *ephemeral* Diffie-Hellman is widely used, notably
+in TLS.
+
+Like the fixed variant, ephemeral Diffie-Hellman relies on at
 least one participant having a certificate issued by a CA, but in this
 case it certifies that Alice is associated with a given public key
 (e.g., an RSA key). Alice then generates an ephemeral value of *a*
 rather than a fixed one, and uses her private key to sign the Diffie
 Hellman parameters: *p, g*, and :math:`g^a \bmod p`. By providing the
 certificate and the signed value, Alice is able to show Bob that the
-message has really come from her and authenticate the Diffie-Hellman
+message has really come from her and to authenticate the Diffie-Hellman
 parameters, while still keeping *a* secret. Unlike fixed
-Diffie-Hellman, this approach provides *forward secrecy*, meaning that
+Diffie-Hellman, this approach provides forward secrecy:
 even if the long-lived private key of Alice were to be compromised,
 past sessions that had been recorded by an attacker will still be
 secure, since they used ephemeral keys that changed with every
@@ -524,3 +527,11 @@ specifications to apply to cases where authentication is also
 performed using a public key as we have described it here.  To avoid
 confusion, the original form of Diffie-Hellman that lacks
 authentication is often referred to as "anonymous" mode.
+
+Finally, we note that if both participants have been issued
+certificates, they can authenticate each other. If just one has a
+certificate, then just that one can be authenticated. One-way
+authentication is commonly used on the web; for example, when one
+participant is a web server and the other is an arbitrary client, the
+client can authenticate the web server and establish a secret key for
+confidentiality before sending a credit card number to the web server.
