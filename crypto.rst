@@ -131,7 +131,10 @@ one).  An attacker could be so lucky as to try the correct value
 immediately, or so unlucky as to try every incorrect value before
 finally trying the correct value of the key, having tried all 2\
 :sup:`n` possible values; the average number of guesses to discover
-the correct value is halfway between those extremes, 2\ :sup:`n/2`.
+the correct value is halfway between those extremes,
+
+.. math:: 1/2 \times 2^n = 2^{n-1}
+
 This can be made computationally impractical by choosing a
 sufficiently large key space and by making the operation of checking a
 key reasonably costly. What makes this difficult is that computing
