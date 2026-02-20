@@ -395,7 +395,7 @@ session. The relatively recent introduction of 0-RTT data reduces the
 latency before the first data can be sent; it also comes with some
 security drawbacks as we observed above.
 
-Of course, the time required to set up a secure session with TLS in
+Of course, the time required to set up a secure session with TLS is
 *in addition* to the time need to set up a TCP connection. TCP needs
 to complete its 3-way handshake before the first TLS handshake
 message-which is just data as far as TCP is concerned-can be sent. So
@@ -450,7 +450,7 @@ The single most important change in QUIC from the perspective of TLS
 performance is that it doesn't treat the transport and security
 handshakes as two distinct layers. Instead, QUIC has build a
 cryptographic handshake based on TLS into the transport. This is
-illustrated by Figure foo. As RFC 9001 puts it:
+illustrated by :numref:`Figure %s <fig-quic-tls>`. As RFC 9001 puts it:
 
 
 *Rather than a strict layering, these two protocols cooperate: QUIC
