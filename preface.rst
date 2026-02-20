@@ -109,3 +109,4 @@ stages in its development, particularly the following people:
 - Motonori Shindo
 - Nick Feamster
 - Jeroen van der Ham-de Vos
+- GitHub user ghjwp7 (jiw)
