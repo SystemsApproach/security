@@ -253,7 +253,7 @@ There is also a question of whether all the information provided by an
 IRR can be trusted. We discuss approaches to building trust in the
 information provided by an IRR below.
 
-Furthermore, as noted by in the article "*Why Is It
+Furthermore, as noted in the article "*Why Is It
 Taking So Long to Secure Internet Routing?*", the incentives for
 prefix filtering are not well aligned. The cost of filtering falls
 on the AS that is immediately upstream of the misbehaving ISP, while
