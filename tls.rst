@@ -448,7 +448,7 @@ underlying transport.
 
 The single most important change in QUIC from the perspective of TLS
 performance is that it doesn't treat the transport and security
-handshakes as two distinct layers. Instead, QUIC has build a
+handshakes as two distinct layers. Instead, QUIC has built a
 cryptographic handshake based on TLS into the transport. This is
 illustrated by :numref:`Figure %s <fig-quic-tls>`. As RFC 9001 puts it:
 
