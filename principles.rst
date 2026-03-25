@@ -71,7 +71,7 @@ availability. Another common threat to availability is
 example of an unintentional DoS attack: as the worm spread to more and
 more computers, and reinfected computers on which it was already
 present, the resources consumed by the worm rendered those computers
-unable. Networks provide a means by which data can be amplified by
+unusable. Networks provide a means by which data can be amplified by
 replication, allowing large volumes of traffic to be sent to the
 target of a DoS attack; thus it has become necessary to develop means
 to mitigate such attacks.
