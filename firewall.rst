@@ -553,7 +553,7 @@ and authorization” although it's less memorable.
    R. Ward and B. Beyer. `BeyondCorp: A New Approach to Enterprise
    Security <https://www.usenix.org/system/files/login/articles/login_dec14_02_ward.pdf>`__. ;login:, Usenix, 2014.
 
-9.5. Intrusion Detection and Prevention
+9.5 Intrusion Detection and Prevention
 --------------------------------------------
 
 As introduced at the beginning of this chapter, *security appliances*
