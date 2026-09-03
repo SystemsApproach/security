@@ -336,7 +336,7 @@ generated at each level in the hierarchy.
    :width: 600px
    :align: center
 
-   Chain of trust for RPKI
+   Chain of trust for RPKI.
 
 :numref:`Figure %s <fig-rpki>` shows how the
 certificates are arranged for a simple example of an ISP *A* with
@@ -389,7 +389,7 @@ protect against bogus advertisements of more specific routes to a sub-prefix.
    :width: 600px
    :align: center
 
-   An ROA has a chain of trust back to the RPKI root
+   An ROA has a chain of trust back to the RPKI root.
 
 Rather than being passed around in real time like certificates in TLS,
 the RPKI certificates and ROAs are stored in repositories, which are typically
@@ -659,7 +659,7 @@ relationships gives us the ability to detect such anomalies.
    :width: 300px
    :align: center
 
-   Valley-free topology of Autonomous Systems
+   Valley-free topology of Autonomous Systems.
 
 Suppose that two ASes, X and Y, publish a list of their providers
 using ASPA objects in the RPKI. Let's say that there is an ASPA object
@@ -731,7 +731,7 @@ to send a fake response to *that* query.  :numref:`Figures %s
    :width: 500px
    :align: center
 
-   Example of DNS Resolution
+   Example of DNS Resolution.
 
 When everything works as intended, a client machine makes a query to
 the local DNS resolver, which, finding nothing in its cache, sends a
@@ -748,7 +748,7 @@ resolver's cache without steps 2 and 3 taking place.
    :width: 500px
    :align: center
 
-   Attacker poisons DNS cache
+   Attacker poisons DNS cache.
 
 The cache poisoning attack depends on an attacker getting false
 information into the cache of a server, where it will stay until the
@@ -865,7 +865,7 @@ section on DNS in our main textbook, reproduced below.
    :width: 400px
    :align: center
 
-   Hierarchy of DNS name servers
+   Hierarchy of DNS name servers.
 
 Suppose, for example, an administrator of the princeton.edu domain
 wants to start signing the responses issued by the nameserver they
@@ -915,7 +915,7 @@ resolvers.
    :width: 700px
    :align: center
 
-   Validation of DNS keys and signatures by DNSviz
+   Validation of DNS keys and signatures by DNSviz.
 
 
 The requirement to implement at every level from root to leaf is one
@@ -1029,7 +1029,7 @@ DNS*.
    :width: 400px
    :align: center
 
-   Oblivious DNS
+   Oblivious DNS.
 
 The central idea in oblivious DNS is to hide the identity of the
 client from the resolver. This is done by leveraging DoH to encrypt
