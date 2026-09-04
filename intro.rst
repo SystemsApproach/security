@@ -116,7 +116,13 @@ capability. The best-effort packet delivery model included a "default
 open" setting: if you knew the destination address of a host, you
 could send it a packet.
 
-.. could include something about decentralization
+.. _fig-hourglass:
+.. figure:: figures/hourglass.png
+   :width: 220px
+   :align: center
+
+   The Internet architecture depicted as an hourglass. The narrow waist is the
+   Internet Protocol (IP), which includes no built-in security features.
 
 The Morris Worm served as something of a wake-up call to the early
 developers of the Internet by highlighting just how vulnerable it
