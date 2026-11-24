@@ -412,7 +412,7 @@ reserved for use in authentication and session key establishment.
 .. sidebar:: Post-Quantum Cryptography
 
    *As we have seen, a lot of cryptography depends on the difficulty of
-   solving certain mathematical problems, such as factoring prime
+   solving certain mathematical problems, such as factoring large
    numbers or computing discrete logarithms. When the efforts of
    mathematicians over decades to solve a problem have proven
    fruitless, it is tempting to declare these problems sufficiently
