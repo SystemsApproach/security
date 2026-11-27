@@ -4,9 +4,9 @@ About The Authors
 Larry Peterson and Bruce Davie have been collaborating on systems
 projects and writing networking textbooks since the 1990s. Their
 book *Computer Networks: A Systems Approach*, a staple of networking
-curricula for the last 30 years, is now in its sixth edition. That
+curricula for the last 30 years, is now in its seventh edition. That
 introductory textbook, along with several new books focused on
-emerging topics in network and cloud systems, are available as open
+emerging topics in network and cloud systems, is available as open
 source at https://systemsapproach.org.
 
 Larry spent most of his career in academia, first at the University of
@@ -23,7 +23,7 @@ Technical Steering Team for Aether, a Private 5G Project of the Linux
 Foundation. He is a member of the National Academy of Engineering, a
 Fellow of the ACM and the IEEE, the 2010 recipient of the IEEE
 Kobayashi Computer and Communication Award, and the 2013 recipient of
-the ACM SIGCOMM Award. He currently lives in Tucson Arizona.
+the ACM SIGCOMM Award. He currently lives in Tucson, Arizona.
 
 Bruce began his networking career at Bellcore where he worked on the
 Aurora Gigabit testbed, which led to his first collaboration with
@@ -32,10 +32,10 @@ where he led a team of architects responsible for Multiprotocol Label
 Switching (MPLS). He worked extensively at the IETF on standardizing
 MPLS and various quality of service technologies. Bruce also spent five
 years as a visiting lecturer at the Massachusetts Institute of
-Technology. In 2012 he joined Software Defined Networking (SDN)
+Technology. In 2012 he joined Software-Defined Networking (SDN)
 startup Nicira as a lead architect and was then a principal engineer
 at VMware following the acquisition of Nicira. In 2017 he took on the
 role of VP and CTO for the Asia Pacific region at VMware, which gave
 him the opportunity to return to Australia. He is a Fellow of the ACM
 and chaired ACM SIGCOMM from 2009 to 2013. He received the ACM SIGCOMM
-award in 2025.
+Award in 2025.

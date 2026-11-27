@@ -2,7 +2,7 @@ Chapter 6. Transport Security
 =========================================
 
 To understand the design goals and requirements for the Transport Layer
-Security (TLS) standard and the Secure Socket Layer (SSL) on which TLS
+Security (TLS) standard and the Secure Sockets Layer (SSL) on which TLS
 is based, it is helpful to consider the main problems that they
 were invented to solve. As the World Wide Web became popular and
 commercial enterprises began to take an interest in it, it became clear
@@ -16,13 +16,13 @@ transaction being modified, such as changing the purchase amount. And
 you would certainly like to know that the computer to which you are
 sending your credit card information is in fact one belonging to the
 vendor in question and not some other party. Thus, we immediately see a
-need for confidentiality, integrity, and authentication in Web
+need for confidentiality, integrity, and authentication in web
 transactions. The first widely used solution to this problem was SSL,
 originally developed by Netscape and subsequently the basis for the
 IETF’s TLS standard.
 
 The designers of SSL and TLS recognized that these problems were not
-specific to Web transactions (i.e., those using HTTP) and thus they built
+specific to web transactions (i.e., those using HTTP) and thus they built
 a general-purpose protocol that sits between an application protocol
 such as HTTP and a transport protocol such as TCP. The reason for
 calling this “transport layer security” is that, from the application’s
@@ -57,7 +57,7 @@ primarily web browsers and servers.
 The layered approach, inserting TLS between the application protocol
 and the transport protocol, is not without drawbacks, particularly
 when performance is considered. This eventually led to a rethinking
-of the layering and a new transport protocol, QUIC, was developed with
+of the layering, and a new transport protocol, QUIC, was developed with
 the benefit of decades of experience with TLS and HTTP. We return to
 this development below.
 
@@ -77,7 +77,7 @@ between the endpoints.
 Performance is always important when applying cryptographic operations
 to data transfers, and it has a significant impact on end-to-end
 latency for web interactions. One performance-related design choice is
-the use of symmetric key cryptography for the encryption and
+the use of symmetric-key cryptography for the encryption and
 authentication of data after the handshake is complete. In addition,
 there have been efforts to reduce the number of round-trip
 times required to begin data transfer, thus lowering initial latency.
@@ -91,7 +91,7 @@ The main job of the handshake protocol is to allow a pair of TLS
 participants to establish a shared secret key and negotiate at runtime
 the set of cryptographic algorithms to use. It also allows for version
 negotiation, so that, for example, a client running TLS version 1.2
-can talk to a server that supports both version 1.2 and 1.3. It also
+can talk to a server that supports both versions 1.2 and 1.3. It also
 allows the client to authenticate the server, and, optionally, for
 the client to be authenticated as well.
 
@@ -112,7 +112,7 @@ ephemeral Diffie-Hellman key exchange as described in Chapter
 4. Pre-shared keys are also supported and have a role in restarting a
 session quickly, as discussed in Section 6.3.
 
-When we described Diffie-Hellman in chapter 4 we explained the original
+When we described Diffie-Hellman in Chapter 4 we explained the original
 algorithm that operates on groups of integers using modular
 arithmetic. This is now known as Finite Field Diffie-Hellman. It is
 also possible to use elliptic curves rather than modular arithmetic
@@ -138,7 +138,7 @@ Recall that a simple Diffie-Hellman key exchange is not secure against
 MITM attacks, and the remaining steps in the handshake protect against
 this. From the first two messages, the server and the client are able
 to agree on a shared secret using one of several Diffie-Hellman
-algorithms. A choice of groups or curves were provided in the client
+algorithms. A choice of groups or curves was provided in the client
 hello, and one of them has been selected by the server. Similarly, one
 of the offered cipher suites has been selected. With Diffie-Hellman
 allowing them to obtain a shared secret, all subsequent messages
@@ -175,12 +175,12 @@ to authenticate in this way.
 
 ..   Something about compatibility with 1.2 middleboxes
 
-Recall that public key cryptography is computationally more expensive
-than symmetric key cryptography, so we limit the use of public key
+Recall that public-key cryptography is computationally more expensive
+than symmetric-key cryptography, so we limit the use of public-key
 operations to the handshake protocol. And when we said above that all
 the messages after the first two are encrypted, this is done using
 symmetric keys. The roles of public keys in TLS are (a) the
-Diffie-Hellman key exchange (b) the use of certificates to
+Diffie-Hellman key exchange and (b) the use of certificates to
 authenticate servers and, optionally, clients. All of that is limited
 to the handshake protocol.
 
@@ -212,7 +212,7 @@ methods, the set of options has actually become narrower in version
 1.3 as weaknesses of older methods became clear and new cryptographic
 algorithms have emerged. All the algorithms in TLS 1.3 provide both
 encryption and authentication in a single cipher suite, using the
-technique known as authenticated encryption with additional data
+technique known as authenticated encryption with associated data
 (AEAD) which was discussed in Chapter 3.
 
 
@@ -220,26 +220,26 @@ In TLS, the cipher that provides authentication and encryption uses
 two keys, one for each direction. Similarly, two initialization
 vectors are required.  Thus, regardless of the choice of cipher suite,
 a TLS session requires effectively four keys to be agreed upon by the
-end points. TLS derives all of them from a single shared secret that
+endpoints. TLS derives all of them from a single shared secret that
 was obtained during the handshake phase.
 
 The step that derives the keys and initialization vectors from the
 shared secret is called the "HMAC-based extract-and-expand key
-derivation function (HKDF)". The goal is to produce enough keying
-material for the record layer–two IVs and two symmetric keys of
-appropriate length–and to do so in such a way that an attacker has no
-better way of guessing them than a brute force attack. In other words,
+derivation function (HKDF)." The goal is to produce enough keying
+material for the record layer—two IVs and two symmetric keys of
+appropriate length—and to do so in such a way that an attacker has no
+better way of guessing them than a brute-force attack. In other words,
 we want the keys and IVs to be as close to random as possible. This is
 a bit harder than it might first appear, because the shared secret
-that is obtained via Diffie Hellman, which is our starting point, is
+that is obtained via Diffie-Hellman, which is our starting point, is
 not itself completely random. The reason for this may not be obvious,
-but the goal of the various Diffie Hellman algorithms is to generate a
+but the goal of the various Diffie-Hellman algorithms is to generate a
 shared secret, not that such secrets be randomly distributed.
 
 There is some fairly serious mathematics underlying HKDF, but the
-basic idea is called "extract and expand". The first step is to
+basic idea is called "extract and expand." The first step is to
 "extract" the randomness from the shared secret. This is done by
-calculating a HMAC (hash-based message authentication code, as described
+calculating an HMAC (as described
 in Chapter 3) over the shared secret. The resulting pseudorandom key
 is input to the next stage, along with an additional source of
 randomness: the hash of everything contained in the initial
@@ -251,7 +251,7 @@ required amount of key and IV material.
 When all the keys and IVs are available to client and server, the record
 layer can now protect the underlying data with encryption and
 authentication. The record layer also handles fragmentation and
-reassembly–breaking the incoming stream of plaintext into chunks of up
+reassembly—breaking the incoming stream of plaintext into chunks of up
 to 2\ :sup:`14` bytes.
 
 To encrypt one block for transmission, the record layer takes as input
@@ -277,17 +277,17 @@ terminated and an alert is generated.
 ----------------------------------------------
 
 In our initial description of the TLS handshake, we described how
-Diffie-Hellman is used to established a shared secret, but noted
+Diffie-Hellman is used to establish a shared secret, but noted
 that the option also exists to use a pre-shared key (PSK). While
 out-of-band provisioning of a PSK is possible, a much more common use
 of a PSK is to allow session resumption, thus removing the need to go
 through another Diffie-Hellman exchange.
 
-An important side-effect of using a pre-shared key is that it becomes
+An important side effect of using a pre-shared key is that it becomes
 possible to start sending data earlier in the process. This operation
-is referred to as "0-RTT Data" because it is possible to start sending
+is referred to as "0-RTT data" because it is possible to start sending
 application data along with the handshake material without waiting for
-the round trip time of the handshake to elapse. This is an important
+the round-trip time of the handshake to elapse. This is an important
 step in improving the latency of HTTPS connection establishment and
 thus the user experience when browsing the Web.
 
@@ -304,9 +304,9 @@ session, which has a shared secret already. When a client
 connects to a server to which it was previously connected, it can look
 at its stored tickets and, if there are any that have not expired, it
 can include one in the first message of a handshake. Along
-with the ticket, the client includes something called a "binding",
-which is a HMAC calculated over the current handshake message using a
-key derived from the *previous* handshake. The effect of this binding
+with the ticket, the client includes something called a "binder,"
+which is an HMAC calculated over the current handshake message using a
+key derived from the *previous* handshake. The effect of this binder
 is to tie the new handshake back to the old one, since only a client
 that successfully completed the prior handshake can have the key
 required to calculate the HMAC. Thus, while an attacker might snoop on
@@ -314,7 +314,7 @@ the ticket, it can't do much with it and any attempt to modify the new
 handshake message will fail.
 
 When the server sees that the client has sent a ticket, it validates
-the binding, and if the HMAC calculation succeeds, then the server and
+the binder, and if the HMAC calculation succeeds, then the server and
 client now have agreement that they can use a shared secret
 established in the prior session. They use a "resumption master
 secret" that was calculated and stored in the prior session to derive
@@ -324,13 +324,13 @@ different from those of the prior session to support forward secrecy
 session, they don't gain the ability to decrypt data from other
 sessions).
 
-When the server sends its "Finished" message, it calculates the HMAC
+When the server sends its "handshake finished" message, it calculates the HMAC
 over the handshake messages using the agreed-upon new key, and thus
 authenticates itself to the client.
 
 On its own, session resumption as just described may not seem that
 interesting. It avoids the need for another Diffie-Hellman exchange
-but is still requires a round trip time to establish the session. But
+but still requires a round-trip time to establish the session. But
 because the new session keys are known to both sides before the first
 handshake message is sent, session resumption opens up the possibility
 of sending "0-RTT data" along with the handshake. 0-RTT data can be
@@ -346,7 +346,7 @@ opportunity to replay 0-RTT data. Exactly how much damage this does is
 very much application dependent, so the TLS specifications dictate
 that (a) 0-RTT data can only be sent when the application layer
 explicitly requests it, i.e., it can't just be an optimization
-provided by the socket layer (b) the application must know how to deal
+provided by the socket layer, and (b) the application must know how to deal
 with replays of data sent as 0-RTT, e.g., by only sending 0-RTT
 data for operations that are idempotent.
 
@@ -370,7 +370,7 @@ full of issues with excessive setup times. The very first
 implementations of HTTP were quite wasteful of TCP connections,
 setting up a new connection for every object on a requested web
 page. The history of HTTP over TCP and the addition of TLS is full of
-efforts to reduce the latency since the most simple approaches just
+efforts to reduce the latency since the simplest approaches just
 layered one handshake on top of another. The next step in the process
 of reducing the latency of TLS session establishment involves
 rethinking the choice of TCP as the underlying transport, as we
@@ -390,15 +390,15 @@ protocol used by HTTP for another twenty-plus years.
 Adding security to HTTP-over-TCP in the form of SSL and TLS further
 exacerbated performance issues, even as advancements to HTTP mitigated
 some of the original problems. As noted in the preceding section, it
-takes at least one round trip time to establish a secure TLS
+takes at least one round-trip time to establish a secure TLS
 session. The relatively recent introduction of 0-RTT data reduces the
 latency before the first data can be sent; it also comes with some
 security drawbacks as we observed above.
 
 Of course, the time required to set up a secure session with TLS is
-*in addition* to the time need to set up a TCP connection. TCP needs
+*in addition* to the time needed to set up a TCP connection. TCP needs
 to complete its 3-way handshake before the first TLS handshake
-message-which is just data as far as TCP is concerned-can be sent. So
+message—which is just data as far as TCP is concerned—can be sent. So
 the sequence of events was:
 
 - Client initiates TCP 3-way handshake to establish TCP session.
@@ -415,7 +415,7 @@ two RTTs to complete the TLS handshake.
 
 This is not the only problem with running HTTP over TCP. A reliable,
 ordered byte stream as provided by TCP isn't exactly the right model
-for Web traffic. In particular, since most web pages contain many
+for web traffic. In particular, since most web pages contain many
 objects, it makes sense to be able to request many objects in
 parallel, but TCP only provides a single byte stream. If one packet is
 lost, TCP waits for its retransmission and successful delivery before
@@ -433,13 +433,13 @@ to fill this need was QUIC.
 
 In this section we will focus on how QUIC particularly improves the
 performance of TLS compared to running over TCP. QUIC is quite a
-comprehensive re-working of the transport layer that could fill its
-own book-indeed the set of RFCs that define it run to the hundreds of
+comprehensive reworking of the transport layer that could fill its
+own book—indeed the set of RFCs that define it runs to the hundreds of
 pages.
 
 QUIC originated at Google in 2012 and was subsequently developed as a
 proposed standard at the IETF. It has already seen a solid amount of
-deployment—it is in most Web browsers, many popular websites, and is
+deployment—it is in most web browsers, many popular websites, and is
 even starting to be used for non-HTTP applications. Deployability was
 a key consideration for the designers of the protocol. There are a lot
 of moving parts to QUIC—its specification spans three RFCs—but we
@@ -486,7 +486,7 @@ two ends of the QUIC connection have all the state needed to transmit
 data such as HTTP messages. Furthermore, in the cases where 0-RTT data
 can be sent (because there are shared secrets cached from a
 previous connection), the first HTTP request can actually be sent at
-the same time as the client Hello message.
+the same time as the "client hello" message.
 
 A final detail of note is that QUIC runs on top of UDP rather than
 directly over IP. The reason behind this is that there are plenty of
@@ -504,7 +504,7 @@ design space. Because QUIC was inspired by experience with HTTP, TLS,
 and the Web—which arose long after TCP was well established in the
 Internet—it presents a fascinating case study in the unforeseen
 consequences of layered designs and in the evolution of the
-Internet. There is a lot more to it that we can cover here. The
+Internet. There is a lot more to it than we can cover here. The
 definitive reference for QUIC is RFC 9000, while RFC 9001 covers the
 relationship of TLS to QUIC. A more readable overview of the
 protocol's design and deployment appears in the following paper from
@@ -519,7 +519,7 @@ SIGCOMM 2017.
    <https://doi.org/10.1145/3098822.3098842>`__.
    Proc. ACM SIGCOMM, August 2017.
 
-   L. Peterson, L. Brakmo, and B. Davie, `TCP Congestion Control: A
+   L. Peterson, L. Brakmo, and B. Davie. `TCP Congestion Control: A
    Systems Approach
    <https://tcpcc.systemsapproach.org/variants.html#http-performance-quic>`__.
 
@@ -527,12 +527,12 @@ SIGCOMM 2017.
 6.5 A Systems View of TLS
 ------------------------------
 
-When we talk about "The Systems Approach", we always come back to the
+When we talk about "The Systems Approach," we always come back to the
 need to consider how all the parts of a system interact with each
 other to form a coherent whole, rather than just looking at single
 components in isolation. For example, TLS is a system that includes
 both public-key and symmetric-key cryptography, authentication and
-privacy mechanisms, certificate authorities, and sub-layers such as
+privacy mechanisms, certificate authorities, and sublayers such as
 the record protocol and the handshake protocol. But the systems
 approach applies recursively too. As we have already seen, it is
 important to look at how TLS sits within the overall protocol stack,
@@ -547,7 +547,7 @@ World Wide Web. For most users, the only indication that TLS is being
 used when they browse the Web is a little padlock icon next to the URL
 in the browser's address bar. Over the decades that SSL and TLS have
 been in use, the browser companies have, with some success, educated
-users to expect encrypted connections to most web sites, particularly
+users to expect encrypted connections to most websites, particularly
 when data is being sent by the user. If a user tries to send data
 (e.g., by filling out a form) over an unencrypted HTTP connection, the
 browser pops up a warning about the risk of doing so. If a certificate
@@ -566,15 +566,15 @@ the legitimacy of organizations to whom they issue certificates, it
 creates weaknesses in the overall CA system that can be exploited.
 
 An important development in the deployment of TLS was the creation of
-Let's Encrypt, a CA run by a non-profit that provides TLS certificates
-at no charge. By making certificates free for web sites, Let's
+Let's Encrypt, a CA run by a nonprofit that provides TLS certificates
+at no charge. By making certificates free for websites, Let's
 Encrypt helped advance the cause of making encrypted connections on
 the Web the default. Prior to the establishment of Let's Encrypt, it
 was typical for sites to pay for a certificate from a CA, and the cost
-was non-trivial for small sites. Let's Encrypt issues
+was nontrivial for small sites. Let's Encrypt issues
 *domain-validated certificates*. Issuance of these certificates can be
 fully automated and depends on the domain implementing a
-challenge-response protocol known as ACME (Automated Certificate
+challenge-response protocol known as ACME (Automatic Certificate
 Management Environment). We won't dwell on the details here, but the
 availability of certificates that are both free and automatically
 issued and renewed has dramatically increased the adoption of
@@ -601,17 +601,17 @@ that are similar enough to the original to fool users. This might be
 done using easily missed spelling errors (accoounts-google.com being
 one infamous example). An encrypted connection is of no value to the end
 user if they are being connected to a malicious site. In
-Chapter 9 we take a look at passkeys as part of the solution to the
+Chapter 7 we take a look at passkeys as part of the solution to the
 problem of phishing attacks that steer users to such sites. Again, the
 system that we are trying to protect is more than just a connection
-from a browser to a web site.
+from a browser to a website.
 
 One conclusion to draw from this discussion is that we need to take a
 broad view of the "systems" that we are trying to secure, and the way
-that users interact with the system are critical to its success. It's
+that users interact with the system is critical to its success. It's
 also worth recalling some of the points from earlier in the book: any
 analysis of security should start by looking at the threats that we
-need to protect against. And there are always going to be trade-offs
+need to protect against. And there are always going to be tradeoffs
 between the costs we are willing to pay and the security we can
 provide. TLS is not a perfect or complete solution but it has
 certainly done a lot to improve security of communication on the

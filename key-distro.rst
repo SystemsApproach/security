@@ -27,7 +27,7 @@ session keys and predistributed keys:
    computationally intensive attacks, less ciphertext for cryptanalysis,
    and less information exposed should the key be broken.
 
--  Public key ciphers are generally superior for initial authentication
+-  Public-key ciphers are generally superior for initial authentication
    and session key establishment but too slow to use for encrypting
    bulk traffic for confidentiality.
 
@@ -36,7 +36,7 @@ explains how session keys are subsequently established. Note that
 session keys are a particular example of a shared secret, and in some cases
 there is a need for more than just a simple session key. In such cases we
 use the more general terminology of "shared secret establishment"
-rather than "session key distribution". The basic principles are the
+rather than "session key distribution." The basic principles are the
 same.
 
 We henceforth use “Alice” and “Bob” to designate participants, as is
@@ -90,7 +90,7 @@ message with her.
 Using digital signatures, Bob wouldn’t even have to
 send you a message; he could simply create and publish a digitally
 signed statement that Alice’s key is *x*. Such a digitally signed
-statement of a public key binding is called a *public key certificate*,
+statement of a public-key binding is called a *public-key certificate*,
 or simply a certificate. Bob could send Alice a copy of the certificate,
 or post it on a website. If and when someone needs to verify Alice’s
 public key, they could do so by getting a copy of the certificate,
@@ -99,7 +99,7 @@ public key. You can see how starting from a very small number of keys
 (in this case, just Bob’s) you could build up a large set of trusted
 keys over time. Bob in this case is playing the role often referred to
 as a *certificate authority* (CA), and much of today’s Internet
-security depends on CAs. There are many commercial and non-profit CAs
+security depends on CAs. There are many commercial and nonprofit CAs
 in widespread use today. You may also see CA expanded as
 *certification authority*—the two expansions are equivalent.
 
@@ -156,8 +156,8 @@ already know.
 
 A *certificate authority* or *certification authority* (CA) is an entity
 claimed (by someone) to be trustworthy for verifying identities and
-issuing public key certificates. There are commercial CAs, governmental
-CAs, and non-profit CAs. To use a CA, you must know its own key. You can
+issuing public-key certificates. There are commercial CAs, governmental
+CAs, and nonprofit CAs. To use a CA, you must know its own key. You can
 learn that CA’s key, however, if you can obtain a chain of CA-signed
 certificates that starts with a CA whose key you already know. Then you
 can believe any certificate signed by that new CA.
@@ -191,7 +191,7 @@ provide the option of restricting the set of entities that the subject
 of a certificate is, in turn, trusted to certify.
 
 There can be more than one root to a certification tree, and this is
-common in securing Web transactions today, for example. Web browsers
+common in securing web transactions today, for example. Web browsers
 such as Firefox and Chrome come pre-equipped with certificates for a
 (reasonably large) set of CAs; in effect, the browser’s producer has
 decided these CAs and their associated public keys can be trusted. A
@@ -201,8 +201,8 @@ most users, the browser manufacturer becomes the entity that they
 trust to look after PKI for them.
 
 The certificates that are configured to be accepted by the browser
-are used by Secure Socket Layer (SSL)/Transport Layer Security
-(TLS), the protocol most often used to secure Web transactions, which we
+are used by Secure Sockets Layer (SSL)/Transport Layer Security
+(TLS), the protocol most often used to secure web transactions, which we
 discuss in a later chapter. If you are curious, you can poke around in
 the preferences settings for your browser and find the “view
 certificates” option to see how many CAs your browser is configured to
@@ -218,10 +218,10 @@ identities to which keys are bound and by which certificates are signed.
 In keeping with PGP’s roots as protection against government intrusion,
 there are no CAs. Instead, every individual decides whom they trust and
 how much they trust them—in this model, trust is a matter of degree. In
-addition, a public key certificate can include a confidence level
+addition, a public-key certificate can include a confidence level
 indicating how confident the signer is of the key binding claimed in the
 certificate, so a given user may have to have several certificates
-attesting to the same key binding before he is willing to trust it.
+attesting to the same key binding before being willing to trust it.
 
 For example, suppose you have a certificate for Bob provided by Alice;
 you can assign a moderate level of trust to that certificate. However,
@@ -232,7 +232,7 @@ is valid. In short, PGP recognizes that the problem of establishing
 trust is quite a personal matter and gives users the raw material to
 make their own decisions, rather than assuming that they are all willing
 to trust in a single hierarchical structure of CAs. To quote Phil
-Zimmerman, the developer of PGP, “PGP is for people who prefer to pack
+Zimmermann, the developer of PGP, “PGP is for people who prefer to pack
 their own parachutes.”
 
 PGP has become quite popular in the networking community, and PGP was
@@ -240,20 +240,20 @@ eventually developed into an Internet standard known as OpenPGP. PGP
 key-signing parties were once a regular feature of IETF meetings. At a
 key-signing party, an individual can:
 
--  Collect public keys from others whose identity he knows (often by
-   collecting the fingerprint of the key—a short hash of the key—on a printed card.)
+-  Collect public keys from others whose identity they know (often by
+   collecting the fingerprint of the key—a short hash of the key—on a printed card).
 
--  Provide his public key (or its fingerprint) to others, perhaps
+-  Provide their public key (or its fingerprint) to others, perhaps
    showing some other form of ID.
 
--  Get his public key signed by others, thus collecting certificates
+-  Get their public key signed by others, thus collecting certificates
    that will be persuasive to an increasingly large set of people.
 
--  Sign the public key of other individuals, thus helping them build up
+-  Sign the public keys of other individuals, thus helping them build up
    their set of certificates that they can use to distribute their
    public keys.
 
--  Collect certificates from other individuals whom he trusts enough to
+-  Collect certificates from other individuals who are trusted enough to
    sign keys.
 
 Thus, over time, users collect a set of certificates with varying
@@ -271,7 +271,7 @@ your private key thus has everything required to impersonate you: valid
 certificates and your private key. To solve this problem, it would be
 nice to be able to revoke the certificates that bind your old,
 compromised key to your identity, so that the impersonator will no
-longer be able to persuade other people that he is you.
+longer be able to persuade other people that they are you.
 
 The basic solution to the problem is simple enough. Each CA can issue a
 *certificate revocation list* (CRL), which is a digitally signed list of
@@ -280,18 +280,18 @@ made publicly available. Because it is digitally signed, it can just be
 posted on a website. Now, when Alice receives a certificate for Bob that
 she wants to verify, she will first consult the latest CRL issued by the
 CA. As long as the certificate has not been revoked, it is valid. Note
-that, if all certificates have unlimited life spans, the CRL would
+that, if all certificates had unlimited lifespans, the CRL would
 always be getting longer, since you could never take a certificate off
 the CRL for fear that some copy of the revoked certificate might be
 used. For this reason, it is common to attach an expiration date to a
 certificate when it is issued. Thus, we can limit the length of time
 that a revoked certificate needs to stay on a CRL. As soon as its
-original expiration date is passed, it can be removed from the CRL.
+original expiration date has passed, it can be removed from the CRL.
 
 In practice, certificate revocation has proven to be challenging. CRLs
 can become very long now that certificates are in widespread use, so
 retrieving them becomes costly. The time to retrieve a CRL may fall in
-the critical path for opening a connection to a web site,
+the critical path for opening a connection to a website,
 substantially increasing the time to load a page. A determined
 attacker who has compromised a private key is motivated to disrupt the
 distribution of the CRL to prolong the amount of time they can use the
@@ -315,7 +315,7 @@ revocation can be found in John Schanck's blog post.
 4.2 Distribution of Secret Keys
 ------------------------------------
 
-Secret key ciphers present a bootstrapping problem: how do you
+Secret-key ciphers present a bootstrapping problem: how do you
 securely get the secret key to be shared by two participants?
 If Alice wants to use a secret-key cipher to communicate with Bob, she
 can’t just pick a key and send it to him because, without already having
@@ -335,7 +335,7 @@ public keys for two obvious reasons:
 In summary, there are a lot more keys to distribute, and you can’t use
 certificates that everyone can read.
 
-One common solution is to use public key operations to bootstrap the
+One common solution is to use public-key operations to bootstrap the
 communication. This is how keys for symmetric ciphers get distributed
 in HTTPS, for example. We will see more detail of this later.
 
@@ -378,7 +378,7 @@ system. Parameter *p* must be a prime number. The integers
 since :math:`x \bmod p` is the remainder after *x* is divided by *p*,
 and form what mathematicians call a *group* under
 multiplication. Parameter *g* (usually called a generator) must be a
-*primitive root* of *p*: For every number *n* from 1 through *p-1*
+*primitive root* of *p*: for every number *n* from 1 through *p-1*
 there must be some value *k* such that :math:`n = g^k \bmod p`. For
 example, if *p* were the prime number 5 (a real system would use a
 much larger number), then we might choose 2 to be the generator *g*
@@ -435,9 +435,9 @@ Alice and Bob now have :math:`g^{ab} \bmod p` (which is equal to
 
 Any eavesdropper would know *p, g*, and the two public values
 :math:`g^a \bmod p` and :math:`g^b \bmod p`.
-If only the eavesdropper could determine *a* or *b*, she could easily
+If only the eavesdropper could determine *a* or *b*, they could easily
 compute the resulting key. Determining *a* or *b* from that information
-is, however, computationally infeasible for suitably large *p,a,* and
+is, however, computationally infeasible for suitably large *p*, *a*, and
 *b*; it is known as the *discrete logarithm problem*.
 
 Let's look at an example using small numbers to illustrate the
@@ -466,7 +466,7 @@ Bob is able to compute
 
 .. math::
 
-   g^{ba} \bmod p = (g^a \bmod 5)^4 \bmod 5 = (3)^4 \bmod 5 = 1.
+   g^{ba} \bmod p = (2^a \bmod 5)^4 \bmod 5 = (3)^4 \bmod 5 = 1.
 
 by substituting Alice’s public value for :math:`(2^a \bmod 5)`.
 Both Alice and Bob now agree that the secret key is :math:`1`.
@@ -491,14 +491,14 @@ unknowingly sharing a key with Mallory instead of each other.
 
 It is possible to address the immediate problem of man-in-the-middle
 attacks by authenticating one or both participants. We can do this
-using certificates that are similar to public key certificates but
+using certificates that are similar to public-key certificates but
 instead certify the Diffie-Hellman public parameters of an entity. For
 example, such a certificate would state that Alice’s Diffie-Hellman
 parameters are *p, g*, and :math:`g^a \bmod p` (note that the value of
 *a* would still be known only to Alice). Such a certificate would
 assure Bob that the other participant in Diffie-Hellman is Alice—or
 else the other participant won’t be able to compute the secret key,
-because she won’t know *a*.
+because they won’t know *a*.
 
 The approach we have just described, known as *fixed* Diffie-Hellman,
 is not widely recommended in practice because it lacks *forward
@@ -512,14 +512,14 @@ Like the fixed variant, ephemeral Diffie-Hellman relies on at
 least one participant having a certificate issued by a CA, but in this
 case it certifies that Alice is associated with a given public key
 (e.g., an RSA key). Alice then generates an ephemeral value of *a*
-rather than a fixed one, and uses her private key to sign the Diffie
-Hellman parameters: *p, g*, and :math:`g^a \bmod p`. By providing the
+rather than a fixed one, and uses her private key to sign the Diffie-Hellman
+parameters: *p, g*, and :math:`g^a \bmod p`. By providing the
 certificate and the signed value, Alice is able to show Bob that the
 message has really come from her and to authenticate the Diffie-Hellman
 parameters, while still keeping *a* secret. Unlike fixed
 Diffie-Hellman, this approach provides forward secrecy:
 even if the long-lived private key of Alice were to be compromised,
-past sessions that had been recorded by an attacker will still be
+past sessions that had been recorded by an attacker would still be
 secure, since they used ephemeral keys that changed with every
 session. Note that while the word "ephemeral" strictly implies only
 that *a* is a short-lived value, it is widely used in protocol
@@ -531,7 +531,7 @@ authentication is often referred to as "anonymous" mode.
 Finally, we note that if both participants have been issued
 certificates, they can authenticate each other. If just one has a
 certificate, then just that one can be authenticated. One-way
-authentication is commonly used on the web; for example, when one
+authentication is commonly used on the Web; for example, when one
 participant is a web server and the other is an arbitrary client, the
 client can authenticate the web server and establish a secret key for
 confidentiality before sending a credit card number to the web server.

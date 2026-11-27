@@ -144,6 +144,7 @@ Whitepaper
 Wi
 Wi-Fi
 Wireshark
+Zimmermann
 adaptor
 allocators
 analytics
@@ -234,6 +235,7 @@ lifecycle
 liveness
 lookups
 mMTC
+macOS
 microsegmentation
 microservice
 middleware
@@ -301,6 +303,7 @@ submodules
 subnet
 subnets
 tamperproof
+themself
 timeframe
 toolchain
 toolset

@@ -67,8 +67,8 @@ To build a web-viewable version, you first need to download the source:
 
 .. literalinclude:: code/build.sh
 
-The build process is stored in the Makefile and requires Python be
-installed. The Makefile will create a virtualenv (``venv-docs``) which
+The build process is stored in the Makefile and requires that Python be
+installed. The Makefile will create a virtualenv (``venv-docs``) that
 installs the documentation generation toolset.  You may also need to
 install the ``enchant`` C library using your system’s package manager
 for the spelling checker to function properly.

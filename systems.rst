@@ -15,7 +15,7 @@ threats—associated with specific use cases—that remain even when TLS
 is deployed.
 
 The systems described in this chapter are at different layers: some
-are are built into applications, some run at the IP layer, and some
+are built into applications, some run at the IP layer, and some
 secure network links. While they address different layer-specific
 threats, what the examples have in common is that they all leverage
 the same set of security building blocks. Seeing how these building
@@ -40,7 +40,7 @@ need an immediate redesign.
 
 Pretty Good Privacy (PGP) is an approach to providing authentication,
 confidentiality, data integrity, and nonrepudiation for email.
-Originally devised by Phil Zimmerman in 1991, it has evolved into an
+Originally devised by Phil Zimmermann in 1991, it has evolved into an
 IETF standard known as OpenPGP. As we saw in Chapter 4, PGP is notable
 for using a “web of trust” model for distribution of keys rather than
 a tree-like hierarchy.
@@ -48,7 +48,7 @@ a tree-like hierarchy.
 The other thing of note about PGP is that it is *not* widely used, in
 large part because most users elect to trust their email provider (or
 rather, are not concerned about their email being used for marketing
-purposes). In contrast, PGP is an option for users that put a premium
+purposes). In contrast, PGP is an option for users who put a premium
 on privacy and being certain about who they are exchanging messages
 with. The availability of easy-to-use client software has made
 that option more viable over time.
@@ -58,7 +58,7 @@ of a message having a public key that is known to the sender. To
 provide sender authentication and nonrepudiation, the sender must have a
 public key that is known by the receiver. These public keys are
 predistributed using certificates and a web-of-trust PKI. PGP supports
-RSA and DSS for public key certificates. These certificates may
+RSA and DSS for public-key certificates. These certificates may
 additionally specify which cryptographic algorithms are supported or
 preferred by the key’s owner. The certificates provide bindings between
 email addresses and public keys.
@@ -74,8 +74,7 @@ Consider the following example of PGP being used to provide both
 sender authentication and confidentiality. Suppose Alice has a message
 to email to Bob. Alice’s PGP application goes through the steps
 illustrated in :numref:`Figure %s <fig-pgpMessage>`. First, the
-message is digitally signed by Alice; MD5, SHA-1, and the SHA-2 family
-are among the hashes that may be used in the digital signature. Her
+message is digitally signed by Alice; the hashes that may be used in the digital signature include the SHA-2 family. Her
 PGP application then generates a new session key for just this one
 message; AES and 3DES are among the supported secret-key ciphers. The
 digitally signed message is encrypted using the session key, then the
@@ -87,15 +86,15 @@ individuals who signed the certificates. Finally, not for security but
 because email messages have to be sent in ASCII, a base64 encoding is
 applied to the message to convert it to an ASCII-compatible
 representation. Upon receiving the PGP message in an email, Bob’s PGP
-application reverses this process step-by-step to obtain the original
+application reverses this process step by step to obtain the original
 plaintext message and confirm Alice’s digital signature—and reminds
 Bob of the level of trust he has in Alice’s public key.
 
 PGP is not strictly for email, but email has particular
 characteristics that allow PGP to embed an adequate authentication
 protocol in this one-message data transmission protocol. This avoids
-the need for any prior message exchange (and sidestepping some of the
-complexities described in the earlier chapter). Alice’s digital
+the need for any prior message exchange (and sidesteps some of the
+complexities described in Chapter 5). Alice’s digital
 signature suffices to authenticate her. Although there is no proof
 that the message is timely, legitimate email isn’t guaranteed to be
 timely either. There is also no proof that the message is fresh,
@@ -119,7 +118,7 @@ delayed or replayed email).
 The Secure Shell (SSH) protocol provides a remote login service,
 replacing the less secure Telnet used in the early days of the
 Internet. SSH can also be used to remotely execute commands and
-transfer files. It is most often used to provide strong client/server
+transfer files. It is most often used to provide strong client-server
 authentication and message integrity—where the SSH client runs on the
 user’s laptop (for example) and the SSH server runs on some remote
 machine that the user wants to log into—but it also supports
@@ -131,14 +130,14 @@ To better appreciate the importance of SSH in today’s Internet,
 consider two scenarios where it is used. Telecommuters depend on some
 chain of Internet service providers to reach machines operated
 by their employer. This means that when a telecommuter logs into a
-machine inside their employer’s data center, both the passwords and all
-the data sent or received potentially passes through any number of
+machine inside their employer’s datacenter, both the passwords and all
+the data sent or received potentially pass through any number of
 untrusted networks. SSH provides a way to encrypt the data sent over
 these connections and to improve the strength of the authentication
 mechanism used to log in. (A similar situation occurs when said
 employee connects to work using the public Wi-Fi at a coffee shop.)
 
-A second common usage of SSH is to login into a remote router, server,
+A second common usage of SSH is to log in to a remote router, server,
 or VM for the purpose of managing it; for example, changing its
 configuration, reading its log files, or installing the latest software.
 Clearly, administrators want to be sure that they can log into a
@@ -226,18 +225,18 @@ algorithms we have seen throughout this book. However, what sometimes
 makes SSH a challenge to understand is all the keys a user has to
 create and manage, where the exact interface is operating system
 dependent. For example, the OpenSSH package that runs on most Unix
-machines (e.g., Linux, MacOS) supports a command (``ssh-keygen``) that
+machines (e.g., Linux, macOS) supports a command (``ssh-keygen``) that
 can be used to create public/private key pairs. These keys are then
-stored in various files in directory in the user’s home directory. For
+stored in various files in a directory in the user’s home directory, commonly ``~/.ssh``. For
 example, file ``~/.ssh/known_hosts`` records the keys for all the
-hosts the user has logged into, file ``~/.ssh/authorized_keys``
+hosts the user has logged into; file ``~/.ssh/authorized_keys``
 contains the public keys needed to authenticate the user when logging
 into this machine (i.e., they are used on the server side). The
 private keys needed to authenticate the user on remote machines (i.e.,
 keys that are used on the client side) are stored in a file whose name
 depends on the algorithm. For example, an RSA key would be stored in a
 file ``~/.ssh/id_rsa``; an ECDSA key would be stored in
-``~/.ssh/id_edcsa`` and so on. These files are usually encrypted with
+``~/.ssh/id_ecdsa`` and so on. These files are usually encrypted with
 a secret passphrase to protect against the possibility of the private
 key being compromised by an attacker who gains access to the file.
 
@@ -263,9 +262,9 @@ data to the actual port at which the server is listening.
 Port forwarding effectively creates a secure tunnel that provides
 confidentiality and authentication. It is possible to provide a kind
 of virtual private network (VPN) using SSH tunnels in this way, but
-unlike the VPN mechanism described in the next section, SSH tunnels to
+unlike the VPN mechanism described in the next section, SSH builds tunnels to
 a single remote machine rather than to a remote network. The latter
-gives you access to *any* machine on the local network. In practice,
+gives you access to *any* machine on the remote network. In practice,
 it is also the case that corporate firewalls often block port 22 (SSH's
 well-known port), limiting the situations in which SSH works as a
 VPN-like tunnel.
@@ -275,7 +274,7 @@ VPN-like tunnel.
 
 One of the earliest efforts to integrate security into the Internet
 sits at the IP layer. Support for IPsec, as the architecture is
-called, is optional in IPv4 but mandatory in IPv6. Indeed, better
+called, is optional in IPv4 and recommended in IPv6. Indeed, better
 security was one of the stated goals of IPv6, although it turned out
 that the central ideas could also be retrofitted into IPv4. It's also
 noteworthy that while the original intent was for IPsec to be part of
@@ -317,7 +316,7 @@ connectionless protocol, security depends on connection state
 information such as keys and sequence numbers. When created, an SA is
 assigned an ID number called a *security parameters index* (SPI) by the
 receiving machine. A combination of this SPI and the destination IP
-addresses uniquely identifies an SA. An ESP header includes the SPI so
+address uniquely identifies an SA. An ESP header includes the SPI so
 the receiving host can determine which SA an incoming packet belongs to
 and, hence, what algorithms and keys to apply to the packet.
 
@@ -328,7 +327,7 @@ framework only—the exact form of the keys and authentication data
 depends on the key generation technique, the cipher, and the
 authentication mechanism that is used. Moreover, ISAKMP does not specify
 a particular key exchange protocol, although it does suggest the
-Internet Key Exchange (IKE) as one possibility, and IKE v2 is what is
+Internet Key Exchange (IKE) as one possibility, and IKEv2 is what is
 used in practice.
 
 ESP is the protocol used to securely transport data over an established
@@ -351,21 +350,21 @@ carries the authenticator.
    :width: 500px
    :align: center
 
-   IPSec’s ESP format.
+   IPsec’s ESP format.
 
 IPsec supports a *tunnel mode* as well as the more straightforward
 *transport mode*. Each SA operates in one or the other mode. In a
-transport mode SA, ESP’s payload data is simply a message for a higher
+transport-mode SA, ESP’s payload data is simply a message for a higher
 layer such as UDP or TCP. In this mode, IPsec acts as an intermediate
 protocol layer, much like SSL/TLS does between TCP and a higher layer.
 When an ESP message is received, its payload is passed to the higher
-level protocol.
+layer protocol.
 
-In a tunnel mode SA, however, ESP’s payload data is itself an IP
+In a tunnel-mode SA, however, ESP’s payload data is itself an IP
 packet, as in :numref:`Figure %s <fig-espTunnelPacket>`. The source
 and destination of this inner IP packet may be different from those of
 the outer IP packet.  When an ESP message is received, its payload is
-forwarded on as a normal IP packet. The most common way to use the ESP
+forwarded on as a normal IP packet. The most common way to use ESP
 is to build an “IPsec tunnel” between two routers, typically
 firewalls. For example, a corporation wanting to link two sites using
 the Internet could open a pair of tunnel-mode SAs between a router at
@@ -430,7 +429,7 @@ corporate office.
 *Site-to-Site VPNs* are generally used to interconnect the sites of an
 enterprise, which could include datacenters, main corporate offices,
 and branch offices. :numref:`Figure %s <fig-sitevpn>` shows a simple
-example for three sites of difference sizes.
+example for three sites of different sizes.
 
 .. _fig-sitevpn:
 .. figure:: figures/sitevpn.png
@@ -455,7 +454,7 @@ of proprietary options as well.
 OpenVPN leverages TLS to build the encrypted tunnels from client to
 server. While this mostly follows the same protocol as described in
 Chapter 6, the additional step of authenticating the client is almost
-always required in VPN use cases, unlike most Web usages of
+always required in VPN use cases, unlike most web usages of
 TLS. Client certificates may be used, but this raises the issue of how
 certificates can be reliably distributed to client devices. One option
 is that they are provisioned by a corporate IT department as part of
@@ -509,11 +508,11 @@ office, so the configuration would have to be set once before the
 router was shipped out to the branch and after that point, changes
 become difficult, especially if the router becomes unreachable for
 some reason. On top of this, if the connectivity among sites is
-anything other than a hub and spoke, then the issue of correctly
+anything other than a hub-and-spoke topology, then the issue of correctly
 configuring routing protocols to forward traffic across the mesh of
 tunnels becomes significant.
 
-The complexity of configuring and managing a VPN comprised of
+The complexity of configuring and managing a VPN composed of
 encrypted tunnels is one reason why MPLS VPNs, which outsource most of
 the complexity of VPN management to a service provider, became such a
 successful service offering in the early 2000s. MPLS does not protect
@@ -553,7 +552,7 @@ a set of policies regarding security, traffic prioritization, access
 to shared services, and so on. These policies are input to a central
 controller, which can then push out all the necessary configuration to
 the edge router located at the appropriate office. Rather than
-manually configuring a router or (multiple routers) every time a new site is added, or
+manually configuring a router (or multiple routers) every time a new site is added, or
 configuring tunnels by hand, it is possible to achieve "zero-touch"
 provisioning: an appliance is shipped to the new site with nothing
 more than a certificate and an address to contact, which it then uses
@@ -571,7 +570,7 @@ pushed out to all affected sites.  The idea is illustrated in
     :align: center
 
     An SD-WAN controller receives policies centrally and pushes them
-    out to edge switches at various sites. The switches build an
+    out to edge routers at various sites. The routers build an
     overlay of tunnels over the Internet or other physical networks,
     and implement policies including allowing direct access to cloud
     services.
@@ -580,7 +579,7 @@ pushed out to all affected sites.  The idea is illustrated in
 It can be hard to determine exactly what properties of SD-WAN have
 made it popular, especially as vendors promote the features that
 distinguish their solution from the others. Unlike much of SDN, the
-control plane protocols used in SD-WAN tend to be proprietary. But it
+control-plane protocols used in SD-WAN tend to be proprietary. But it
 is certainly true that SD-WAN did enough to reduce the complexity of
 building and managing encrypted tunnels to drive adoption of this
 approach, often replacing MPLS-based VPNs.
@@ -593,7 +592,7 @@ from an Internet-connected branch, but traditional VPNs would
 *backhaul* traffic to a central site before sending it out to the
 Internet, precisely so that security policies could be controlled
 centrally. With SD-WAN, the central control over security policy is achieved, while the data
-plane remains fully distributed–meaning that remote sites can directly
+plane remains fully distributed—meaning that remote sites can directly
 connect to the cloud services without backhaul.
 
 
@@ -601,8 +600,8 @@ connect to the cloud services without backhaul.
 ~~~~~~~~~~~~~~~
 
 Another approach to VPNs that combines some of the features of remote
-access VPNs and site-to-site VPNs is referred to as Mesh VPNs. Like a
-remote VPN, a mesh VPN builds tunnels that terminate directly on
+access VPNs and site-to-site VPNs is referred to as mesh VPNs. Like a
+remote access VPN, a mesh VPN builds tunnels that terminate directly on
 client devices. However, rather than connecting the other end of the
 tunnel to a central VPN gateway or concentrator, mesh VPNs build a
 mesh of tunnels among client devices. The effect is to create a VPN
@@ -640,7 +639,7 @@ they also avoid one of the drawbacks of traditional VPNs, which is the
 existence of trusted network zones, such as the network behind the
 firewall to which a remote access or site-to-site VPN would give
 access. In this respect they embrace the idea of zero trust
-networking, a topic we discuss in chapter 9.
+networking, a topic we discuss in Chapter 9.
 
 
 .. admonition:: Further Reading
@@ -652,47 +651,46 @@ networking, a topic we discuss in chapter 9.
 7.5 Web Authentication and Passkeys
 ----------------------------------------------------------------
 
-While public key cryptography has been well understood for decades,
-and forms the basis for authentication of web sites using Transport
-Layer Security, its adoption for authentication of end-users has
+While public-key cryptography has been well understood for decades,
+and forms the basis for authentication of websites using Transport
+Layer Security, its adoption for authentication of end users has
 generally proven challenging. PGP was an early effort to allow
-end-users to authenticate themselves with public key cryptography, but
+end users to authenticate themselves with public-key cryptography, but
 its deployment remains limited.  If you need to authenticate yourself
 to, say, your bank, it's overwhelmingly the case today that you will
-use some combination of user name (maybe an account number or an email
+use some combination of username (maybe an account number or an email
 address) and a password. Perhaps another factor, such as a one-time
-code generated locally by an app (referred to as a timed one-time
+code generated locally by an app (referred to as a time-based one-time
 password or TOTP) or a code sent over the cellular network to your
 phone, will also be used. Encryption (using TLS) prevents your
 password (and one-time code) from being seen by eavesdroppers when it
 is sent to the bank's site, but there are plenty of weaknesses to this
-form of authentication as we discuss below.  Public key cryptography
+form of authentication as we discuss below.  Public-key cryptography
 would generally be a better solution for the authentication of users
 but its deployment has been sparse historically. SSH, as noted in a
 previous section, supports the use of public keys for user
 authentication, but it's hardly in mainstream use by consumers on the
 Internet.
 
-Password-based authentication had proven enormously problematic, with
+Password-based authentication has proven enormously problematic, with
 passwords frequently being compromised by a variety of attacks. If a
 user's password is obtained by an attacker, the attacker can now
-impersonate the user to authenticate himself. Passwords might be
+impersonate the user to authenticate themself. Passwords might be
 obtained using brute-force search, which works well on passwords that
 are relatively short or simple, and has become easier over time with
-increased computing power. Because many people re-use passwords across
+increased computing power. Because many people reuse passwords across
 multiple sites, if a password is obtained from a breach of one site,
 it can often be used on other sites. And a range of *phishing attacks*
-entail somehow tricking a user into putting his login credentials into
-a fraudulent web site or divulging them over the phone. Phishing
+entail somehow tricking a user into putting their login credentials into
+a fraudulent website or divulging them over the phone. Phishing
 attacks are often initiated with an email leading the user to input
-his credentials to a domain name similar to the expected one, on a
-site that mimics the visual style of the legitimate web
-site. Multi-factor authentication raises the bar somewhat for the
+their credentials to a domain name similar to the expected one, on a
+site that mimics the visual style of the legitimate website. Multi-factor authentication raises the bar somewhat for the
 attacker, but even one-time codes can often be obtained via phishing
 attacks.
 
-A range of efforts have been under way for many years to reduce the
-reliance on passwords and to drive adoption of public key cryptography
+A range of efforts have been underway for many years to reduce the
+reliance on passwords and to drive adoption of public-key cryptography
 for end-user authentication. The most visible recent development has
 been the appearance of *passkeys*, which, as the name suggests, are a
 form of user authentication that replaces passwords with public
@@ -704,25 +702,25 @@ on behalf of the user.
 Passkeys are formally known as *discoverable credentials* and are
 defined in the Web Authentication (WebAuthn) specification of the W3C
 (World Wide Web Consortium). This work evolved from several prior
-efforts including those of the FIDO alliance (FIDO = Fast Identity
+efforts including those of the FIDO Alliance (FIDO = Fast Identity
 Online).
 
 The basic idea behind passkeys is simple: a user (or more likely, a
 device owned by the user) creates a private/public key pair
-specifically for a single web site and provides the public key to the
-site. The user proves their identity to the web site using some other
-method such as a previously established user name and password. The
-web site stores the public key for subsequent use. The next time that
-the user wants to authenticate to the web site, the site issues a
+specifically for a single website and provides the public key to the
+site. The user proves their identity to the website using some other
+method such as a previously established username and password. The
+website stores the public key for subsequent use. The next time that
+the user wants to authenticate to the website, the site issues a
 challenge to the user, who uses the locally stored private key to sign
-their response to the challenge. The web site uses the stored public
+their response to the challenge. The website uses the stored public
 key to authenticate the user. Said another way, if you are familiar
 with SSH's use of public/private key pairs to authenticate a user
 logging into a remote server, you understand how passkeys are used to
 log into a remote web service.
 
 The fact that the process is bootstrapped by getting the user to
-authenticate using a traditional approach (such as user name and
+authenticate using a traditional approach (such as username and
 password) is clearly a bit of a weakness. At the same time, it
 solves the thorny problem of how to scalably bind public
 keys to users which has proven challenging to date. Additional steps
@@ -731,12 +729,12 @@ multi-factor authentication.
 
 Passkeys offer two protections against phishing. First, the private
 key is never transmitted, being used only to sign the response to a
-challenge. Second, passkeys are bound to a specific web site. So a
-user will have a different private/public key pair for every web site
+challenge. Second, passkeys are bound to a specific website. So a
+user will have a different private/public key pair for every website
 they want to authenticate to. When the authentication challenge is
-received from the web site, the client-side software checks that it is
-coming from the correct web site using the standard authentication
-methods of TLS. A fraudulent web site will fail this check, so the
+received from the website, the client-side software checks that it is
+coming from the correct website using the standard authentication
+methods of TLS. A fraudulent website will fail this check, so the
 user will not try to authenticate to the site.
 
 Of course, if passkeys are to be effective as a phishing-prevention
@@ -751,7 +749,7 @@ but there are two broad categories of passkey implementation. One
 approach binds the key to a specific piece of hardware, such as a USB
 key. Such keys have been around for many years and known by various
 names as the commercial offerings and standards around them have
-evolved. The generic names include U2F (universal second factor) and
+evolved. The generic names include U2F (Universal 2nd Factor) and
 FIDO (from the FIDO Alliance).
 
 Now that biometric authentication, such as facial and fingerprint
@@ -785,7 +783,7 @@ in one place. If the hardware token is lost, there is no way to
 recover the private key, so some other authentication method is
 needed as a backup. Also, since most hardware tokens lack biometric
 authentication, it is possible that a private key could be obtained
-and used by an attacker if he can gain access to the physical key.
+and used by an attacker if they can gain access to the physical key.
 
 Many of the important details of WebAuthn come down to making public
 key cryptography accessible to average users, rather than just the
@@ -798,8 +796,8 @@ devices (such as FIDO keys) to communicate with browsers to manage the
 creation and use of private/public key pairs.
 
 We are still in the relatively early days of passkeys as they start to
-become available on a wide variety of operating systems and web
-sites. Those who have led their development hope that they start to
+become available on a wide variety of operating systems and
+websites. Those who have led their development hope that they start to
 replace the ubiquitous password for user authentication.
 
 
@@ -837,10 +835,10 @@ same computer has, say, an Ethernet connection as well.
 
 Consequently, there has been considerable work on securing Wi-Fi links.
 The IEEE 802.11i standard provides authentication, message integrity,
-and confidentiality to 802.11 (Wi-Fi) at the link layer. *WPA3* (Wi-Fi
-Protected Access 3) is often used as a synonym for 802.11i, although it
-is technically a trademark of the Wi-Fi Alliance that certifies product
-compliance with 802.11i.
+and confidentiality to 802.11 (Wi-Fi) at the link layer. *WPA2* (Wi-Fi
+Protected Access 2, now replaced by WPA3) is sometimes used as a synonym for 802.11i. Technically, WPA2
+and WPA3 are trademarks of the Wi-Fi Alliance, which certifies product
+compliance with 802.11 standards.
 
 For backward compatibility, 802.11i includes definitions of
 first-generation security algorithms—including Wired Equivalent
@@ -865,7 +863,7 @@ logically separate. The AP forwards authentication messages between
 the wireless device and the AS. The protocol used for authentication
 is called the *Extensible Authentication Protocol* (EAP).  EAP is
 designed to support multiple authentication methods—smart cards,
-Kerberos, one-time passwords, public key authentication, and so on—as
+Kerberos, one-time passwords, public-key authentication, and so on—as
 well as both one-sided and mutual authentication. So EAP is better
 thought of as an authentication framework than a protocol. Specific
 EAP-compliant protocols, of which there are many, are called *EAP
@@ -901,8 +899,8 @@ really a collection of keys that includes a session key called a
 *Temporal Key*. This session key is used by the protocol, called *CCMP*,
 that provides 802.11i’s data confidentiality and integrity.
 
-CCMP stands for CTR (Counter Mode) with CBC-MAC (Cipher-Block Chaining
-with Message Authentication Code) Protocol. CCMP uses AES in counter
+CCMP stands for CTR (Counter Mode) with CBC-MAC (Cipher Block Chaining
+Message Authentication Code) Protocol. CCMP uses AES in counter
 mode to encrypt for confidentiality. Recall that in counter mode
 encryption successive values of a counter are incorporated into the
 encryption of successive blocks of plaintext.
@@ -932,7 +930,7 @@ network. Specifically, the MNO provides a Subscriber Identity Module
 (SIM) that must be present in the mobile device. This SIM contains a
 small database that includes (among several dozen parameters used to
 control the device) two values that play a central role in link
-security: (1) a unique *International Mobile Subscriber Identifier
+security: (1) a unique *International Mobile Subscriber Identity
 (IMSI)* and (2) a secret key.
 
 .. _fig-AMF:
@@ -947,7 +945,7 @@ station over an unauthenticated radio channel. The base station, which
 is part of the *Radio Access Network (RAN)*, forwards the request to a
 backend system, known as the *Mobile Core*, over a secure backhaul
 connection. The Mobile Core is essentially an IP router that connects
-the RAN to the rest of the Internet, and among its many sub-components,
+the RAN to the rest of the Internet, and among its many subcomponents,
 an *Access and Mobility Management Function (AMF)* plays a central
 role in securing the wireless link on behalf of the newly connected device.
 Loosely speaking, the AMF is analogous to the AS used by Wi-Fi. For a
@@ -957,23 +955,23 @@ a companion book.
 .. admonition:: Further Reading
 
    L. Peterson, O. Sunay, and B. Davie. `Private 5G: A Systems
-   Approach. <https://5g.systemsapproach.org>`__.
+   Approach <https://5g.systemsapproach.org>`__.
 
 Assuming the AMF recognizes the IMSI, it initiates an authentication
-protocol with the device. There are a set of options for
+protocol with the device. There is a set of options for
 authentication and encryption, but AES is commonly used. Note that
 this authentication exchange is initially in the clear since the base
 station to device channel is not yet secure.
 
 Once the device and AMF are satisfied with each other's identity, the
-AMF informs the other sub-components of the Mobile Core and RAN of the
+AMF informs the other subcomponents of the Mobile Core and RAN of the
 parameters they will need to service the device (e.g., the IP address
 assigned to the device and the appropriate QoS parameters). It also
 instructs the base station to establish an encrypted channel to the
-device and sends the device the symmetric key it will subsequently use
-for the encrypted data channel with the base station.  This symmetric
-key is encrypted using the public key of the device, so only the
-device can decrypt it. It does this using the secret key on its SIM
-card. Once complete, the device can use this encrypted channel to send
-and receive data over the wireless link to the base station.
+device, and gives the base station the symmetric key to use for that
+channel. The device derives the same session key from the secret key
+on its SIM and the values exchanged during authentication, so the
+session key itself is never sent over the wireless link. Once
+complete, the device can use this encrypted channel to send and
+receive data over the wireless link to the base station.
 

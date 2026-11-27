@@ -25,4 +25,4 @@ our companion books that cover networking and emerging topics in more depth.
 * `What We Talk About When We Talk About Systems: Essays on the
   Systems Approach <https://amzn.to/3SfiAEI>`__
 
-As participants in the Amazon Associate program we may earn income from qualifying purchases using the links above.
+As participants in the Amazon Associates Program we may earn income from qualifying purchases using the links above.

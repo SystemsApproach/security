@@ -3,11 +3,11 @@ Chapter 8.  Infrastructure Security
 
 
 In the preceding chapters we have focused on the security of
-end-systems connected to the Internet and on securing communication
+end systems connected to the Internet and on securing communication
 between parties as their traffic traverses the Internet. But the
 Internet itself consists of infrastructure, such as routers, that must
 also be defended against attacks. Two areas of particular concern are
-the interdomain routing system and the domain name system (DNS). Both
+the interdomain routing system and the Domain Name System (DNS). Both
 systems routinely come under attack. They are also complex distributed
 systems. While distributing the routing and naming functions helps
 make these systems resilient to failure, many opportunities for attack
@@ -38,7 +38,7 @@ as we discuss in the final section of this chapter.
 In most respects, a router is just a special-purpose computer with
 some high-speed interfaces and specialized software to perform tasks
 such as route computation and advertisement. So routers need to be
-protected like end-systems, e.g., with strong passwords and
+protected like end systems, e.g., with strong passwords and
 multi-factor authentication, using access control lists and firewalls,
 etc.  That is only a starting point, however, because the actual
 routing protocols themselves introduce opportunities for attack. BGP,
@@ -51,11 +51,11 @@ The primary challenge in securing the Internet's routing
 infrastructure boils down to this: how can you trust a routing
 announcement received via BGP? At first glance, this looks similar to
 the problem solved by TLS: how do we know that we're talking to the
-web site we wanted to connect to? But there are multiple levels to
-this problem when it comes to inter-domain routing.  When you have a
+website we wanted to connect to? But there are multiple levels to
+this problem when it comes to interdomain routing.  When you have a
 secure, encrypted connection to your bank, you probably trust them to
 show you accurate information about your account (mostly—banks do make
-mistakes on occasions) and the secure connection protects it from
+mistakes on occasion) and the secure connection protects it from
 modification by an attacker. A secure, encrypted connection to the
 website of the New York Times, however, doesn't mean you should
 believe every word published by the New York Times. Similarly, a
@@ -77,8 +77,8 @@ different service providers and customers play a central role in the
 ultimate choice of path. When a BGP speaker has chosen a path to reach
 a particular prefix, it may choose to re-advertise that path to other
 BGP speakers, either in the same AS or in another AS. Again, this
-depends on customer-provider relationships. For a more full discussion
-of how BGP works, refer to the section on inter-domain routing in our
+depends on customer-provider relationships. For a fuller discussion
+of how BGP works, refer to the section on interdomain routing in our
 main textbook.
 
 A BGP speaker needs to trust that the paths that it is receiving from
@@ -108,7 +108,7 @@ more difficult to address.
 .. _reading_threat:
 .. admonition::  Further Reading
 
-   S. Murphy. `BGP Security Vulnerabilitiess
+   S. Murphy. `BGP Security Vulnerabilities
    Analysis <https://www.rfc-editor.org/info/rfc4272>`__. RFC 4272, January 2006.
 
    G. Huston. `A Survey on Securing Inter-Domain Routing Part 1.
@@ -136,11 +136,11 @@ technology today. The explanation for this comes down to a combination
 of factors including history, inertia, and the different operational
 model of running BGP versus connecting to a remote website. For
 example, BGP sessions often run between directly connected routers at
-a peering point or Internet exchange points (IXPs) which allows for a
+a peering point or Internet exchange point (IXP), which allows for a
 simple TTL-based method to prevent spoofing. Privacy of BGP updates is
 considerably less important than authenticity. And as we shall see,
 there is a lot more to establishing the authenticity of a BGP
-advertisement that just authenticating the messages from a peer.
+advertisement than just authenticating the messages from a peer.
 
 When BGP was being developed in the 1980s and 1990s, TLS was still far
 in the future, and packet encryption and decryption operations were
@@ -172,10 +172,10 @@ certain prefix, how do we know that they really have this path?
 .. _reading_BGPTLS:
 .. admonition::  Further Reading
 
-   T. Wirtgen, N. Rybowski, C. Pelsser, O.
+   T. Wirtgen, N. Rybowski, C. Pelsser, and O.
    Bonaventure. `The Multiple Benefits of Secure Transport for
-   BGP <https://conferences.sigcomm.org/co-next/2024/files/papers/p186.pdf/>`__.
-   ACM CONEXT, December 2024.
+   BGP <https://conferences.sigcomm.org/co-next/2024/files/papers/p186.pdf>`__.
+   ACM CoNEXT, December 2024.
 
    J. Durand, I. Pepelnjak and G. Doering. `BGP Operations and
    Security <https://www.rfc-editor.org/info/rfc7454>`__. RFC 7454,
@@ -226,7 +226,7 @@ take the form of a route being advertised and then propagated when it
 should not be. There is a relatively simple measure that should have
 prevented the incident described above: the provider AS immediately
 upstream from Pakistan Telecom should not have accepted the
-advertisement that said "I have a route to YouTube". How would it know
+advertisement that said "I have a route to YouTube." How would it know
 not to accept this? After all, BGP needs to be dynamic, so a newly
 advertised prefix is often going to be correct. One solution to
 this problem is the use of Internet Routing Registries (IRRs), which serve as
@@ -254,7 +254,7 @@ IRR can be trusted. We discuss approaches to building trust in the
 information provided by an IRR below.
 
 Furthermore, as noted in the article "*Why Is It
-Taking So Long to Secure Internet Routing?*", the incentives for
+Taking So Long to Secure Internet Routing?*" the incentives for
 prefix filtering are not well aligned. The cost of filtering falls
 on the AS that is immediately upstream of the misbehaving ISP, while
 the benefit accrues to some distant entity (YouTube in our example)
@@ -263,7 +263,7 @@ provider with whom they have no relationship.
 
 A more sophisticated approach relies on the use of cryptographically
 signed statements authorizing a particular AS to advertise paths to a
-particular prefix. This technology behind this is referred to as RPKI:
+particular prefix. The technology behind this is referred to as RPKI:
 Resource Public Key Infrastructure.  RPKI builds on the concepts of
 cryptographic signatures and certificate hierarchies that we
 introduced in previous chapters.
@@ -318,11 +318,11 @@ certificates can be created to follow this hierarchy of address
 allocation.  The RIRs form trust anchors from which chains of trust
 can be built, much the way a modern browser comes with a set of
 trusted root certificate authorities (CAs) so that the certificates
-issued by web sites, which are signed by CAs, can be checked for validity.
+issued by websites, which are signed by CAs, can be checked for validity.
 
 A key distinction between RPKI and the certificates that we are
 familiar with from TLS is this: the certificates in TLS are used to
-validate the *identity* of a web site (e.g., a certificate for cnn.com
+validate the *identity* of a website (e.g., a certificate for cnn.com
 tells your browser that it is actually talking to the entity that
 operates cnn.com), whereas RPKI certificates are used to validate the
 *resources* allocated to an entity such as an ISP or an end
@@ -347,7 +347,7 @@ authority of a certain AS to advertise a prefix, the details of the
 certificates are different from those used in TLS. For example, the
 certificate that ISP *A* issues, on the far right of the picture, says
 that some address prefix has been allocated to customer *C*, and
-includes the public key of customer C. This certificate is signed by
+includes the public key of customer *C*. This certificate is signed by
 ISP *A* using the private key of *A*. So if we can trust *A*, we learn
 two things about *C*: its public key and the set of addresses
 allocated to the holder of that public key. Note that we don't learn
@@ -376,11 +376,11 @@ with its private key. The ROA contains the AS number of *C* and the
 prefix or prefixes that it wishes to advertise. Anyone who looks at
 the ROA and the resource certificate chain that leads from the root CA to *C*
 can validate that it has been signed with the private key belonging to
-C; they can also check that C is authorized to advertise the prefixes contained in the
+*C*; they can also check that *C* is authorized to advertise the prefixes contained in the
 ROA. Because the ROA also contains the AS number for *C*, we now know
 that we should trust advertisements of this prefix if they originate
 from the stated AS. Furthermore, an ROA may limit the maximum length of the prefix to
-protect against bogus advertisements of more specific routes to a sub-prefix.
+protect against bogus advertisements of more specific routes to a subprefix.
 
 
 
@@ -462,11 +462,11 @@ steadily for several years now. The adoption of ROAs is tracked by
 NIST (the National Institute of Standards and Technology in the
 U.S.)—see the Further Reading section. At the time of writing, the
 NIST RPKI monitor indicates that of the one-million-plus routes
-advertised globally in BGP, about 56% are covered by valid ROAs. Less than 2%
-are detected as invalid (the ROV check fails) while the remaining 42%
+advertised globally in BGP, about 70% are covered by valid ROAs. Less than 2%
+are detected as invalid (the ROV check fails) while the remaining 27%
 do not contain ROA information.  Looking at the deployment over time
-we can see a steady increase in valid ROA and a corresponding decrease
-in the "not found" group—the advertisements with no ROA. While 56% is
+we can see a steady increase in valid ROAs and a corresponding decrease
+in the "not found" group—the advertisements with no ROA. While 70% is
 a long way from 100%, this level of penetration is a significant
 accomplishment—especially given the historical difficulty of making
 changes to Internet routing and the "core" of the Internet.
@@ -474,7 +474,7 @@ changes to Internet routing and the "core" of the Internet.
 One final point of note about the RPKI is that, just like other forms
 of certificate infrastructure, it relies on Certificate Revocation
 Lists (CRLs) to revoke certificates. This is important for handling
-cases such as the re-allocation of an address prefix from one provider
+cases such as the reallocation of an address prefix from one provider
 to another. The good news is that CRLs are distributed from
 the RPKI repositories just like other objects in the RPKI.
 
@@ -516,7 +516,7 @@ corresponding to such a private key is included in a certificate that
 is published in the RPKI. Such certificates also include the AS number
 or numbers corresponding to the AS in which the router is located.
 
-As with all public key certificates, we need a chain of trust from a
+As with all public-key certificates, we need a chain of trust from a
 trusted root to the router certificate. For example, an RIR could
 provide the root of trust, and sign certificates for ISPs, who
 could then act as the certificate authorities for their own routers. The
@@ -598,10 +598,10 @@ ROV, where cryptographic operations happen separately from the
 validation of BGP messages). The second is a "collective action
 problem": when a single ISP pays the cost of implementing BGPsec, it
 does little if anything to improve the situation for that ISP. Only
-when a critical mass of ISPs are using BGPsec does it start to provide
+when a critical mass of ISPs is using BGPsec does it start to provide
 significant incremental benefits over ROV. Issuing an ROA, by
 contrast, immediately helps the provider who issues it. The situation
-is captured in the paper "BGP Security in Partial Deployment". An
+is captured in the paper "BGP Security in Partial Deployment." An
 approach that holds promise to address both these issues is described
 in the following section.
 
@@ -626,7 +626,7 @@ ASPA shares an attractive property with ROV: no cryptographic
 operations are added to BGP itself. Just as ROV builds a database (in
 the RPKI) of who is allowed to originate an advertisement, ASPA builds
 a database showing which ASes provide transit to other ASes. This,
-too, uses the RPKI, but with different types of certificates, known as
+too, uses the RPKI, but with different types of signed objects, known as
 ASPA records.
 
 An important ingredient in ASPA is the insight that the relationships
@@ -659,7 +659,7 @@ relationships gives us the ability to detect such anomalies.
    :width: 300px
    :align: center
 
-   Valley-free topology of Autonomous Systems.
+   Valley-free topology of autonomous systems.
 
 Suppose that two ASes, X and Y, publish a list of their providers
 using ASPA objects in the RPKI. Let's say that there is an ASPA object
@@ -670,9 +670,9 @@ this is clearly wrong and the router drops the advertisement. The
 question of how we can tell that a particular AS is a provider,
 customer, or peer of another AS is a bit subtle, but it depends on the
 properties of valley-free routing. We can't have an arbitrary mix of
-customer-provider and provider-customer links in a valid path; there
-must be a set of paths going "up" towards providers followed by at
-most one lateral path followed by a set of paths going "down" towards
+customer-provider and provider-customer hops in a valid path; there
+must be a set of hops going "up" towards providers followed by at
+most one lateral hop followed by a set of hops going "down" towards
 customers. The more relationships that are placed in the RPKI, the more
 power a BGP speaker gains to detect paths that are invalid.
 
@@ -692,9 +692,9 @@ deployment.
 .. _reading_aspa:
 .. admonition::  Further Reading
 
-   A, Azimov et al. `BGP AS_PATH Verification Based on
-   Autonomous System Provider Authorization (ASPA) Objects <https://datatracker.ietf.org/doc/draft-ietf-sidrops-aspa-verification/>`__. Internet
-   draft, work in progress.
+   A. Azimov et al. `BGP AS_PATH Verification Based on
+   Autonomous System Provider Authorization (ASPA) Objects <https://datatracker.ietf.org/doc/draft-ietf-sidrops-aspa-verification/>`__. Internet-Draft,
+   work in progress.
 
 
 8.2 DNS and Naming Security
@@ -731,7 +731,7 @@ to send a fake response to *that* query.  :numref:`Figures %s
    :width: 500px
    :align: center
 
-   Example of DNS Resolution.
+   Example of DNS resolution.
 
 When everything works as intended, a client machine makes a query to
 the local DNS resolver, which, finding nothing in its cache, sends a
@@ -758,13 +758,13 @@ possibility.
 
 Suppose that the attacker is able to observe the client
 request (1) in :numref:`Figure %s <fig-DNS>`, perhaps by
-snooping on open WiFi. The attacker can now flood the resolver with
+snooping on open Wi-Fi. The attacker can now flood the resolver with
 fake versions of the expected response (3), hoping that with enough
 guesses they can generate a response that will be accepted by the
 resolver. The ID field in the DNS header is a 16-bit field and the
 server UDP port associated with DNS is a well-known value, so there
 are only :math:`2^{32}` possible combinations of ID and client UDP port for a
-given client and server. That makes brute force attacks feasible.
+given client and server. That makes brute-force attacks feasible.
 
 Even with no visibility of the client traffic, the attacker can force
 the resolver to make queries to example.com by issuing queries of its
@@ -799,7 +799,7 @@ effects in and beyond China.
    Anonymous. `The Collateral Damage of Internet Censorship by DNS
    Injection
    <https://dl.acm.org/doi/10.1145/2317307.2317311>`__. Computer
-   Communications Review, July 2012.
+   Communication Review, July 2012.
 
 8.2.1 DNS Amplification Attacks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -816,7 +816,7 @@ denial-of-service attack: many hosts (e.g., a set of hosts in a
 botnet) can make coordinated requests to a set of name servers, with
 all the requests using the same spoofed source address. Not only does
 this lead to a lot of traffic heading to the target address, but the
-name servers can be make to perform a traffic *amplification*
+name servers can be made to perform a traffic *amplification*
 function, because the response to a DNS query can be much larger than
 the query that triggered it. In particular, the DNS query type "ANY"
 causes all records for a domain to be returned, which can be a lot of
@@ -827,7 +827,7 @@ amplification attacks.
 
 Three main steps can be taken to reduce these attacks. The first
 is to avoid the deployment of "open" resolvers, i.e., resolvers
-which will accept queries from anywhere. For example, the resolver
+that will accept queries from anywhere. For example, the resolver
 for an enterprise should be configured such that only clients
 within that enterprise can send queries to it; it should not accept
 queries from the broader Internet.
@@ -836,7 +836,7 @@ The second step is source address validation. Source address
 filtering is a tool that can be applied at the boundaries of
 autonomous systems to reject traffic with spoofed source
 addresses. It may not be 100% effective but it will reduce the
-effectiveness of large scale attacks.
+effectiveness of large-scale attacks.
 
 Finally, recall that there are general ways to deal with DoS attacks
 such as the use of content distribution networks and black-holing of
@@ -868,11 +868,11 @@ section on DNS in our main textbook, reproduced below.
    Hierarchy of DNS name servers.
 
 Suppose, for example, an administrator of the princeton.edu domain
-wants to start signing the responses issued by the nameserver they
+wants to start signing the responses issued by the name server they
 operate. They need to obtain a certificate for the public key that
 they plan to use, and that certificate will be issued and signed by
 the .edu domain. The .edu domain in turn requires a certificate to
-establish that their key can be trusted, and that certificate is
+establish that its key can be trusted, and that certificate is
 issued and signed by the root domain. As with other systems such as
 TLS certificates, establishing a root of trust must be done by some
 out-of-band mechanism. There is actually an elaborate, formal process
@@ -928,10 +928,10 @@ is reasonable to ask whether it is ever likely to succeed. Huston
 notes a number of other reasons why its success has been limited, not
 least of which is that TLS, while solving a different problem,
 somewhat sidesteps the need for validating DNS. If you know that you
-are connected to the correct web site using HTTPS because it has
+are connected to the correct website using HTTPS because it has
 proven its identity using a TLS certificate that you trust, do you
 really care what IP address was used by the underlying protocols to
-connect you to the web site?
+connect you to the website?
 
 This is not to say that protecting DNS is unimportant,
 however. Interference with DNS is still a vector for censorship and
@@ -945,8 +945,8 @@ The challenges of securing DNS illustrate a point we made early in
 the book about the trusted computing base (TCB) and minimizing its size. If
 DNS needs to be trusted in order for systems that depend on the
 Internet to operate securely, then we have chosen a large, distributed system
-component that needs to be made secure. Having largely failed to make
-DNS secure over thirty years, it is a good thing that TLS (and other
+component that needs to be made secure. With efforts to make
+DNS secure being largely unsuccessful, it is a good thing that TLS (and other
 systems using end-to-end encryption) provides secure communications
 over untrusted infrastructure. In other words we have excluded DNS
 from the TCB.
@@ -1035,13 +1035,13 @@ The central idea in oblivious DNS is to hide the identity of the
 client from the resolver. This is done by leveraging DoH to encrypt
 the requests from the client and the responses sent to the client,
 using a key that is associated with the target. But rather than send
-the queries direct to the target, as in standard DoH, oblivious DNS
+the queries directly to the target, as in standard DoH, oblivious DNS
 inserts a proxy between client and target. So the proxy gets an
 encrypted request that it cannot interpret, and then passes the
 request on to the target. The target can decrypt the request but
 doesn't know which client sent it, and sends an encrypted response
 back to the proxy. As long as the proxy supports a mix of clients, and
-and the proxy and target do not collude, neither of them has the
+the proxy and target do not collude, neither of them has the
 information to figure out what queries a given client is making.
 
 Oblivious DNS is an experimental protocol but there are some
@@ -1054,7 +1054,7 @@ for the target function.
 .. _reading_doh:
 .. admonition:: Further Reading
 
-   Z. Hu, et al. `Specification for DNS over Transport Layer
+   Z. Hu et al. `Specification for DNS over Transport Layer
    Security (TLS) <https://www.rfc-editor.org/info/rfc7858>`__. RFC 7858, May 2016.
 
    P. Hoffman and P. McManus. `DNS Queries over HTTPS (DoH)
@@ -1073,8 +1073,8 @@ for the target function.
 In much of this book we have focused on attacks against the
 confidentiality or integrity of information, but we also need to
 concern ourselves with availability. This is true for both end systems (such as
-web sites) and the infrastructure of the network itself.  Commonly
-known as *Denial of Service (DoS)* attacks, such attacks typically
+websites) and the infrastructure of the network itself.  Commonly
+known as *denial-of-service (DoS)* attacks, such attacks typically
 involve an adversary trying to overwhelm "good" resources (link
 bandwidth, packet forwarding rates, server response throughput) with
 traffic generated by "bad" resources (such as botnets constructed from
@@ -1102,7 +1102,7 @@ content, this is done using the same mechanism as is used to absorb
 flash crowds of legitimate traffic: a *Content Distribution Network
 (CDN).* The idea is to replicate content (whether it's a movie or a
 critical piece of infrastructure metadata) across many
-widely-distributed servers. As long as the aggregate capacity of these
+widely distributed servers. As long as the aggregate capacity of these
 servers is greater than the aggregate capacity of the botnet—and the
 CDN does a good job spreading requests across the available
 servers—content remains available. This notion of *aggregate* capacity
@@ -1120,7 +1120,7 @@ ingress to a network you control. This is why DoS attacks are
 typically distributed.  Dropping (or rate limiting) attack packets at
 the boundary router for a service provider (or at a firewall for an enterprise)
 is better than allowing those packets to flood the core of
-the network and reach a victim server(s), but the more widely
+the network and reach victim server(s), but the more widely
 distributed the periphery of your network, the earlier you can filter
 malicious packets. And drawing on the first countermeasure, the more
 widely distributed your network resources are, the greater your
@@ -1131,9 +1131,9 @@ products, with many proprietary details, but the general principles
 outlined here explain their underlying strategy.
 
 Finally, note that DoS attacks highlight the never-ending nature of
-tackling security. Almost any protocol or system can by a target of a
+tackling security. Almost any protocol or system can be a target of a
 DoS attack. We discussed the role of DNS in amplification of DoS attacks in the
-preceding section. When attacks are launched against web sites,
+preceding section. When attacks are launched against websites,
 attackers are often taking advantage of the HTTP protocol—significant server
 resources are consumed responding to bogus GET requests. As a very
 different example, the forwarding of IP packets can be attacked with a
@@ -1177,4 +1177,4 @@ approach.
    DoS-Resistant Software
    <https://www.usenix.org/conference/osdi-02/defensive-programming-using-annotation-toolkit-build-dos-resistant-software>`__.
    Proceedings of the Fifth Symposium on Operating System Design and Implementation
-   (OSDI). Usenix. December 2002.
+   (OSDI). USENIX. December 2002.

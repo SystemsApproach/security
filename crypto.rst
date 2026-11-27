@@ -18,7 +18,7 @@ a challenge that we tackle in the next chapter.
 
 Once we have a set of cryptographic algorithms and a way to distribute
 keys, we are in a position to build protocols that enable secure
-communication between participants. Later chapters describes several
+communication between participants. Later chapters describe several
 such security protocols, culminating in the description of complete
 systems that use these protocols.
 
@@ -77,7 +77,7 @@ cryptography modules needs to be deprecated.
 
 Also, one of the best ways to know that a cipher is secure is to use
 it for a long time—the longer it goes unbroken, the better the chance
-that is is secure. As with security in general, proving that a
+that it is secure. As with security in general, proving that a
 cryptographic algorithm cannot be broken is a bit of a negative goal,
 and thus hard to do with complete confidence.  Sometimes we may be
 able to prove that breaking a cipher is as hard as solving some
@@ -85,7 +85,7 @@ well-studied mathematical problem such as factoring large numbers.
 Even then there may be problems of implementation that will only get
 discovered by the scrutiny of those looking at and using the
 algorithm. And in many cases, we just have to rely on the fact that
-no-one has yet found a viable way to break the cipher. Fortunately,
+no one has yet found a viable way to break the cipher. Fortunately,
 there are plenty of people who will try to break ciphers and who will
 let it be widely known when they have succeeded.
 
@@ -106,10 +106,10 @@ make some assumptions about the computational capabilities and time
 available to the attacker; more on this in a moment.
 
 It is important to realize that when a potential attacker receives a
-piece of ciphertext, he may have more information at his disposal than
-just the ciphertext itself. For example, he may know that the
+piece of ciphertext, they may have more information at their disposal than
+just the ciphertext itself. For example, they may know that the
 plaintext was written in English, which means that the letter *e*
-occurs more often in the plaintext that any other letter; the
+occurs more often in the plaintext than any other letter; the
 frequency of many other letters and common letter combinations can
 also be predicted. With simple ciphers, this information could greatly
 simplify the task of determining the key. Similarly, the attacker may know
@@ -117,7 +117,7 @@ something about the likely contents of the message. For example, the
 word “login” is likely to occur at the start of a remote login
 session, and common headers appear at the start of HTTP messages. This may
 enable a *known plaintext* attack, which has a much higher chance of
-success than a *ciphertext only* attack. Even better is a *chosen
+success than a *ciphertext-only* attack. Even better is a *chosen
 plaintext* attack, which may be enabled by feeding some information to
 the sender that you know the sender is likely to transmit.
 
@@ -139,21 +139,21 @@ This can be made computationally impractical by choosing a
 sufficiently large key space and by making the operation of checking a
 key reasonably costly. What makes this difficult is that computing
 speeds keep increasing, making formerly infeasible computations
-feasible. Furthermore, such brute force searches are easily
-parallelized, meaning that an attacker can use general purpose GPUs
+feasible. Furthermore, such brute-force searches are easily
+parallelized, meaning that an attacker can use general-purpose GPUs
 (GPGPUs) or other machines operating in parallel to speed up the
 attack.
 
 It turns out that it is not trivial to create cryptographic ciphers
 that can be broken only by brute force. For example, the original DES
-(data encryption standard) algorithm had a key of only 56 bits; when
+(Data Encryption Standard) algorithm had a key of only 56 bits; when
 it became clear that 56 bits was too small, triple DES was introduced,
 using three rounds of DES each with its own key. It might seem that
 this increased the key size to 168 bits (:math:`3 \times 56`) but
 because of the 3-round structure of triple DES, an attacker in
 possession of a piece of ciphertext and the matching plaintext only
 has to search a key space of 112 bits. This depends on something
-called a "meet-in-the-middle attack". The details are not important
+called a "meet-in-the-middle attack." The details are not important
 here but it illustrates why cryptographic algorithms need to be
 designed carefully and evaluated by experts if they are not to contain
 surprising weaknesses.
@@ -208,19 +208,19 @@ blocks of plaintext.
 Block size, like key size, is a design tradeoff. 64-bit blocks were
 used for many years but as computer and network speeds increased and
 storage costs dropped, 64-bit blocks became vulnerable to a type of
-attack based on the *birthday problem* (the odds of 2 people in a
+attack based on the *birthday problem* (the odds of two people in a
 group of size *n* having the same birthday being surprisingly
 high). If an attacker can manage to keep an encrypted session open
 long enough to receive two identical 64-bit blocks, they can gain
 useful information on the plaintext that produced the blocks. This was
 known to be an issue in theory for a long time but the exploitation of
-it was proven in 2016 leading to the deprecation of 64-bit blocks.
+it was proven in 2016, leading to the deprecation of 64-bit blocks.
 
 Block ciphers imply the padding of messages up to the next block
 boundary, which wastes some network bandwidth, so there is a cost to
 overly large blocks. For this reason most ciphers today have settled
 on 128-bit blocks. Some details on how the birthday attacks were shown
-to be an issue is available at the "Sweet32" website.
+to be an issue are available at the "Sweet32" website.
 
 .. admonition:: Further Reading
 
@@ -238,7 +238,7 @@ secret-key cipher, then the encryption and decryption keys would be
 identical. Secret-key ciphers are also known as symmetric-key ciphers
 since the secret is shared with both participants. We’ll take a look
 at the alternative, public-key ciphers, shortly. (Public-key ciphers
-are known as also asymmetric-key ciphers, since as we’ll soon see, the
+are also known as asymmetric-key ciphers, since as we’ll soon see, the
 two participants use different keys.)
 
 .. [#] We use *participants* as a generic term for the endpoints of a
@@ -247,7 +247,7 @@ two participants use different keys.)
        mailbox, or some other system abstraction. In the context of
        security, the communicating parties are often called
        *principals*, which in turn implies *identity*, and ultimately,
-       an association with a human that can be held accountable. We
+       an association with a human who can be held accountable. We
        use the term principal in place of participant when this full
        meaning is central to the discussion.
 
@@ -270,7 +270,7 @@ DES was initially replaced by *Triple DES* (3DES). A 3DES key has 168
 (= 3 × 56) independent bits. As noted above, the computational cost of
 launching a brute-force attack was not, as expected, the cost of
 searching a 2\ :sup:`168` key space, but rather a 2\ :sup:`112` key
-space search due to the "meet in the middle" attack. At the same time, the
+space search due to the "meet-in-the-middle" attack. At the same time, the
 computational cost to perform encryption and decryption was still three
 times higher than with single DES. This ultimately led to a process to
 replace DES with newer algorithms.
@@ -390,7 +390,7 @@ of factoring large numbers. The problem of finding an efficient way to
 factor numbers is one that mathematicians have worked on unsuccessfully
 since long before RSA appeared in 1978, and RSA’s subsequent resistance
 to cryptanalysis has further bolstered confidence in its security.
-Unfortunately, RSA needs relatively large keys, at least 1024 bits, to
+Unfortunately, RSA needs relatively large keys, at least 2048 bits, to
 be secure. This is larger than keys for secret-key ciphers because it is
 faster to break an RSA private key by factoring the large number on
 which the pair of keys is based than by exhaustively searching the key
@@ -398,7 +398,7 @@ space.
 
 Another public-key cipher is ElGamal. Like RSA, it relies on a
 mathematical problem, the discrete logarithm problem, for which no
-efficient solution has been found, and requires keys of at least 1024
+efficient solution has been found, and requires keys of at least 2048
 bits. There is a variation of the discrete logarithm problem, arising
 when the input is an elliptic curve, that is thought to be even more
 difficult to compute; cryptographic schemes based on this problem are
@@ -445,8 +445,8 @@ reserved for use in authentication and session key establishment.
 
    *The response to this uncertain threat has been to develop suites of
    cryptographic algorithms for which no quantum solution is
-   known. This is the field of "Post-Quantum Cryptography". Note the
-   use of the phrase "no solution is known". It is hard to prove that
+   known. This is the field of "Post-Quantum Cryptography." Note the
+   use of the phrase "no solution is known." It is hard to prove that
    no algorithm exists—once again we are in the territory of trying to
    prove a negative. But NIST is running a process to evaluate and
    standardize a set of quantum-resistant algorithms, and there is
@@ -515,7 +515,7 @@ the original message. Since the space of possible input messages is
 larger than the space of possible message digests, there will be many
 different input messages that produce the same message digest, like
 collisions in a hash table. An important property of cryptographic
-hash functions is that such collisions may not be produced
+hash functions is that such collisions cannot be produced
 deliberately under the control of the attacker. We will see why this
 is so in a moment.
 
@@ -540,7 +540,7 @@ however, obtain the plaintext original message and its encrypted digest
 by eavesdropping. The adversary could then (since the hash function is
 public knowledge) compute the digest of the original message and
 generate alternative messages looking for one with the same message
-digest. If she finds one, she could undetectably send the new message
+digest. If they find one, the adversary could undetectably send the new message
 with the old authentication code. Therefore, security requires that the hash
 function have the *one-way* property: it must be computationally
 infeasible for an adversary to find any plaintext message that has the
@@ -581,10 +581,10 @@ of the sender is called a *digital signature* because it provides
 nonrepudiation similar to that of a written signature. The receiver of
 a message with a digital signature can prove to any third party that
 the sender really sent that message, because the third party can use
-the sender’s public key to check for herself. Secret-key encryption of
+the sender’s public key to check for themself. Secret-key encryption of
 a digest does not have this property because only the two participants
 know the key; furthermore, since both participants know the key, the
-alleged receiver could have created the message herself. Any
+alleged receiver could have created the message themself. Any
 public-key cipher can be used for digital signatures. NIST has
 produced a series of *Digital Signature Standards* (DSS). The most
 recent standard at the time of writing allows for the use of three
@@ -605,7 +605,7 @@ most common approaches to generating these codes are called HMACs or
 keyed-hash message authentication codes.
 
 HMACs can use any hash function of the sort described above, but
-also include the key as part of the material to be hashed, so that a
+also include the key as part of the material to be hashed, so that an
 HMAC is a function of both the key and the input text. An approach to
 calculating HMACs has been standardized by NIST and takes the
 following form:

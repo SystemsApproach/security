@@ -22,8 +22,8 @@ sending data across a shared network is likely to be
 adversary might gain access to data in transit through a
 network. Confidentiality is the ability to prevent data from being
 read by anyone other than its intended recipient. This, for example,
-is what is required to prevent your credit card details being exposed
-when you enter then on a website.
+is what is required to prevent your credit card details from being exposed
+when you enter them on a website.
 
 Closely related to the confidentiality of data is *traffic
 confidentiality*. This is the idea that we don't want an adversary to
@@ -58,7 +58,7 @@ holder?
 
 Integrity also requires messages be *fresh* and *timely*, which is
 threatened by the possibility data is captured and then retransmitted
-at some later time. This is known as a *replay attack*, where for
+at some later time. This is known as a *replay attack*, where, for
 example, we want to protect against an attacker repeatedly adding an
 item to a shopping cart. Thus, it is a common requirement to have some
 form of *replay prevention*.
@@ -67,7 +67,7 @@ The final major requirement is *availability*, which is simply the
 ability to access all the data we have the right to access. System
 failures, either benign or caused by malicious actors, restrict
 availability. Another common threat to availability is
-*denial-of-service* (DoS) attacks. The Morris Worm was an early
+*denial-of-service* (DoS) attacks. The Morris worm was an early
 example of an unintentional DoS attack: as the worm spread to more and
 more computers, and reinfected computers on which it was already
 present, the resources consumed by the worm rendered those computers
@@ -99,7 +99,7 @@ to mitigate such attacks.
    *Because of our focus on network security, this book effectively
    starts with a list of trusted elements that includes commodity
    servers and L2/L3 switches, and ignores (i.e., declares
-   out-of-scope) all the vulnerabilities those elements face and the
+   out of scope) all the vulnerabilities those elements face and the
    countermeasures that go into securing them. Of course, as soon as
    those elements are located outside our control, e.g., in some
    remote service provider's network, we have to assume that they
@@ -110,7 +110,7 @@ As a consequence of these three main requirements—confidentiality,
 integrity, and availability—additional requirements are placed on the
 underlying systems we build upon, which brings us back to the idea of
 a Trusted Computing Base (TCB) introduced in Chapter 1. We generally
-have three inter-related requirements for these platforms, beyond
+have three interrelated requirements for these platforms, beyond
 their not being malicious (which is implied by our including them in
 our TCB).  The first we have already seen: they must provide a local
 (component-specific) notion of *identity*, giving us a way to support
@@ -136,7 +136,7 @@ These system requirements are sometimes indistinguishable from
 security. For example, a retail system brought down by a security
 breach is just as unavailable as one brought down by a hardware
 failure or a software bug. Similarly, a video delivery system designed
-to scale up to handle a flash crowd may also able to scale to fend off
+to scale up to handle a flash crowd may also be able to scale to fend off
 a DoS attack. In practice, it can be difficult to pinpoint the root
 cause of a failure (was it malicious or benign) and the root source of
 workload (was it malicious or legitimate). The main difference is that
@@ -145,7 +145,7 @@ benign failures, which can be measured and predicted (although not
 always accurately), whereas malicious attacks are often less
 predictable (although they should be expected).
 
-Where the broader set of requirements become interesting is when they
+Where the broader set of requirements becomes interesting is when they
 are in conflict with each other, and tradeoffs become necessary.  For
 example, making a system secure can add latency to every transaction.
 Similarly, keeping a system secure puts additional burden on users
@@ -168,7 +168,7 @@ so on.
 Given how long people have been trying to build secure computing
 systems, including networked systems, there has been plenty of
 time to develop some principles that improve the chances that the
-system remains secure. We outline some of the most well-known
+system remains secure. We outline some of the established
 principles here and the following chapters contain examples of how
 those principles are applied in practice.
 
@@ -187,7 +187,7 @@ multiple layers of defense still in place. Only by getting through
 *all* the layers of defense will an attacker be able to achieve their
 goal (of stealing our data, for example). The hope is that with enough
 layers of defense, the odds of an attacker penetrating all of them
-becomes vanishingly small.
+become vanishingly small.
 
 As a simple example, a corporation might make use of a VPN (virtual
 private network) to ensure that only authorized users can access
@@ -227,7 +227,7 @@ A common example of this principle in practice is to avoid running
 anything as root on Unix-like systems unless absolutely necessary.
 
 In the context of networking, this principle implies that applications
-which access the network should only have access to the set of
+that access the network should only have access to the set of
 resources needed to do their jobs. The concept of zero trust, which
 has started to gain popularity as an approach to network security in recent years,
 follows closely the idea of least privilege. We return to this topic
@@ -269,15 +269,15 @@ followed, subtle bugs in protocol design or implementation have been
 exposed and patches rolled out to mitigate them. Heartbleed, a bug in
 the widely used open source implementation of SSL, is a famous
 example. The consequences of the bug were serious, with as many as
-half a million Web servers being impacted, but it was a positive thing
+half a million web servers being impacted, but it was a positive thing
 that the bug was found, reported, and remediated quickly.
 
 If this principle is not followed, a design that is believed to be
-secret may in fact have been compromised (e.g. by reverse
+secret may in fact have been compromised (e.g., by reverse
 engineering), or may have flaws that have gone unreported but are
 nevertheless being exploited.
 
-Another way to state this principle is "minimize secrets".  For
+Another way to state this principle is "minimize secrets."  For
 example, rather than trying to keep an entire algorithm secret, only
 keep secret the key that is used to decrypt with the algorithm. It is
 much easier to replace a key that has been compromised than to replace
@@ -286,7 +286,7 @@ an entire algorithm.
 2.3.4 Fail-Safe Defaults
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The idea behind this principle is the default settings of a system are
+The idea behind this principle is that the default settings of a system are
 the ones most likely to be used, so by default, undesired access
 should be disabled. It then takes an explicit action to enable
 access. This is a principle that dates back at least to 1965 according to
@@ -307,15 +307,15 @@ zero trust architectures.  We will discuss these developments in a later chapter
 
 This principle states that the amount of mechanism that is common to
 more than one user should be minimized. The principle was originally
-articulated by Gerald Popek in 1974, where in the context of operating
+articulated by Gerald Popek in 1974, when, in the context of operating
 system design, he argued in favor of minimizing the number of
 mechanisms put in the OS kernel. A failure (or security breach) of
 such a shared mechanism would impact all users, and so it is better to
-provide it in some other way, such as a library running the user's
+provide it in some other way, such as a library running in the user's
 address space. The failure of such a mechanism then negatively impacts
 only that user, and not all users.
 
-The counter argument is that any mechanism that requires privileged
+The counterargument is that any mechanism that requires privileged
 access—e.g., accessing an I/O device or modifying a shared data
 structure—must be implemented in a common layer (i.e., the kernel),
 but even then, care should be taken to decompose the mechanism so as
@@ -326,7 +326,7 @@ expects from an OS running as a library co-located with the
 application.\ [#]_
 
 .. [#] While strictly adhering to the principle of least common
-   mechanism, Library OSes are not widely adopted in practice,
+   mechanism, library OSes are not widely adopted in practice,
    illustrating that security is only one of many system requirements
    taken into consideration.
 
@@ -336,7 +336,7 @@ runs with greater privilege. This is because minimizing the number of
 mechanisms that require elevated kernel privilege also minimizes the
 privilege required across all mechanisms that make up a system. In a
 network setting, the principle is related to the
-end-to-end-argument. That is, it is best to avoid putting functions
+end-to-end argument. That is, it is best to avoid putting functions
 such as encryption into the network when the user is likely to need
 end-to-end encryption anyway.
 
@@ -347,7 +347,7 @@ end-to-end encryption anyway.
   Kernel Panel at the AFIPS '74 National Computer Security Conference
   and Exposition. May 1974.
 
-  D. Engler, F. Kaashoek, and J. O'Toole Jr. `Exokernel: an Operating
+  D. Engler, F. Kaashoek, and J. O'Toole Jr. `Exokernel: An Operating
   System Architecture for Application-level Resource Management
   <https://dl.acm.org/doi/pdf/10.1145/224057.224076>`__.  SIGOPS
   Symposium on Operating System Principles. December 1995.
@@ -371,7 +371,7 @@ steady improvement in computing power that happens over time. Thus,
 any protocol that is developed that depends on such an algorithm
 should be designed such that a change of algorithm is an expected
 behavior. We see this in protocols such as Transport Layer Security
-(TLS) which includes a set of procedures by which two participants
+(TLS), which includes a set of procedures by which two participants
 negotiate the cryptographic algorithms to be used.
 
 Recent developments in quantum computing have raised the issue that
@@ -395,7 +395,7 @@ logging might both make it easier to detect such attacks quickly and
 to deter those who might undertake them.
 
 In a different vein, consider the design of secure protocols. The
-specification for TLS (transport layer security) describes a large
+specification for TLS (Transport Layer Security) describes a large
 number of error conditions that may trigger alerts, and recommends the
 logging of all such alerts. Such logging would help in understanding
 if the protocol was subject to an attack that involved incorrect or
@@ -435,9 +435,9 @@ Continuously collecting data about a running system is commonplace,
 and using AI/ML to detect (and potentially respond to)
 attacks is becoming increasingly common.
 
-The details of these procedures is beyond the scope of this book,
-except as we note, that they depend on engineers and operators being
-well-informed about available security mechanisms. For an example of
+The details of these procedures are beyond the scope of this book,
+except to note that they depend on engineers and operators being
+well informed about available security mechanisms. For an example of
 industry practices, we recommend Microsoft's Security Development
 Lifecycle (SDL) practices.
 

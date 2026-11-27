@@ -33,7 +33,7 @@ The Internet was created to allow users in one location to
 access computing resources in another. Those systems had their own
 security measures in place. For example, if you wanted to use the Internet
 to log in to a remote computer, you would (usually) need to authenticate
-yourself to that remote system (e.g., with a user name and password) before
+yourself to that remote system (e.g., with a username and password) before
 gaining access to any resources on that system.
 
 Ensuring the security of end systems, while important, does not come
@@ -41,7 +41,7 @@ close to addressing the entire set of security issues that exist in a
 computer network. For example, an attacker with access to a link,
 switch or router somewhere in the network has the potential to read or
 modify packets passing through that point. Furthermore, failures of
-end system security are exposed when we connect them to networks. By
+end-system security are exposed when we connect them to networks. By
 connecting computers to a global network such as the Internet, the
 opportunity to exploit vulnerabilities in the code running on those
 end systems is opened up to a much greater—potentially global—set
@@ -62,13 +62,13 @@ Schell.
 
    P. Karger and R. Schell. `Thirty Years Later: Lessons from the
    Multics Security
-   Evaluation. <https://www.acsac.org/2002/papers/classic-multics.pdf>`__.
+   Evaluation <https://www.acsac.org/2002/papers/classic-multics.pdf>`__.
    Annual Computer Security Applications Conference (ACSAC) 2002.
 
 
 An early example of a security failure in the Internet serves to
 highlight the breadth of the challenges included in the term "network
-security". The Morris worm, the first large-scale attack on the
+security." The Morris worm, the first large-scale attack on the
 Internet, was launched in 1988 when the Internet was largely limited to
 universities and research institutions. While it was made possible by
 the fact that the Internet of that era generally allowed packets from
@@ -76,7 +76,7 @@ any source to any destination, it was also dependent on a number of
 vulnerabilities in the software running on the end systems connected
 to the Internet. Like many future attacks, the Morris worm exploited
 multiple vulnerabilities. In this case they included weak or default
-passwords, a buffer overflow bug in a widely-used software tool,
+passwords, a buffer overflow bug in a widely used software tool,
 and a security hole in the Sendmail program. There is a comprehensive
 analysis of the worm's operation in the report from Donn Seeley
 written soon afterwards.
@@ -108,7 +108,7 @@ exclude [untrustworthy people].”*
 
 The Internet's architecture is often characterized as an hourglass,
 with IP being the narrow waist that sits between a wide range of
-networks below and a wide range of upper layer protocols and
+networks below and a wide range of upper-layer protocols and
 applications above. The narrowness of the waist refers to its limited
 functionality: global addressing and a best-effort packet delivery
 model. Conspicuously missing from that waist is any sort of security
@@ -124,7 +124,7 @@ could send it a packet.
    The Internet architecture depicted as an hourglass. The narrow waist is the
    Internet Protocol (IP), which includes no built-in security features.
 
-The Morris Worm served as something of a wake-up call to the early
+The Morris worm served as something of a wake-up call to the early
 developers of the Internet by highlighting just how vulnerable it
 was. By the early 1990s the first *firewalls* had appeared, allowing the
 default "accept any packet from anywhere" behavior of the Internet to
@@ -155,18 +155,18 @@ described in several dozen RFCs. We discuss them in a later chapter.
 
 It is worth noting that, even if IPsec had
 existed in 1988, it would probably have had minimal impact on the
-spread of the Morris Worm. This is because the worm spread among
+spread of the Morris worm. This is because the worm spread among
 hosts that were *supposed* to connect to each other (e.g., to exchange
 email using the Sendmail program). Encrypting and authenticating traffic
 between hosts doesn't prevent the spread of malware
-if the end-systems have the sorts of
+if the end systems have the sorts of
 weaknesses exploited by the Morris worm.
 
 The rise in popularity of the World Wide Web in the 1990s created the
 demand for security features at the transport layer to support
 applications such as e-commerce. This led to the creation of *SSL
-(secure sockets layer)* which was superseded by *TLS (transport layer
-security)*, both of which provided confidentiality and authentication
+(Secure Sockets Layer)* which was superseded by *TLS (Transport Layer
+Security)*, both of which provided confidentiality and authentication
 at the transport layer. TLS is an important case study for network
 security, and we describe it in detail in a later chapter.
 
@@ -174,7 +174,7 @@ Another aspect of securing the Internet that started to receive
 attention in this period was the security of its infrastructure. One
 such piece of infrastructure is the *Domain Name System (DNS)*,
 which replaced static hostname-to-address mapping files in the 1980s, and subsequently
-become critical to the operation of the Internet. Clearly the
+became critical to the operation of the Internet. Clearly the
 information served up by DNS needs to be robust against manipulation
 by adversaries, and hence, there has been a multi-decade effort to add
 security to the DNS. The fact that this continues to roll on
@@ -193,7 +193,7 @@ Securing BGP has likewise proven to be a multi-decade, incremental task.
 This is by no means a complete history of Internet security but it
 gives some sense of the scope of the problems faced. Some further
 perspective on this history, and the factors that contributed to
-Internet's lack of security, can be found in the following series
+the Internet's lack of security, can be found in the following series
 of articles from the Washington Post, in which many of the Internet's
 pioneers are interviewed.
 
@@ -220,7 +220,7 @@ vulnerabilities, to criminals looking to obtain valuable information
 such as credit card details, to government actors looking to perform
 surveillance or interfere in elections.
 
-It is common to talk about security as a "negative goal". That is, we
+It is common to talk about security as a "negative goal." That is, we
 are trying to ensure that a set of undesirable things cannot
 happen. That set of undesirable things is large, making security
 particularly challenging. Over the years, a number of principles have
@@ -228,14 +228,14 @@ been developed to help manage this challenging landscape; we will
 consider many of them in subsequent chapters.
 
 Noted security expert Bruce Schneier points out in his book
-"Beyond Fear" that security is also a matter of making trade-offs. You not
+*Beyond Fear* that security is also a matter of making tradeoffs. You not
 only have to identify the threats that you wish to defend against, but
 also to decide what costs you are willing to incur in mounting
 that defense. For example, encrypting every packet sent by a computer
 in 1970 imposed such a high computational cost as to be barely
-practical or required special hardware; today it is routine that every
+practical or to require special hardware; today it is routine that every
 packet sent between a web browser and server is encrypted. Thus, the
-trade-offs around encryption are different than they were when the
+tradeoffs around encryption are different than they were when the
 Internet was originally designed. And just as we consider the costs
 that security techniques impose on our system, we must also consider
 the costs they impose on adversaries. Much of security consists of
@@ -251,7 +251,7 @@ security strategy:
 * Step 2: What are the risks to these assets?
 * Step 3: How well does the security solution mitigate those risks?
 * Step 4: What other risks does the security solution cause?
-* Step 5: What costs and trade-offs does the security solution impose?
+* Step 5: What costs and tradeoffs does the security solution impose?
 
 Schneier's book is targeted at a general audience, addressing
 security in a broad context (e.g., airports), not just computing systems and
@@ -269,11 +269,11 @@ of the same coin. A threat is a potential failure scenario that you
 design your system to avoid, and trust is an assumption you make about
 how external actors and internal components you build upon will
 behave. For example, if you plan to transmit messages over Wi-Fi on an
-open campus, you would likely identify an eavesdropper that can
+open campus, you would likely identify an eavesdropper who can
 intercept messages as a threat (and adopt some of the methods
 discussed in this book as a countermeasure). But if you are planning
 to transmit messages over a fiber link between two servers in a
-locked machine room, you might trust that channel is secure, and so
+locked machine room, you might trust that the channel is secure, and so
 take no additional steps. Every system makes trust assumptions. The
 key is to be as explicit as possible about those assumptions, because
 they may change over time.
@@ -313,13 +313,13 @@ competing businesses, mutually antagonistic governments, and
 opportunistic criminals. Most of the world's information is stored on
 systems connected to the Internet. Unless effective security measures
 are in place, a network conversation, a distributed application, or an
-end-system storing sensitive data may be compromised by an
+end system storing sensitive data may be compromised by an
 adversary. Critical systems ranging from healthcare delivery to the
 power grid are at risk of disruption from various forms of attack.
 
 
 A simple and familiar example of threats and mitigations is the secure
-use of the web. Suppose you are a customer using a credit card to
+use of the Web. Suppose you are a customer using a credit card to
 order an item from a website.  An obvious threat is that an adversary
 could eavesdrop on your network communication, reading your messages
 to obtain your credit card information. How might that eavesdropping
@@ -343,7 +343,7 @@ traveled by your data, it is relatively straightforward today to
 encrypt all messages such that even if an adversary has access to the
 data, they are unable to *understand* the message contents. A protocol that does
 so is said to provide *confidentiality*. Taking the concept a step
-farther, concealing the quantity and destination of communication is
+further, concealing the quantity and destination of communication is
 called *traffic confidentiality*—because merely knowing where
 traffic is going, and how much, can be useful to an adversary in some
 situations.
@@ -375,7 +375,7 @@ The owner of the website can be attacked as well. Some websites have
 been defaced; the files that make up the website content have been
 remotely accessed and modified without authorization. That is an issue
 of *access control*, enforcing the rules regarding who is allowed to do
-what. Websites are also subject to *Denial-of-Service (DoS)*
+what. Websites are also subject to *denial-of-service (DoS)*
 attacks, during which would-be customers are unable to access the
 website because it is being overwhelmed by bogus requests. Ensuring a
 degree of access is called *availability*.
@@ -387,7 +387,7 @@ worm is a famous example, are pieces of
 self-replicating code that spread over networks.
 *Viruses* differ slightly from worms, in that they are spread by the transmission of infected files.
 Once infected, machines can then be arranged into *botnets*, in which
-a set of compromised machines are harnessed together
+a set of compromised machines is harnessed together
 to inflict further harm, such as launching DoS attacks.
 
 We will look further into these various classes of threats and the
@@ -398,7 +398,7 @@ System (OS)* design, which is the context for much of the foundational
 work in security. In that setting, finding the right balance between
 sharing (so users can access each other's files) and security (so you
 can keep users from accessing your private data) is a central
-challenge. Security is easiest when the answer is always "no".
+challenge. Security is easiest when the answer is always "no."
 
 
 .. admonition:: Further Reading

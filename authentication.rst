@@ -1,7 +1,7 @@
 Chapter 5.  Authentication Protocols
 =====================================
 
-So far we described how to encrypt messages, build message
+So far we have described how to encrypt messages, build message
 authentication codes, and distribute keys. It might seem
 as if all we have to do to make a protocol secure is append an
 authentication code to every message and, if we want confidentiality,
@@ -107,7 +107,7 @@ in most of the authentication protocols that follow.
 
 
 
-In the following discussion, we assume that Alice and Bob’s public
+In the following discussion, we assume that Alice's and Bob’s public
 keys have been predistributed to each other via some means as
 described in the previous chapter. This could include the case where
 Alice includes her certificate in her first message to Bob, and the
@@ -193,7 +193,7 @@ received from Alice at step 3. Kerberos addresses this shortcoming.
 ~~~~~~~~~~~~~~~~
 
 Kerberos is an authentication system based on the Needham-Schroeder
-protocol and specialized for client/server environments. Originally
+protocol and specialized for client-server environments. Originally
 developed at MIT, it has been standardized by the IETF and is available
 as both open source and commercial products. We focus here on some
 of Kerberos’s interesting innovations. Notably, it addresses the
@@ -217,7 +217,7 @@ the password and master key to minimize its exposure. Also note that
 the only sign a user sees of Kerberos is when the user is prompted for
 a password.
 
-In Needham-Schroeder, the KDC’s reply to Alice plays two roles: It
+In Needham-Schroeder, the KDC’s reply to Alice plays two roles: it
 gives her the means to prove her identity (only Alice can decrypt the
 reply), and it gives her a sort of secret-key certificate or “ticket”
 to present to Bob—the session key and Alice’s identifier, encrypted
@@ -226,7 +226,7 @@ itself, in effect—are split up (:numref:`Figure %s <fig-kerberos>`). A
 trusted server called an Authentication Server (AS) plays the first
 KDC role of providing Alice with something she can use to prove her
 identity—not to Bob this time, but to a second trusted server called a
-Ticket Granting Server (TGS). The TGS plays the second KDC role,
+Ticket-Granting Server (TGS). The TGS plays the second KDC role,
 replying to Alice with a ticket she can present to Bob. The attraction
 of this scheme is that if Alice needs to communicate with several
 servers, not just Bob, then she can get tickets for each of them from
@@ -248,10 +248,10 @@ session key that is encrypted using the key shared by Alice and the
 TGS. Alice can now start communicating with Bob, sending the ticket
 and another encrypted timestamp using the newly provided session key.
 
-In the client/server application domain for which Kerberos is
+In the client-server application domain for which Kerberos is
 intended, it is reasonable to assume a degree of clock
 synchronization. This allows Kerberos to use timestamps and lifespans
-instead of Needham-Shroeder’s nonces. This means that the TGS and Bob
+instead of Needham-Schroeder’s nonces. This means that the TGS and Bob
 can both be assured that the messages that came from Alice are fresh
 and not replays, thereby eliminating the Needham-Schroeder security
 weakness noted above. The freshness of Bob's reply to Alice is assured

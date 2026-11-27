@@ -20,13 +20,13 @@ notable successes, such as widespread adoption of Transport Layer
 Security (TLS), vulnerabilities continue to be found and exploited. In
 part this is because security is a "negative goal": we are always
 trying to ensure that there are no more cracks in our defenses, and it
-is fundamentally impossible to prove that we are "done". So security
+is fundamentally impossible to prove that we are "done." So security
 continues to evolve as new weaknesses are exploited and new mechanisms
 deployed to prevent further exploits.
 
 We have been educating ourselves about network security since we wrote
 the first edition of *Computer Networks: A Systems Approach*
-in 1995. There is an adage in security circles that no-one should
+in 1995. There is an adage in security circles that no one should
 write their own cryptography code because it is so hard to get right,
 and something similar might be said about trying to write a security
 book. It is easy to make mistakes, especially if you are not deeply
@@ -47,19 +47,19 @@ interesting (in our view at least) but it isn't really the main thing
 to focus on if you are building secure systems. So while we do explain
 the basics of cryptography here, it's not the focus. We're aiming to
 explain how a system that comprises many moving parts, both in the
-network and the end-system, can be made secure.
+network and the end system, can be made secure.
 
 This question of focus caused us to examine how much we wanted to say
 about end-system security. There are entire books to be written on
 operating system security, processor architecture bugs such as Spectre
 and Meltdown, and mitigating or preventing malware such as viruses on
-end-systems. We made a conscious decision to draw a line around the
+end systems. We made a conscious decision to draw a line around the
 network and focus there, recognizing that, just as TCP is an important
-network protocol that runs in end-systems, protocols like HTTPS and
+network protocol that runs in end systems, protocols like HTTPS and
 TLS need to be covered in a book on network security. In fact TLS
 provides an excellent case study in the system-level issues that come
 into play when you try to secure traffic that flows between
-end-systems over the Internet, and we devote an entire chapter to it.
+end systems over the Internet, and we devote an entire chapter to it.
 
 With the never-ending set of threats and vulnerabilities that need to
 be dealt with, it is all too easy to start thinking of security as
@@ -78,7 +78,7 @@ Inevitably there are security technologies and types of attack that we
 have not covered in this book. What we have tried to do is to give the
 reader a sense of the principles at work and the building blocks that
 exist to build secure systems, and then illustrate how the blocks can
-be assembled to tackle particular problems ranging from securing Web
+be assembled to tackle particular problems ranging from securing web
 traffic to securing the routing system that underpins the
 Internet. Security is a never-ending set of challenges and there will
 always be new threats and solutions. This book aims to lay the
@@ -96,7 +96,7 @@ continues to evolve.
 
 
 
-Acknowledgements
+Acknowledgments
 ----------------
 
 Thanks to all the people who provided feedback on our book at various
